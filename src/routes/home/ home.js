@@ -82,7 +82,7 @@ const HomeGridComponent = ({ mainTitle, list, mainImage }) => {
                       styles={`itemList ${it.link ? "" : "disabled"}`}
                       title={it.title}
                       img={it.img}
-                      link={it.link}
+                      link={it.letter ? `${it.link}/${it.letter}` : it.link}
                     />
                   ))}
                 </div>

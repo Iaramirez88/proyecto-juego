@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { iconSound } from "../../utils/imagesResources";
 import { usePlaySounds } from "../../hooks/usePlaySounds";
 
-export const TitleSound = ({ title, titleSound }) => {
+export const TitleSound = ({ title, titleSound, listAudio }) => {
   const [playSound] = usePlaySounds();
+  const refAudio = useRef(null);
+  const [play, setPlay] = useState(false);
+
+  useEffect(() => {
+    let audio = refAudio.current;
+    if (!play) {
+      audio.addEventListener("ended", () => {
+        let snd = new Audio(listAudio[1]);
+        snd.play();
+        setPlay(false);
+      });
+    }
+  }, [listAudio, play]);
+
   return (
     <div className="titleGame">
       <h2>
@@ -12,7 +26,8 @@ export const TitleSound = ({ title, titleSound }) => {
           src={iconSound}
           alt="iconSound"
         />
-        <audio src={titleSound} autoPlay />
+
+        <audio ref={refAudio} src={listAudio[0]} autoPlay />
         {title}
       </h2>
     </div>

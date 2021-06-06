@@ -1,0 +1,78 @@
+@use 'base'
+
+.fmCardWord
+    margin: 0
+
+    width: 3em
+    height: 3em
+    background-position: center
+    background-repeat: no-repeat
+    background-size: contain
+    font-size: 4em
+    display: flex
+    align-items: center
+    justify-content: center
+    padding-bottom: 10px
+    color: white
+
+    &.greenLeef
+        background-image: url("../images/hojaPrincialVerde.svg")
+
+    &.vocalLeef
+        background-image: url("../images/hojaVocale.svg")
+
+    &.goodLeef
+        background-image: url("../images/hojaRespuestaVerdadera.svg")
+    &.wrongLeef
+        background-image: url("../images/hojaRespuestaNegativa.svg")
+
+.fmContainerBox
+    padding: 0 20%
+    display: block
+
+.fmPrincipalLetter
+    display: flex
+    align-items: center
+    height: 70px
+
+.fmOptionsLetters
+    display: flex
+    flex-wrap: wrap
+
+.fmItem
+    width: 100%
+    height: 70px
+    display: flex
+    align-items: center
+
+.fmRightItem
+    justify-content: flex-end
+
+.fmIgothic
+    font-family: Century
+
+@media screen and ( min-width: 600px)
+    .fmCardWord
+        font-size: 5em
+
+@media screen and ( min-width:485px)
+    .fmContainerBox
+        padding: 0 !important
+
+    .fmPrincipalLetter
+        justify-content: center
+
+    .fmSecondRow
+        width: 50%
+        justify-content: center
+
+@media screen and ( min-width: 400px )
+    .fmContainerBox
+        padding: 0 23%
+
+    .fmItem
+        height: 100px
+
+    .fmCardWord
+        height: 2.5em
+        width: 4em

@@ -26,6 +26,13 @@ import iconoEscucha from "../assets/images/iconoEscucha.svg";
 import iconopares from "../assets/images/iconopares.svg";
 import iconoVocabulario from "../assets/images/iconoVocabulario.svg";
 
+// background module 6
+
+import greenLeaf from "../assets/images/hojaPrincialVerde.svg";
+import wrongLeaf from "../assets/images/hojaRespuestaNegativa.svg";
+import goodLeaf from "../assets/images/hojaRespuestaVerdadera.svg";
+import letterLeaf from "../assets/images/hojaVocale.svg";
+
 // Exporting resources shared
 export {
   iconBack,
@@ -49,4 +56,8 @@ export {
   iconoEscucha,
   iconopares,
   iconoVocabulario,
+  greenLeaf,
+  wrongLeaf,
+  goodLeaf,
+  letterLeaf,
 };
