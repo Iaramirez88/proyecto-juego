@@ -152,7 +152,13 @@ export const vocalAUList = [
         },
       ],
       [
-        { id: getUId(), title: "Otoño", img: iconoOtono },
+        {
+          id: getUId(),
+          title: "Otoño",
+          img: iconoOtono,
+          link: "otoño",
+          letter: "a",
+        },
         {
           id: getUId(),
           title: "Escritura",

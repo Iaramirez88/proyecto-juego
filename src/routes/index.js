@@ -7,6 +7,7 @@ import LevelUpScreenComponent from "../components/shared/LevelUpScreenComponent"
 import Home from "./home";
 import WrittingScreen from "./games/writting";
 import PairWords from "./games/pairWords";
+import FallModule from "./games/fallModule";
 
 const Routes = () => {
   return (
@@ -18,6 +19,7 @@ const Routes = () => {
         <Route path="/vocabulario" component={Games} />
         <Route path="/level-up" component={LevelUpScreenComponent} />
         <Route path="/pares" component={PairWords} />
+        <Route path="/otoño/:id" component={FallModule} />
         <Route path="/" component={Home} />
       </Switch>
     </Router>

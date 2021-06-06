@@ -10,6 +10,10 @@
   font-family: Ghotic;
   src: url("../fonts/GOTHIC.TTF");
 }
+@font-face {
+  font-family: Century;
+  src: url("../fonts/CENTURY.TTF");
+}
 body, html {
   font-size: 100%;
   font-family: GhoticB;
