@@ -72,6 +72,11 @@
   font-family: Century;
 }
 
+@media screen and (max-width: 600px) {
+  .fmCardWord {
+    height: 2em;
+  }
+}
 @media screen and (min-width: 600px) {
   .fmCardWord {
     font-size: 5em;
