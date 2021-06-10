@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDimesions } from "../../hooks/useDimesion";
-import { iconoOpen, iconBack } from "../../utils/imagesResources";
+import { iconoOpen, iconClose } from "../../utils/imagesResources";
 import "../../assets/styles/home.css";
 
 import { useHistory } from "react-router-dom";
@@ -62,7 +62,7 @@ const HomeGridComponent = ({ mainTitle, list, mainImage }) => {
           alt="iconBack"
           width="40px"
           height="auto"
-          src={isOpen ? iconoOpen : iconBack}
+          src={isOpen ? iconoOpen : iconClose}
           onClick={() => setIsOpen(!isOpen)}
         />
       </div>
@@ -95,7 +95,7 @@ const HomeGridComponent = ({ mainTitle, list, mainImage }) => {
           alt="iconBack"
           width="40px"
           height="auto"
-          src={isOpen ? iconoOpen : iconBack}
+          src={isOpen ? iconoOpen : iconClose}
           onClick={() => setIsOpen(!isOpen)}
         />
       </div>

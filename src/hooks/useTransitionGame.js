@@ -20,3 +20,20 @@ export const useTransitionGame = (container) => {
 
   return [transition, setTransition];
 };
+
+export const useDisplayGame = (container) => {
+  const [display, setDisplay] = useState(false);
+
+  useEffect(() => {
+    if (display) {
+      let tl = gsap.timeline();
+      tl.from(container, {
+        duration: 1,
+        opacity: 0,
+        y: window.innerHeight,
+      });
+    }
+  }, [display, container]);
+
+  return [display, setDisplay];
+};

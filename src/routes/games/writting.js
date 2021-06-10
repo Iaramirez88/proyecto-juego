@@ -15,6 +15,7 @@ import { GameContext } from "../../context/GameContext";
 import { mockWriteData } from "../../utils/mocks";
 import { useDimesions } from "../../hooks/useDimesion";
 import { useResponseAudio } from "../../hooks/usePlaySounds";
+import WrittingInstructions from "../../components/games/WrittingModule/WrittingInstructions";
 
 const WrittingScreen = () => {
   useSetBackGround(backGround);
@@ -23,7 +24,6 @@ const WrittingScreen = () => {
   const { dispatch } = useContext(GameContext);
   const history = useHistory();
   const [playResponseAudio] = useResponseAudio();
-
   const [transition, setTransition] = useState(false);
   const [state, setState] = useState(initialState());
 
@@ -150,7 +150,13 @@ const WrittingScreen = () => {
       style={transition ? { overflowX: "hidden" } : {}}
     >
       <Header></Header>
-      <TitleSound title="Completa la palabra" titleSound={instructions} />
+      <TitleSound
+        title="Completa la palabra"
+        titleSound={instructions}
+        listAudio={[instructions]}
+        ModalChild={WrittingInstructions}
+        module="writting"
+      />
       <div className="wrContainerBox">
         <div className="containerLetters">
           {/* section letters */}

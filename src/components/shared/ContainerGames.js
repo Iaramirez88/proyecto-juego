@@ -14,7 +14,11 @@ const ContainerGames = ({
       style={transition ? { overflowX: "hidden" } : {}}
     >
       <Header></Header>
-      <TitleSound title={textTitle} titleSound={audioTitle} />
+      <TitleSound
+        title={textTitle}
+        titleSound={audioTitle}
+        listAudio={[audioTitle]}
+      />
       {children}
     </div>
   );

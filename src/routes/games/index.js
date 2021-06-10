@@ -9,11 +9,9 @@ import DragComponent from "../../components/games/DragComponent";
 import ResponseComponent from "../../components/games/ResponseComponent";
 
 import Header from "../../components/shared/Header";
-import { data } from "../../utils/mocks";
 import { getData } from "../../utils/mockData/mockModule1";
 import "../../assets/styles/games.css";
 import "../../assets/styles/main.css";
-import CongratulationScreen from "../../components/shared/CongratulationScreen";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
 import backGround from "../../assets/images/background_tramas.svg";
 

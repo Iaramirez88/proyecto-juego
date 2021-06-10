@@ -13,7 +13,6 @@ import {
 import { useResponseAudio } from "../../hooks/usePlaySounds";
 
 import { getData } from "../../utils/mockData/mockModule2";
-import { mockAudioData } from "../../utils/mocks";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
 import backGround from "../../assets/images/fondoModEscGranAlto.svg";
 export const AudioScreen = () => {
@@ -53,6 +52,7 @@ export const AudioScreen = () => {
 
   useEffect(() => {
     getData().then((data) => {
+      console.log(data);
       setState({
         words: data,
         current: data[0],
@@ -110,6 +110,7 @@ export const AudioScreen = () => {
       <TitleSound
         title="Selecciona las imágenes que empiezan con la vocal a"
         titleSound={instructions}
+        listAudio={[instructions]}
       />
       <div className="containerBox">
         <div className="containerOptions audioBox">

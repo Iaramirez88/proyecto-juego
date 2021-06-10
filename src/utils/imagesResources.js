@@ -9,6 +9,7 @@ import iconSound from "../assets/images/iconSound.svg";
 import iconSoundWhite from "../assets/images/iconoNotaBlanco.svg";
 import cancelIcon from "../assets/images/wrong.svg";
 import checkIcon from "../assets/images/check.svg";
+import iconClose from "../assets/images/iconClose.svg";
 
 // Icons Home
 
@@ -42,6 +43,7 @@ export {
   iconSound,
   cancelIcon,
   checkIcon,
+  iconClose,
   iconSoundWhite,
   caraDino,
   caraHipo,

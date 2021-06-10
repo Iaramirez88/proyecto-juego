@@ -71,6 +71,27 @@ header
   justify-content: center
   align-items: center
 
+.modal
+  position: absolute
+  top: 100%
+  left: 10%
+  background: #C0E7FC
+  width: 400px
+  height: 250px
+  border-radius: 10px
+  z-index: 100
+  .buttonClose
+    width: 3em
+    height: 3em
+    border-radius: 50px
+    border: none
+    float: right
+    margin-right: 5px
+    margin-top: 5px
+    cursor: pointer
+.mdButtonContainer
+  height: 5em
+
 @media screen and (max-width: 1200px)
 
   body
@@ -91,6 +112,8 @@ header
     font-size: 65%
   header
     padding: 0
+  .modal
+    top: 200px
 
 @media screen and (max-width: 480px)
   .headerBoxIcon
@@ -101,6 +124,9 @@ header
 
   body
     min-height: 725px
+
+  .modal
+    width: 250px
 
 @media screen and (max-width: 325px)
   body

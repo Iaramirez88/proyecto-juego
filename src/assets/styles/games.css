@@ -30,9 +30,19 @@
 .titleGame h2 {
   display: flex;
   font-size: 1.5em;
+  position: relative;
 }
 .titleGame h2 img {
   padding-right: 0.5em;
+}
+.titleGame .fingerInstructions {
+  width: 2em;
+  position: absolute;
+  left: -40px;
+  bottom: -40px;
+}
+.titleGame .fingerInstructions:active {
+  transform: scale(0.9) !important;
 }
 
 .cardImage {

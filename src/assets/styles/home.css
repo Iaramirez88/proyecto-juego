@@ -45,6 +45,7 @@
   right: 0;
   top: 0;
   width: 75px;
+  cursor: pointer;
 }
 .letterTitle .iconAccordion:active {
   transform: scale(0.9);

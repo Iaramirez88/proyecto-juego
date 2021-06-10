@@ -1,12 +1,13 @@
 import { goodAnswer, wrongAnswer } from "../utils/sounds";
 
-export function usePlaySounds(audio) {
+export function usePlaySounds() {
+  let snd = null;
   const playSound = (audio) => {
-    let snd = new Audio(audio);
+    snd = new Audio(audio);
     snd.play();
   };
 
-  return [playSound];
+  return [playSound, snd];
 }
 
 export function useResponseAudio() {

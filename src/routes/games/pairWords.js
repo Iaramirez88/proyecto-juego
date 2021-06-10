@@ -4,13 +4,16 @@ import { useHistory } from "react-router";
 import background from "../../assets/images/fondoModPares.svg";
 import ContainerGames from "../../components/shared/ContainerGames";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
-import autioTitle from "../../assets/sounds/intructions/modArmarPares.mp3";
+import audioTitle from "../../assets/sounds/intructions/modArmarPares.mp3";
 import { getModuleData } from "../../utils/mockData/mockModule5";
 import { GameContext } from "../../context/GameContext";
 import { useResponseAudio } from "../../hooks/usePlaySounds";
 
 import cover from "../../assets/images/cuadroMorado.svg";
 import "../../assets/styles/pair-module.css";
+import Header from "../../components/shared/Header";
+import TitleSound from "../../components/shared/TitleSound";
+import PairInstructions from "../../components/games/PairModule/PairInstructions";
 
 const PairWords = () => {
   useSetBackGround(background);
@@ -83,13 +86,21 @@ const PairWords = () => {
 
   if (!state.loading) return <div></div>;
   return (
-    <ContainerGames audioTitle={autioTitle} textTitle="Arma pares">
+    <div className="containerGame">
+      <Header></Header>
+      <TitleSound
+        title="Arma pares"
+        titleSound={audioTitle}
+        listAudio={[audioTitle]}
+        ModalChild={PairInstructions}
+        module="pair"
+      />
       <div className="containerBox">
         <div className="pwContainerItems">
           <Board cards={state.cards} selectCard={selectCard} />
         </div>
       </div>
-    </ContainerGames>
+    </div>
   );
 };
 

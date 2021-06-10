@@ -1,17 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 
-import background from "../../assets/images/background/fondoModOtonno.svg";
-import Header from "../../components/shared/Header";
-import TitleSound from "../../components/shared/TitleSound";
-import { GameContext } from "../../context/GameContext";
-import { useSetBackGround } from "../../hooks/useSetBackGround";
-import instruction from "../../assets/sounds/intructions/enunciadoOtonnoVocal.mp3";
-import vocalA from "../../assets/sounds/intructions/vocalAa.mp3";
-import { getData } from "../../utils/mockData/mockModule6";
-import "../../assets/styles/fall-module.css";
-import { useTransitionGame } from "../../hooks/useTransitionGame";
-import { useResponseAudio } from "../../hooks/usePlaySounds";
+import background from "../../../assets/images/background/fondoModOtonno.svg";
+import Header from "../../../components/shared/Header";
+import TitleSound from "../../../components/shared/TitleSound";
+import { GameContext } from "../../../context/GameContext";
+import { useSetBackGround } from "../../../hooks/useSetBackGround";
+import instruction from "../../../assets/sounds/intructions/enunciadoOtonnoVocal.mp3";
+import vocalA from "../../../assets/sounds/intructions/vocalAa.mp3";
+import { getData } from "../../../utils/mockData/mockModule6";
+import "../../../assets/styles/fall-module.css";
+import { useTransitionGame } from "../../../hooks/useTransitionGame";
+import { useResponseAudio } from "../../../hooks/usePlaySounds";
+import { useLocalStorage } from "../../../hooks/useLocalStorage";
 
 const FallModule = () => {
   useSetBackGround(background);
@@ -19,7 +20,7 @@ const FallModule = () => {
   const history = useHistory();
   let { id } = useParams();
   const [playResponseAudio] = useResponseAudio();
-
+  const [getDataLocal] = useLocalStorage("instructions");
   const [state, setState] = useState({
     words: [],
     current: [],
@@ -29,6 +30,11 @@ const FallModule = () => {
     position: 0,
   });
   const [transition, setTransition] = useTransitionGame(".containerGame");
+
+  useEffect(() => {
+    console.log(getDataLocal("fall"));
+  }, [getDataLocal]);
+
   useEffect(() => {
     if (!state.isLoading) {
       getData().then((response) => {
@@ -86,13 +92,12 @@ const FallModule = () => {
       style={transition ? { overflowX: "hidden" } : {}}
     >
       <Header></Header>
-
       <TitleSound
         title="Selecciona la misma vocal"
         titleSound={instruction}
         listAudio={[instruction, vocalA]}
       />
-      <div className="containerBox fmContainerBox">
+      <div className={`containerBox fmContainerBox`}>
         <div className="fmItem fmPrincipalLetter">
           <p className="fmCardWord greenLeef">{state.letter}</p>
         </div>
@@ -143,7 +148,7 @@ const ItenLetter = ({ selectItem, styles, title, principal, isCorrect }) => {
     <div onClick={selectItem} className={styles}>
       <p
         className={`fmCardWord ${setBackground(isCorrect)} ${
-          title.toLowerCase() === "i" ? "fmIgothic" : ""
+          title.toUpperCase() === "I" && isUpper(principal) ? "fmIgothic" : ""
         }`}
       >
         {setCase(principal, title)}

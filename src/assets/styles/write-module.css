@@ -103,6 +103,45 @@
   box-shadow: 0px 3px 6px 2px #CE2361;
 }
 
+.wrModalContainer {
+  position: relative;
+}
+
+.wrModalRow {
+  display: flex;
+  margin-top: 2em;
+}
+.wrModalRow .cardBody {
+  width: 25%;
+  background: #6CC8F9;
+  height: 5em;
+  margin: auto;
+  border-radius: 6px;
+  box-shadow: 0px 4px 7px 0px #5da2c7;
+}
+
+.wrModalOptions {
+  background: white;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 7em;
+  border: solid 1px;
+  position: relative;
+}
+.wrModalOptions .cardBody {
+  background: #FBAC00;
+  box-shadow: none;
+  width: 27%;
+}
+.wrModalOptions .wrHandGran {
+  transform: translate(0px, 0px);
+  position: absolute;
+  width: 4em;
+  left: 70px;
+  top: 30px;
+}
+
 @media screen and (min-width: 1200px) {
   .wrContainerResponse {
     height: 400px;
@@ -180,6 +219,11 @@
   .wrContainerResponse {
     height: 140px;
     width: 75%;
+  }
+
+  .wrHandGran {
+    width: 3em !important;
+    left: 40px !important;
   }
 }
 @media screen and (max-width: 350px) {

@@ -7,7 +7,7 @@ import LevelUpScreenComponent from "../components/shared/LevelUpScreenComponent"
 import Home from "./home";
 import WrittingScreen from "./games/writting";
 import PairWords from "./games/pairWords";
-import FallModule from "./games/fallModule";
+import FallModule from "./games/FallModule/fallModule";
 
 const Routes = () => {
   return (
