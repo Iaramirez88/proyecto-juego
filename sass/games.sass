@@ -182,6 +182,32 @@ $box-shadow: 0px 3px 6px 2px
         background: #CE2361
         opacity: 0.6
 
+.aiModalBox
+    display: flex
+    justify-content: space-evenly
+
+.aiModalItem
+    width: 100px
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+    height: 175px
+
+.aiModalCard
+    width: 100%
+
+.aiModalButton
+    width: 20px
+    height: 20px
+    background: base.$wordBoxColor
+    padding: 5px 15px
+    border-radius: 10px
+
+.aiModalFinger
+    width: 40px
+    position: absolute
+    left: 0
+
 @media screen and (max-width: 992px)
     .titleGame
         top: 4em
@@ -252,6 +278,10 @@ $box-shadow: 0px 3px 6px 2px
 
     .containerAudio .cardAudio
         margin-bottom: 0em
+
+    .aiModalItem
+        width: 60px
+        height: 130px
 
 @media screen and (max-width: 325px)
     .titleGame
