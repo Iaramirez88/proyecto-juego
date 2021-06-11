@@ -11,8 +11,8 @@ const PairInstructions = ({ display }) => {
   const dimension = useDimesions();
   useEffect(() => {
     const startInfo = () => {
-      let audio = new Audio(audioPares);
-      audio.play();
+      // let audio = new Audio(audioPares);
+      // audio.play();
 
       let tl = gsap.timeline();
       tl.to("#fingerPair", {
