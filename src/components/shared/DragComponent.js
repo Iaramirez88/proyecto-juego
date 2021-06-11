@@ -26,29 +26,29 @@ const DragComponent = ({ children, styles, dragEndState, response }) => {
     container.addEventListener("mousemove", drag, false);
 
     function dragStart(e) {
-      let initialX, initialY;
-      // dragItem.classList.add("active");
-      // container.classList.add("active");
-      dragItem.onselectstart = function () {
-        return false;
-      };
-      let active;
-      if (e.type === "touchstart") {
-        initialX = e.touches[0].clientX - state.xOffset;
-        initialY = e.touches[0].clientY - state.yOffset;
-      } else {
-        initialX = e.clientX - state.xOffset;
-        initialY = e.clientY - state.yOffset;
+      if (!state.lockResponse) {
+        let initialX, initialY;
+        dragItem.onselectstart = function () {
+          return false;
+        };
+        let active;
+        if (e.type === "touchstart") {
+          initialX = e.touches[0].clientX - state.xOffset;
+          initialY = e.touches[0].clientY - state.yOffset;
+        } else {
+          initialX = e.clientX - state.xOffset;
+          initialY = e.clientY - state.yOffset;
+        }
+        active = true;
+        dispatchDrag({
+          type: "START_DRAG",
+          data: {
+            initialX,
+            initialY,
+            active,
+          },
+        });
       }
-      active = true;
-      dispatchDrag({
-        type: "START_DRAG",
-        data: {
-          initialX,
-          initialY,
-          active,
-        },
-      });
     }
 
     function dragEnd(e) {

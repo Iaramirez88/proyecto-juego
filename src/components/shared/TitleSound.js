@@ -4,6 +4,7 @@ import finger from "../../assets/images/instructions/dedoTocas.svg";
 import gsap from "gsap/gsap-core";
 import ModalComponent from "./ModalComponent";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useDimesions } from "../../hooks/useDimesion";
 
 export const TitleSound = ({
   title,
@@ -15,8 +16,10 @@ export const TitleSound = ({
   const [getDataLocal, setDataLocal, batchSave] =
     useLocalStorage("instructions");
   const display = getDataLocal(module);
+  const dimension = useDimesions();
   const [showModal, setShowModal] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [runInfo, setRunInfo] = useState(true);
   const [loading, setLoading] = useState(false);
   const closeButton = useRef(null);
 
@@ -33,16 +36,20 @@ export const TitleSound = ({
     }
   };
 
+  const playInfo = () => {
+    setRunInfo(false);
+  };
+
   useEffect(() => {
     const showInfoTitle = () => {
       let tl = gsap.timeline();
-      tl.to("#finger", {
+      tl.to("#fingerTitle", {
         duration: 1.5,
         x: 40,
-        y: -15,
+        y: dimension.width > 1200 ? 10 : -15,
       })
         .fromTo(
-          "#finger",
+          "#fingerTitle",
           {
             scale: 1,
           },
@@ -51,7 +58,7 @@ export const TitleSound = ({
             scale: 0.8,
           }
         )
-        .to("#finger", {
+        .to("#fingerTitle", {
           duration: 0.7,
           scale: 1,
         });
@@ -87,7 +94,7 @@ export const TitleSound = ({
     <div className="titleGame">
       <h2>
         <img
-          id="finger"
+          id="fingerTitle"
           src={finger}
           alt="finger"
           className={`fingerInstructions ${!showInfo ? "hidden" : ""}`}
@@ -100,8 +107,12 @@ export const TitleSound = ({
         {title}
       </h2>
       {ModalChild && (
-        <ModalComponent showModal={showModal} closeButton={closeButton}>
-          <ModalChild />
+        <ModalComponent
+          playInfo={playInfo}
+          showModal={showModal}
+          closeButton={closeButton}
+        >
+          <ModalChild display={runInfo} />
         </ModalComponent>
       )}
     </div>

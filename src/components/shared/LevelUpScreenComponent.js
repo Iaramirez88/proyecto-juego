@@ -4,10 +4,17 @@ import logoFondoAzul from "../../assets/images/logoFondoAzul.svg";
 import gsap from "gsap";
 import Header from "./Header";
 import { useHistory } from "react-router-dom";
+import {
+  resBien,
+  RestExcelente,
+  RestFelicitaciones,
+  ResvMuybien,
+} from "../../utils/sounds";
 
 const ComponentPortrait = () => {
   const [container, setContainer] = useState(initialHeight());
   const [isLandscape, setIsLandscape] = useState(getOrientation());
+  const [sound, setAudio] = useState(null);
   const history = useHistory();
 
   useEffect(() => {
@@ -29,6 +36,11 @@ const ComponentPortrait = () => {
     const orientationChange = () => {
       setIsLandscape(getOrientation());
     };
+
+    let items = [resBien, RestExcelente, RestFelicitaciones, ResvMuybien];
+    console.log(2213213);
+    const aud = items[Math.floor(Math.random() * items.length)];
+    setAudio(aud);
 
     window.addEventListener("orientationchange", orientationChange);
 
@@ -63,6 +75,7 @@ const ComponentPortrait = () => {
           </div>
         </div>
       </div>
+      {sound && <audio src={sound} autoPlay />}
     </div>
   );
 };

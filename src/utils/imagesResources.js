@@ -10,6 +10,7 @@ import iconSoundWhite from "../assets/images/iconoNotaBlanco.svg";
 import cancelIcon from "../assets/images/wrong.svg";
 import checkIcon from "../assets/images/check.svg";
 import iconClose from "../assets/images/iconClose.svg";
+import imageClose from "../assets/images/closeIcon.png";
 
 // Icons Home
 
@@ -62,4 +63,5 @@ export {
   wrongLeaf,
   goodLeaf,
   letterLeaf,
+  imageClose,
 };

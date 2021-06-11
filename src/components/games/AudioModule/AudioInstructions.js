@@ -4,59 +4,95 @@ import fondoAzul from "../../../assets/images/instructions/apoyoEmergenteAzul.sv
 import { iconSoundWhite } from "../../../utils/imagesResources";
 import finger from "../../../assets/images/instructions/dedoTocas.svg";
 import { useDimesions } from "../../../hooks/useDimesion";
+import apoyo1 from "../../../assets/sounds/intructions/apoyo2ModEscucha.mp3";
+import apoyo2 from "../../../assets/sounds/intructions/apoyoEnunciado1modEscucha.mp3";
 
 const AudioInstructions = ({ display }) => {
   const dimension = useDimesions();
-
   useEffect(() => {
-    if (!display) {
-      let tl = gsap.timeline();
-      tl.to("#finger", {
-        duration: 1.5,
-        x: dimension.width < 485 ? 30 : 55,
-        y: dimension.width < 485 ? 90 : 130,
-      })
-        .fromTo(
-          "#finger",
-          {
-            scale: 1,
-          },
-          {
-            duration: 1,
-            scale: 0.8,
-          }
-        )
-        .to("#finger", {
-          duration: 0.7,
-          scale: 1,
+    let tl = gsap.timeline();
+
+    const infoButton = () =>
+      new Promise((resolve) => {
+        let audio = new Audio(apoyo1);
+        audio.play();
+        audio.addEventListener("ended", () => {
+          resolve();
+        });
+
+        tl.to("#fingerAudio", {
+          duration: 1.5,
+          y: dimension.width < 485 ? 90 : 130,
         })
-        .to("#finger", {
+          .fromTo(
+            "#fingerAudio",
+            {
+              scale: 1,
+            },
+            {
+              duration: 1,
+              scale: 0.8,
+            }
+          )
+          .to("#fingerAudio", {
+            duration: 0.7,
+            scale: 1,
+          });
+      });
+
+    const infoCard = async () =>
+      new Promise((resolve) => {
+        let audio = new Audio(apoyo2);
+        audio.play();
+        audio.addEventListener("ended", () => {
+          resolve();
+        });
+        tl.to("#fingerAudio", {
           duration: 0.7,
           y: dimension.width < 485 ? 35 : 50,
+          x: 45,
         })
-        .fromTo(
-          "#finger",
-          {
+          .fromTo(
+            "#fingerAudio",
+            {
+              scale: 1,
+            },
+            {
+              duration: 1,
+              scale: 0.8,
+            }
+          )
+          .to("#fingerAudio", {
+            duration: 0.7,
             scale: 1,
-          },
-          {
-            duration: 1,
-            scale: 0.8,
-          }
-        )
-        .to("#finger", {
-          duration: 0.7,
-          scale: 1,
-        });
+          });
+      });
+
+    const startInstructions = async () => {
+      await infoCard();
+      setTimeout(() => {
+        infoButton();
+      }, 500);
+    };
+
+    if (!display) {
+      startInstructions();
     }
-  }, [display, dimension]);
+  }, [display]);
   return (
     <div className="aiModalBox">
-      <img src={finger} alt="finger" id="finger" className="aiModalFinger" />
+      {!display && (
+        <img
+          src={finger}
+          alt="finger"
+          id="fingerAudio"
+          className="aiModalFinger"
+        />
+      )}
       {Array(3)
         .fill(1)
         .map((item, index) => (
-          <div className="aiModalItem">
+          <div className="aiModalItem" key={index}>
             <img src={fondoAzul} alt="fondoAzul" className="aiModalCard" />
             <img
               src={iconSoundWhite}

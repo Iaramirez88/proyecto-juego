@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
 import background from "../../assets/images/fondoModPares.svg";
-import ContainerGames from "../../components/shared/ContainerGames";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
 import audioTitle from "../../assets/sounds/intructions/modArmarPares.mp3";
 import { getModuleData } from "../../utils/mockData/mockModule5";

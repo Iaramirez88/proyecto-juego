@@ -52,94 +52,100 @@ const WrittingScreen = () => {
     setTranslate,
     stateDrag
   ) => {
-    const list = document.querySelectorAll(".itemContainer");
-    const node = Object.values(list).reduce((prev, item) => {
-      if (isInPosition(item, dragItem)) return item;
-      return prev;
-    }, null);
-    if (node && node.dataset.word) {
-      let response = node.dataset.word;
-      let option = dragItem.dataset.word;
+    if (!stateDrag.lockResponse) {
+      const list = document.querySelectorAll(".itemContainer");
+      const node = Object.values(list).reduce((prev, item) => {
+        if (isInPosition(item, dragItem)) return item;
+        return prev;
+      }, null);
+      if (node && node.dataset.word && node.dataset.locked === "false") {
+        let response = node.dataset.word;
+        let option = dragItem.dataset.word;
 
-      let { left, top } = container.getBoundingClientRect();
-      let { x, y } = node.getBoundingClientRect();
-      let positionX = x - left - (dimesion.width <= 425 ? 5 : 10);
-      let positionY = y - top;
-      setTranslate(positionX, positionY, dragItem);
-      dispatchDrag({
-        type: "SET_DRAG_POSITION",
-        data: {
-          initialY: positionY,
-          yOffset: positionY,
-          currentY: positionY,
-          initialX: positionX,
-          xOffset: positionX,
-          currentX: positionX,
-        },
-      });
-      playResponseAudio(response === option);
-
-      if (response === option && !stateDrag.lockResponse) {
-        let numLetters = state.numLetters - 1;
-        dragItem.classList.add("wrLetterGood");
-        dispatch({
-          type: "ADD_POINTS",
-          value: 1,
-        });
+        let { left, top } = container.getBoundingClientRect();
+        let { x, y } = node.getBoundingClientRect();
+        let positionX = x - left - (dimesion.width <= 425 ? 5 : 10);
+        let positionY = y - top;
+        setTranslate(positionX, positionY, dragItem);
         dispatchDrag({
-          type: "LOCK_RESPONSE",
-          data: {},
+          type: "SET_DRAG_POSITION",
+          data: {
+            initialY: positionY,
+            yOffset: positionY,
+            currentY: positionY,
+            initialX: positionX,
+            xOffset: positionX,
+            currentX: positionX,
+          },
         });
+        playResponseAudio(response === option);
 
-        if (numLetters > 0) {
-          setState({
-            ...state,
-            numLetters,
+        if (response === option) {
+          let numLetters = state.numLetters - 1;
+          let index = node.dataset.position;
+          let current = { ...state.current };
+          dragItem.classList.add("wrLetterGood");
+          dispatch({
+            type: "ADD_POINTS",
+            value: 1,
           });
-        } else if (state.position + 1 < state.words.length) {
-          let position = state.position + 1;
-          let [options, numLetters] = createOptions(
-            state.words[position].name.toLowerCase(),
-            "a"
-          );
-          setState({
-            ...state,
-            options,
-            current: state.words[position],
-            position,
-            numLetters,
+          dispatchDrag({
+            type: "LOCK_RESPONSE",
+            data: {},
           });
-          setTransition(true);
+
+          if (numLetters > 0) {
+            current.spell[index].locked = true;
+            setState({
+              ...state,
+              numLetters,
+              current,
+            });
+          } else if (state.position + 1 < state.words.length) {
+            let position = state.position + 1;
+            let [options, numLetters] = createOptions(
+              state.words[position].name.toLowerCase(),
+              "a"
+            );
+            setState({
+              ...state,
+              options,
+              current: setResponse(state.words[position]),
+              position,
+              numLetters,
+            });
+            setTransition(true);
+          } else {
+            history.push("level-up");
+          }
         } else {
-          history.push("level-up");
+          dragItem.classList.add("wrLetterBad");
+          setTimeout(function () {
+            gsap.fromTo(
+              dragItem,
+              { x: positionX, y: positionY },
+              {
+                x: 0,
+                y: 0,
+                duration: 1,
+                onComplete: function () {
+                  dragItem.classList.remove("wrLetterBad");
+                  dispatchDrag({
+                    type: "WRONG_ANSWER",
+                    data: {
+                      actualX: null,
+                      actualY: null,
+                    },
+                  });
+                  dispatch({
+                    type: "ADD_POINTS",
+                    value: -1,
+                  });
+                },
+              }
+            );
+          }, 2000);
         }
-      } else {
-        dragItem.classList.add("wrLetterBad");
-        setTimeout(function () {
-          gsap.fromTo(
-            dragItem,
-            { x: positionX, y: positionY },
-            {
-              x: 0,
-              y: 0,
-              duration: 1,
-              onComplete: function () {
-                dragItem.classList.remove("wrLetterBad");
-                dispatchDrag({
-                  type: "WRONG_ANSWER",
-                  data: {
-                    actualX: null,
-                    actualY: null,
-                  },
-                });
-                dispatch({
-                  type: "ADD_POINTS",
-                  value: -1,
-                });
-              },
-            }
-          );
-        }, 2000);
       }
     }
   };
@@ -160,20 +166,19 @@ const WrittingScreen = () => {
       <div className="wrContainerBox">
         <div className="containerLetters">
           {/* section letters */}
-          {state.current.name
-            .toLowerCase()
-            .split("")
-            .map((letter, index) => (
-              <div
-                data-word={letter === state.response ? letter : ""}
-                className={`itemResponse itemContainer ${
-                  letter === state.response ? "" : "wrLetterGood"
-                }`}
-                key={index}
-              >
-                <p>{letter === state.response ? "" : letter}</p>
-              </div>
-            ))}
+          {state.current.spell.map((letter, index) => (
+            <div
+              data-word={letter.name === state.response ? letter.name : ""}
+              data-locked={letter.locked}
+              data-position={index}
+              className={`itemResponse itemContainer ${
+                letter.name === state.response ? "" : "wrLetterGood"
+              }`}
+              key={index}
+            >
+              <p>{letter.name === state.response ? "" : letter.name}</p>
+            </div>
+          ))}
         </div>
         <div className="wrContainerOptions">
           {/* section image a vocals */}
@@ -182,7 +187,7 @@ const WrittingScreen = () => {
               <img
                 className="imageCard"
                 src={state.current.image}
-                alt={state.current.name.toLowerCase()}
+                alt={state.current.name}
               />
             </div>
             <BottonAudioComponent
@@ -241,8 +246,19 @@ function createOptions(word, letter) {
       }
       return prev;
     }, []);
-
   return [options, numLetters];
+}
+
+function setResponse(word) {
+  let response = word.name
+    .toLowerCase()
+    .split("")
+    .map((item, index) => ({
+      name: item,
+      locked: false,
+    }));
+
+  return { ...word, spell: response };
 }
 
 function initialState() {
@@ -253,7 +269,7 @@ function initialState() {
   return {
     words: mockWriteData,
     options: options,
-    current: mockWriteData[0],
+    current: setResponse(mockWriteData[0]),
     position: 0,
     numLetters: numLetters,
     response: "a",

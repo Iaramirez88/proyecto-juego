@@ -198,6 +198,19 @@
     width: 90%;
   }
 }
+@media screen and (max-width: 485px) {
+  .wrModalOptions {
+    height: 5em !important;
+  }
+
+  .cardBody {
+    height: 42px !important;
+  }
+
+  .wrHandGran {
+    width: 2em !important;
+  }
+}
 @media screen and (max-width: 425px) {
   .wrButtonAudio {
     left: 41.5%;

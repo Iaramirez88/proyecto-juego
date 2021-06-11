@@ -1,16 +1,11 @@
-import audio1 from "../assets/sounds/respBien.mp3";
-import audio2 from "../assets/sounds/respExcelente.mp3";
-import siAudio3 from "../assets/sounds/sonidoRespuestas/ResvMuybien.mp3";
-import siAudio4 from "../assets/sounds/sonidoRespuestas/RestFelicitaciones.mp3";
-import siAudio5 from "../assets/sounds/sonidoRespuestas/resBien.mp3";
-
-import audio3 from "../assets/sounds/RestNo.mp3";
-import audio4 from "../assets/sounds/RestEsanoEs.mp3";
+import siAudio from "../assets/sounds/sonidoRespuestas/Efecto7Si.mp3";
 import noAudio5 from "../assets/sounds/sonidoRespuestas/sonidoNo.mp3";
-import noAudio6 from "../assets/sounds/sonidoRespuestas/RestIntentalodeNuevo.mp3";
-import noAudio7 from "../assets/sounds/sonidoRespuestas/RestIntentalo.mp3";
-import noAudio8 from "../assets/sounds/sonidoRespuestas/RestEsfuertateMás.mp3";
-import noAudio9 from "../assets/sounds/sonidoRespuestas/RestConcentrate.mp3";
+import noAudio6 from "../assets/sounds/sonidoRespuestas/Efecto2No.mp3";
+
+import resBien from "../assets/sounds/sonidoRespuestas/resBien.mp3";
+import RestExcelente from "../assets/sounds/sonidoRespuestas/RestExcelente.mp3";
+import RestFelicitaciones from "../assets/sounds/sonidoRespuestas/RestFelicitaciones.mp3";
+import ResvMuybien from "../assets/sounds/sonidoRespuestas/ResvMuybien.mp3";
 
 import arbolSound from "../assets/sounds/arbol.mp3";
 import arcoirisSound from "../assets/sounds/arcoiris.mp3";
@@ -48,16 +43,11 @@ export {
   utilesSound,
   uvaSound,
   unicornioSound,
+  resBien,
+  RestExcelente,
+  RestFelicitaciones,
+  ResvMuybien,
 };
-export const goodAnswer = [audio1, audio2, siAudio3, siAudio4, siAudio5].sort(
-  () => Math.random() - 0.5
-);
-export const wrongAnswer = [
-  audio3,
-  audio4,
-  noAudio5,
-  noAudio6,
-  noAudio7,
-  noAudio8,
-  noAudio9,
-].sort(() => Math.random() - 0.5);
+
+export const goodAnswer = [siAudio].sort(() => Math.random() - 0.5);
+export const wrongAnswer = [noAudio5, noAudio6].sort(() => Math.random() - 0.5);
