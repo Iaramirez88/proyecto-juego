@@ -16,7 +16,7 @@ const PairInstructions = ({ display }) => {
 
       let tl = gsap.timeline();
       tl.to("#fingerPair", {
-        duration: 4,
+        duration: 2,
         x: dimension.width < 485 ? 15 : 45,
         y: 30,
       })
@@ -26,7 +26,7 @@ const PairInstructions = ({ display }) => {
             scale: 1,
           },
           {
-            duration: 1.5,
+            duration: 1,
             scale: 0.8,
           }
         )
