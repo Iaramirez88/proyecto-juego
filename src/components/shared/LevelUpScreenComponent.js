@@ -36,15 +36,19 @@ const ComponentPortrait = () => {
     const orientationChange = () => {
       setIsLandscape(getOrientation());
     };
-
+    let timer;
     let items = [resBien, RestExcelente, RestFelicitaciones, ResvMuybien];
     const aud = items[Math.floor(Math.random() * items.length)];
     setAudio(aud);
+    timer = setTimeout(() => {
+      history.push("/");
+    }, 3000);
 
     window.addEventListener("orientationchange", orientationChange);
 
     return () => {
       window.removeEventListener("orientationchange", orientationChange);
+      clearTimeout(timer);
     };
   }, []);
 
