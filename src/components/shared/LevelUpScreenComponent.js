@@ -38,7 +38,6 @@ const ComponentPortrait = () => {
     };
 
     let items = [resBien, RestExcelente, RestFelicitaciones, ResvMuybien];
-    console.log(2213213);
     const aud = items[Math.floor(Math.random() * items.length)];
     setAudio(aud);
 

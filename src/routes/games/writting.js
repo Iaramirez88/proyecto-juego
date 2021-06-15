@@ -52,6 +52,7 @@ const WrittingScreen = () => {
     setTranslate,
     stateDrag
   ) => {
+    let timer;
     if (!stateDrag.lockResponse) {
       const list = document.querySelectorAll(".itemContainer");
       const node = Object.values(list).reduce((prev, item) => {
@@ -59,13 +60,15 @@ const WrittingScreen = () => {
         return prev;
       }, null);
       if (node && node.dataset.word && node.dataset.locked === "false") {
-        let response = node.dataset.word;
-        let option = dragItem.dataset.word;
-
         let { left, top } = container.getBoundingClientRect();
         let { x, y } = node.getBoundingClientRect();
         let positionX = x - left - (dimesion.width <= 425 ? 5 : 10);
         let positionY = y - top;
+
+        let response = node.dataset.word;
+        let option = dragItem.dataset.word;
+        clearTimeout(timer);
+
         setTranslate(positionX, positionY, dragItem);
         dispatchDrag({
           type: "SET_DRAG_POSITION",
@@ -146,7 +149,28 @@ const WrittingScreen = () => {
             );
           }, 2000);
         }
+        return;
       }
+      timer = setTimeout(() => {
+        gsap.fromTo(
+          dragItem,
+          { x: stateDrag.currentX, y: stateDrag.currentY },
+          {
+            x: 0,
+            y: 0,
+            duration: 1,
+            onComplete: function () {
+              dispatchDrag({
+                type: "WRONG_ANSWER",
+                data: {
+                  actualX: null,
+                  actualY: null,
+                },
+              });
+            },
+          }
+        );
+      }, 2000);
     }
   };
 

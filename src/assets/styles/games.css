@@ -215,6 +215,7 @@
   display: flex;
   justify-content: space-evenly;
   width: 100%;
+  margin-top: 1em;
 }
 
 .aiModalItem {
@@ -254,6 +255,7 @@
   box-shadow: 2px 2px 7px -1px #6e7766;
   left: 5%;
   top: 3%;
+  z-index: 20;
 }
 .playButton:active {
   transform: scale(0.9);

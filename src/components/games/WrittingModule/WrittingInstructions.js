@@ -11,6 +11,13 @@ const WrittingInstructions = ({ display }) => {
   const dimesion = useDimesions();
   useEffect(() => {
     let tagAudio = refAudio.current;
+    const getPositionBox = ({ width }) => {
+      if (width < 768) return -83;
+      if (width < 992) return -90;
+      if (width > 1200) return -125;
+      return -100;
+    };
+
     if (!display) {
       setAudio(audioHelp);
       tagAudio && tagAudio.play();
@@ -22,8 +29,8 @@ const WrittingInstructions = ({ display }) => {
         });
         gsap.to("#option", {
           duration: 1,
-          x: dimesion.width < 485 ? -27 : -44,
-          y: dimesion.width < 768 ? -83 : -100,
+          x: dimesion.width < 485 ? -27 : dimesion.width >= 998 ? -55 : -44,
+          y: getPositionBox(dimesion),
         });
       }, 1500);
     }

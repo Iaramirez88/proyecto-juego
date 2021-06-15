@@ -11,7 +11,9 @@ export const useLocalStorage = (item) => {
   };
 
   const batchSave = (data) => {
-    localStorage.setItem(item, JSON.stringify(data));
+    if (!localStorage.getItem(item))
+      localStorage.setItem(item, JSON.stringify(data));
+    return;
   };
 
   return [getDataLocal, setDataLocal, batchSave];

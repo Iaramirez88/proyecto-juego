@@ -98,6 +98,7 @@ export const TitleSound = ({
           src={finger}
           alt="finger"
           className={`fingerInstructions ${!showInfo ? "hidden" : ""}`}
+          onClick={() => setAudioPlay(listAudio)}
         />
         <img
           onClick={() => setAudioPlay(listAudio)}

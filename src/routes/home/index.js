@@ -22,23 +22,15 @@ import {
   // letterJCH,
   vocalAUList,
 } from "./elements";
-import { modulesInstructions } from "../../utils/modulesInstructions";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const Home = () => {
   const screen = useDimesions();
-  const [getDataLocal, setDataLocal, batchSave] =
-    useLocalStorage("instructions");
 
   useEffect(() => {
     document.documentElement.style.backgroundImage = "none";
     document.body.style.backgroundImage = "none";
     document.body.style.backgroundColor = "white";
   }, []);
-
-  useEffect(() => {
-    batchSave(modulesInstructions);
-  }, [batchSave]);
 
   return (
     <div>

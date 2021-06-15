@@ -23,7 +23,7 @@
 }
 
 .pmModalBox {
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 .pmModalRow {
@@ -43,6 +43,11 @@
   left: 0;
 }
 
+@media screen and (min-width: 998px) {
+  .pmModalSquare {
+    width: 90px;
+  }
+}
 @media screen and (max-width: 768px) {
   .pwImageCard {
     width: 9em;

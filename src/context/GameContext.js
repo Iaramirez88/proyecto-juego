@@ -1,4 +1,6 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { modulesInstructions } from "../utils/modulesInstructions";
 
 export const GameContext = React.createContext();
 
@@ -22,6 +24,13 @@ const initialState = {
 
 export const GameContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const [getDataLocal, setDataLocal, batchSave] =
+    useLocalStorage("instructions");
+
+  useEffect(() => {
+    batchSave(modulesInstructions);
+  }, [batchSave]);
 
   return (
     <GameContext.Provider value={{ state, dispatch }}>

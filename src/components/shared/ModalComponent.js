@@ -10,7 +10,6 @@ const ModalComponent = ({ children, showModal, closeButton, playInfo }) => {
   useEffect(() => {
     let clickPlay = refClick.current;
     if (!showModal) {
-      console.log(2132131);
       clickPlay.addEventListener("click", () => {
         playInfo();
         setShowFinger(false);
