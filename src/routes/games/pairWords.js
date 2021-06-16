@@ -64,17 +64,17 @@ const PairWords = () => {
 
   const selectCard = (index) => {
     let { cards, open, correct } = state;
-    cards[index].show = true;
-    if (open < 1) {
+    if (open <= 1 && !cards[index].show) {
+      console.log(1322131);
+      cards[index].show = true;
       setState({ ...state, open: state.open + 1, cards });
+      if (open === 1) checkWords();
       return;
     }
     if (correct - 1 === 0) {
       history.push("level-up");
       return;
     }
-
-    checkWords();
   };
 
   useEffect(() => {
