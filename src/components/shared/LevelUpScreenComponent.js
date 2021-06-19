@@ -42,7 +42,7 @@ const ComponentPortrait = () => {
     setAudio(aud);
     timer = setTimeout(() => {
       history.push("/");
-    }, 3000);
+    }, 5000);
 
     window.addEventListener("orientationchange", orientationChange);
 
