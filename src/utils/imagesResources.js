@@ -11,6 +11,8 @@ import cancelIcon from "../assets/images/wrong.svg";
 import checkIcon from "../assets/images/check.svg";
 import iconClose from "../assets/images/iconClose.svg";
 import imageClose from "../assets/images/closeIcon.png";
+import iconOpenModule from "../assets/images/IconoModulosVolve.svg";
+import iconCloseModule from "../assets/images/IconoModulosVolver.svg";
 
 // Icons Home
 
@@ -64,4 +66,6 @@ export {
   goodLeaf,
   letterLeaf,
   imageClose,
+  iconOpenModule,
+  iconCloseModule,
 };
