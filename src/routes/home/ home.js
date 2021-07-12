@@ -1,45 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useDimesions } from "../../hooks/useDimesion";
 import { iconOpenModule, iconCloseModule } from "../../utils/imagesResources";
 import "../../assets/styles/home.css";
 
 import { useHistory } from "react-router-dom";
 import { useRamdonId } from "../../hooks/useRamdonId";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { GameContext } from "../../context/GameContext";
 
-const HomeGridComponent = ({ mainTitle, list, mainImage }) => {
+const HomeGridComponent = ({ mainTitle, list, mainImage, moduleOpen }) => {
   const screen = useDimesions();
   const [getId] = useRamdonId();
   const [isOpen, setIsOpen] = useState(false);
+  const { setDataLocal } = useLocalStorage("module");
   const panelRef = useRef(null);
-  // useEffect(() => {
-  //   const slider = document.querySelector(".scroll");
-  //   let isDown = false;
-  //   let startX;
-  //   let scrollLeft;
+  const { stateContext, dispatch } = useContext(GameContext);
 
-  //   slider.addEventListener("mousedown", (e) => {
-  //     isDown = true;
-  //     slider.classList.add("active");
-  //     startX = e.pageX - slider.offsetLeft;
-  //     scrollLeft = slider.scrollLeft;
-  //   });
-  //   slider.addEventListener("mouseleave", () => {
-  //     isDown = false;
-  //     slider.classList.remove("active");
-  //   });
-  //   slider.addEventListener("mouseup", () => {
-  //     isDown = false;
-  //     slider.classList.remove("active");
-  //   });
-  //   slider.addEventListener("mousemove", (e) => {
-  //     if (!isDown) return;
-  //     e.preventDefault();
-  //     const x = e.pageX - slider.offsetLeft;
-  //     const walk = x - startX;
-  //     slider.scrollLeft = scrollLeft - walk;
-  //     console.log(slider);
-  //   });
-  // }, []);
+  useEffect(() => {
+    if (stateContext.moduleOpen === moduleOpen) setIsOpen(true);
+  }, [stateContext, moduleOpen]);
 
   useEffect(() => {
     const panel = panelRef.current;
@@ -50,8 +29,18 @@ const HomeGridComponent = ({ mainTitle, list, mainImage }) => {
     if (screen.width > 992) setIsOpen(true);
   }, [screen]);
 
+  const openAccordion = () => {
+    let saveModule = !isOpen ? moduleOpen : -1;
+    setDataLocal("name", saveModule);
+    dispatch({
+      type: "SET_ACCORDION",
+      value: saveModule,
+    });
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <div>
+    <div className="moduleContainer">
       <div className="letterTitle">
         <div className="rowLetterTitle">
           <img alt={mainTitle} width="40px" height="auto" src={mainImage} />
@@ -63,7 +52,7 @@ const HomeGridComponent = ({ mainTitle, list, mainImage }) => {
           width="40px"
           height="auto"
           src={isOpen ? iconOpenModule : iconCloseModule}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => openAccordion()}
         />
       </div>
       <div className="panel" ref={panelRef}>

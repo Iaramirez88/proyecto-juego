@@ -4,7 +4,7 @@ import { iconBack, logo } from "../../utils/imagesResources";
 import { useHistory } from "react-router-dom";
 
 const Header = ({ onGoBack }) => {
-  const { state } = useContext(GameContext);
+  const { stateContext } = useContext(GameContext);
   const history = useHistory();
 
   return (
@@ -20,7 +20,7 @@ const Header = ({ onGoBack }) => {
         </div>
         <div className="headerBoxIcon headerRightBox">
           <div className="pointsBox">
-            <p>P{state.points}</p>
+            <p>P{stateContext.points}</p>
           </div>
           <img src={logo} width="width: 5em" alt="logo" />
         </div>

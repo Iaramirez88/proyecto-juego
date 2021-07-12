@@ -58,6 +58,7 @@ const Home = () => {
           mainTitle="Vocales AEIOU"
           mainImage={caraOso}
           list={vocalAUList}
+          moduleOpen="1"
         />
         {/* <HomeGridComponent
           mainTitle="Letras MPSLT"
@@ -68,6 +69,7 @@ const Home = () => {
           mainTitle="Letras NDCR"
           mainImage={caraDino}
           list={letterNR}
+          moduleOpen="3"
         />
         <HomeGridComponent
           mainTitle="Letras BVGF"

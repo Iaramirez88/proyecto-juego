@@ -6,8 +6,9 @@ export const useLocalStorage = (item) => {
   };
 
   const getDataLocal = (index) => {
-    let data = JSON.parse(localStorage.getItem(item))[index] || {};
-    return data;
+    let data = JSON.parse(localStorage.getItem(item));
+    if (!data) return -1;
+    return data[index];
   };
 
   const batchSave = (data) => {

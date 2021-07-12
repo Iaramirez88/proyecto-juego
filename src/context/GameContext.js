@@ -13,18 +13,28 @@ const reducer = (state, action) => {
       };
     }
 
+    case "SET_ACCORDION": {
+      return {
+        ...state,
+        moduleOpen: action.value,
+      };
+    }
+
     default:
       return state;
   }
 };
 
-const initialState = {
-  points: 0,
-  folder: "",
+const initialState = () => {
+  let data = JSON.parse(localStorage.getItem("module"));
+  return {
+    points: 0,
+    moduleOpen: !data ? -1 : data["name"],
+  };
 };
 
 export const GameContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [stateContext, dispatch] = useReducer(reducer, initialState());
 
   const { batchSave } = useLocalStorage("instructions");
 
@@ -33,7 +43,7 @@ export const GameContextProvider = ({ children }) => {
   }, [batchSave]);
 
   return (
-    <GameContext.Provider value={{ state, dispatch }}>
+    <GameContext.Provider value={{ stateContext, dispatch }}>
       {children}
     </GameContext.Provider>
   );

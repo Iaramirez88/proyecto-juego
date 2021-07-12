@@ -253,219 +253,211 @@ export const vocalAUList = [
 ];
 
 export const letterM = [
-  [
-    {
-      id: getUId(),
-      title: "M",
-      list: [
-        [
-          {
-            id: getUId(),
-            title: "Vocabulario",
-            img: iconoVocabulario,
-          },
-          {
-            id: getUId(),
-            title: "Escucha",
-            img: iconoEscucha,
-          },
-          {
-            id: getUId(),
-            title: "Pares",
-            img: iconopares,
-          },
-        ],
-        [
-          { id: getUId(), title: "Otoño", img: iconoOtono },
-          { id: getUId(), title: "Escritura", img: iconoEscritura },
-          { id: getUId(), title: "Armar", img: iconoArmar },
-        ],
+  {
+    id: getUId(),
+    title: "M",
+    list: [
+      [
+        {
+          id: getUId(),
+          title: "Vocabulario",
+          img: iconoVocabulario,
+        },
+        {
+          id: getUId(),
+          title: "Escucha",
+          img: iconoEscucha,
+        },
+        {
+          id: getUId(),
+          title: "Pares",
+          img: iconopares,
+        },
       ],
-    },
-    {
-      id: getUId(),
-      title: "P",
-      list: [
-        [
-          { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
-          { id: getUId(), title: "Escucha", img: iconoEscucha },
-          { id: getUId(), title: "Pares", img: iconopares },
-        ],
-        [
-          { id: getUId(), title: "Otoño", img: iconoOtono },
-          { id: getUId(), title: "Escritura", img: iconoEscritura },
-          { id: getUId(), title: "Armar", img: iconoArmar },
-        ],
+      [
+        { id: getUId(), title: "Otoño", img: iconoOtono },
+        { id: getUId(), title: "Escritura", img: iconoEscritura },
+        { id: getUId(), title: "Armar", img: iconoArmar },
       ],
-    },
-    {
-      id: getUId(),
-      title: "S",
-      list: [
-        [
-          { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
-          { id: getUId(), title: "Escucha", img: iconoEscucha },
-          { id: getUId(), title: "Pares", img: iconopares },
-        ],
-        [
-          { id: getUId(), title: "Otoño", img: iconoOtono },
-          { id: getUId(), title: "Escritura", img: iconoEscritura },
-          { id: getUId(), title: "Armar", img: iconoArmar },
-        ],
+    ],
+  },
+  {
+    id: getUId(),
+    title: "P",
+    list: [
+      [
+        { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
+        { id: getUId(), title: "Escucha", img: iconoEscucha },
+        { id: getUId(), title: "Pares", img: iconopares },
       ],
-    },
-  ],
-  [
-    {
-      id: getUId(),
-      title: "L",
-      list: [
-        [
-          { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
-          { id: getUId(), title: "Escucha", img: iconoEscucha },
-          { id: getUId(), title: "Pares", img: iconopares },
-        ],
-        [
-          { id: getUId(), title: "Otoño", img: iconoOtono },
-          { id: getUId(), title: "Escritura", img: iconoEscritura },
-          { id: getUId(), title: "Armar", img: iconoArmar },
-        ],
+      [
+        { id: getUId(), title: "Otoño", img: iconoOtono },
+        { id: getUId(), title: "Escritura", img: iconoEscritura },
+        { id: getUId(), title: "Armar", img: iconoArmar },
       ],
-    },
-    {
-      id: getUId(),
-      title: "T",
-      list: [
-        [
-          { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
-          { id: getUId(), title: "Escucha", img: iconoEscucha },
-          { id: getUId(), title: "Pares", img: iconopares },
-        ],
-        [
-          { id: getUId(), title: "Otoño", img: iconoOtono },
-          { id: getUId(), title: "Escritura", img: iconoEscritura },
-          { id: getUId(), title: "Armar", img: iconoArmar },
-        ],
+    ],
+  },
+  {
+    id: getUId(),
+    title: "S",
+    list: [
+      [
+        { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
+        { id: getUId(), title: "Escucha", img: iconoEscucha },
+        { id: getUId(), title: "Pares", img: iconopares },
       ],
-    },
-    {
-      id: getUId(),
-      title: "1L",
-      especial: true,
-      list: [
-        [
-          { id: getUId(), title: "Pares", img: iconopares },
-          { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
-          { id: getUId(), title: "Escucha", img: iconoEscucha },
-        ],
-        [
-          { id: getUId(), title: "Otoño", img: iconoOtono },
-          { id: getUId(), title: "Escritura", img: iconoEscritura },
-          { id: getUId(), title: "Armar", img: iconoArmar },
-        ],
+      [
+        { id: getUId(), title: "Otoño", img: iconoOtono },
+        { id: getUId(), title: "Escritura", img: iconoEscritura },
+        { id: getUId(), title: "Armar", img: iconoArmar },
       ],
-    },
-  ],
+    ],
+  },
+  {
+    id: getUId(),
+    title: "L",
+    list: [
+      [
+        { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
+        { id: getUId(), title: "Escucha", img: iconoEscucha },
+        { id: getUId(), title: "Pares", img: iconopares },
+      ],
+      [
+        { id: getUId(), title: "Otoño", img: iconoOtono },
+        { id: getUId(), title: "Escritura", img: iconoEscritura },
+        { id: getUId(), title: "Armar", img: iconoArmar },
+      ],
+    ],
+  },
+  {
+    id: getUId(),
+    title: "T",
+    list: [
+      [
+        { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
+        { id: getUId(), title: "Escucha", img: iconoEscucha },
+        { id: getUId(), title: "Pares", img: iconopares },
+      ],
+      [
+        { id: getUId(), title: "Otoño", img: iconoOtono },
+        { id: getUId(), title: "Escritura", img: iconoEscritura },
+        { id: getUId(), title: "Armar", img: iconoArmar },
+      ],
+    ],
+  },
+  {
+    id: getUId(),
+    title: "1L",
+    especial: true,
+    list: [
+      [
+        { id: getUId(), title: "Pares", img: iconopares },
+        { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
+        { id: getUId(), title: "Escucha", img: iconoEscucha },
+      ],
+      [
+        { id: getUId(), title: "Otoño", img: iconoOtono },
+        { id: getUId(), title: "Escritura", img: iconoEscritura },
+        { id: getUId(), title: "Armar", img: iconoArmar },
+      ],
+    ],
+  },
 ];
 
 export const letterNR = [
-  [
-    {
-      id: getUId(),
-      title: "N",
-      list: [
-        [
-          {
-            id: getUId(),
-            title: "Vocabulario",
-            img: iconoVocabulario,
-          },
-          {
-            id: getUId(),
-            title: "Escucha",
-            img: iconoEscucha,
-          },
-          {
-            id: getUId(),
-            title: "Pares",
-            img: iconopares,
-          },
-        ],
-        [
-          { id: getUId(), title: "Otoño", img: iconoOtono },
-          { id: getUId(), title: "Escritura", img: iconoEscritura },
-          { id: getUId(), title: "Armar", img: iconoArmar },
-        ],
+  {
+    id: getUId(),
+    title: "N",
+    list: [
+      [
+        {
+          id: getUId(),
+          title: "Vocabulario",
+          img: iconoVocabulario,
+        },
+        {
+          id: getUId(),
+          title: "Escucha",
+          img: iconoEscucha,
+        },
+        {
+          id: getUId(),
+          title: "Pares",
+          img: iconopares,
+        },
       ],
-    },
-    {
-      id: getUId(),
-      title: "D",
-      list: [
-        [
-          { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
-          { id: getUId(), title: "Escucha", img: iconoEscucha },
-          { id: getUId(), title: "Pares", img: iconopares },
-        ],
-        [
-          { id: getUId(), title: "Otoño", img: iconoOtono },
-          { id: getUId(), title: "Escritura", img: iconoEscritura },
-          { id: getUId(), title: "Armar", img: iconoArmar },
-        ],
+      [
+        { id: getUId(), title: "Otoño", img: iconoOtono },
+        { id: getUId(), title: "Escritura", img: iconoEscritura },
+        { id: getUId(), title: "Armar", img: iconoArmar },
       ],
-    },
-    {
-      id: getUId(),
-      title: "C",
-      list: [
-        [
-          { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
-          { id: getUId(), title: "Escucha", img: iconoEscucha },
-          { id: getUId(), title: "Pares", img: iconopares },
-        ],
-        [
-          { id: getUId(), title: "Otoño", img: iconoOtono },
-          { id: getUId(), title: "Escritura", img: iconoEscritura },
-          { id: getUId(), title: "Armar", img: iconoArmar },
-        ],
+    ],
+  },
+  {
+    id: getUId(),
+    title: "D",
+    list: [
+      [
+        { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
+        { id: getUId(), title: "Escucha", img: iconoEscucha },
+        { id: getUId(), title: "Pares", img: iconopares },
       ],
-    },
-  ],
-  [
-    {
-      id: getUId(),
-      title: "R",
-      list: [
-        [
-          { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
-          { id: getUId(), title: "Escucha", img: iconoEscucha },
-          { id: getUId(), title: "Pares", img: iconopares },
-        ],
-        [
-          { id: getUId(), title: "Otoño", img: iconoOtono },
-          { id: getUId(), title: "Escritura", img: iconoEscritura },
-          { id: getUId(), title: "Armar", img: iconoArmar },
-        ],
+      [
+        { id: getUId(), title: "Otoño", img: iconoOtono },
+        { id: getUId(), title: "Escritura", img: iconoEscritura },
+        { id: getUId(), title: "Armar", img: iconoArmar },
       ],
-    },
-    {
-      id: getUId(),
-      title: "1L",
-      especial: true,
-      list: [
-        [
-          { id: getUId(), title: "Pares", img: iconopares },
-          { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
-          { id: getUId(), title: "Escucha", img: iconoEscucha },
-        ],
-        [
-          { id: getUId(), title: "Otoño", img: iconoOtono },
-          { id: getUId(), title: "Escritura", img: iconoEscritura },
-          { id: getUId(), title: "Armar", img: iconoArmar },
-        ],
+    ],
+  },
+  {
+    id: getUId(),
+    title: "C",
+    list: [
+      [
+        { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
+        { id: getUId(), title: "Escucha", img: iconoEscucha },
+        { id: getUId(), title: "Pares", img: iconopares },
       ],
-    },
-  ],
+      [
+        { id: getUId(), title: "Otoño", img: iconoOtono },
+        { id: getUId(), title: "Escritura", img: iconoEscritura },
+        { id: getUId(), title: "Armar", img: iconoArmar },
+      ],
+    ],
+  },
+  {
+    id: getUId(),
+    title: "R",
+    list: [
+      [
+        { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
+        { id: getUId(), title: "Escucha", img: iconoEscucha },
+        { id: getUId(), title: "Pares", img: iconopares },
+      ],
+      [
+        { id: getUId(), title: "Otoño", img: iconoOtono },
+        { id: getUId(), title: "Escritura", img: iconoEscritura },
+        { id: getUId(), title: "Armar", img: iconoArmar },
+      ],
+    ],
+  },
+  {
+    id: getUId(),
+    title: "1L",
+    especial: true,
+    list: [
+      [
+        { id: getUId(), title: "Pares", img: iconopares },
+        { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
+        { id: getUId(), title: "Escucha", img: iconoEscucha },
+      ],
+      [
+        { id: getUId(), title: "Otoño", img: iconoOtono },
+        { id: getUId(), title: "Escritura", img: iconoEscritura },
+        { id: getUId(), title: "Armar", img: iconoArmar },
+      ],
+    ],
+  },
 ];
 
 export const letterBf = [

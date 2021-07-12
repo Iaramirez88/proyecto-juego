@@ -177,6 +177,10 @@
   width: 75px;
 }
 
+.moduleContainer {
+  margin-bottom: 2em;
+}
+
 @media screen and (min-width: 1200px) {
   .cardListGame {
     width: 30%;
