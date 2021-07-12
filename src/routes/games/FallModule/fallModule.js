@@ -20,7 +20,7 @@ const FallModule = () => {
   const history = useHistory();
   let { id } = useParams();
   const [playResponseAudio] = useResponseAudio();
-  const [getDataLocal] = useLocalStorage("instructions");
+  const { getDataLocal } = useLocalStorage("instructions");
   const [state, setState] = useState({
     words: [],
     current: [],

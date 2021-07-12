@@ -20,13 +20,13 @@ const reducer = (state, action) => {
 
 const initialState = {
   points: 0,
+  folder: "",
 };
 
 export const GameContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [getDataLocal, setDataLocal, batchSave] =
-    useLocalStorage("instructions");
+  const { batchSave } = useLocalStorage("instructions");
 
   useEffect(() => {
     batchSave(modulesInstructions);

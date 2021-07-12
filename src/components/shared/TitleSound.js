@@ -13,8 +13,7 @@ export const TitleSound = ({
   ModalChild,
   module,
 }) => {
-  const [getDataLocal, setDataLocal, batchSave] =
-    useLocalStorage("instructions");
+  const { getDataLocal, setDataLocal } = useLocalStorage("instructions");
   const display = getDataLocal(module);
   const dimension = useDimesions();
   const [showModal, setShowModal] = useState(false);

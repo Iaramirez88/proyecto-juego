@@ -16,5 +16,5 @@ export const useLocalStorage = (item) => {
     return;
   };
 
-  return [getDataLocal, setDataLocal, batchSave];
+  return { getDataLocal, setDataLocal, batchSave };
 };
