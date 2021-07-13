@@ -13,6 +13,7 @@ import "../../../assets/styles/fall-module.css";
 import { useTransitionGame } from "../../../hooks/useTransitionGame";
 import { useResponseAudio } from "../../../hooks/usePlaySounds";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
+import FallInstructions from "../../../components/games/FallModule/FallInstructions";
 
 const FallModule = () => {
   useSetBackGround(background);
@@ -96,6 +97,8 @@ const FallModule = () => {
         title="Selecciona la misma vocal"
         titleSound={instruction}
         listAudio={[instruction, vocalA]}
+        ModalChild={FallInstructions}
+        module="fall"
       />
       <div className={`containerBox fmContainerBox`}>
         <div className="fmItem fmPrincipalLetter">
