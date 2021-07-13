@@ -132,7 +132,7 @@ header img {
 }
 
 .mdButtonContainer {
-  height: 42px;
+  height: 50px;
 }
 
 @media screen and (min-width: 1440px) {
@@ -201,6 +201,11 @@ header img {
 
   body {
     min-height: 725px;
+  }
+
+  .buttonClose {
+    width: 2.5em !important;
+    height: 2.5em !important;
   }
 }
 @media screen and (max-width: 325px) {

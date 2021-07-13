@@ -212,6 +212,7 @@ $box-shadow: 0px 3px 6px 2px
     left: 0
 
 .playButton
+    cursor: pointer
     position: absolute
     background: #64c313
     color: white
@@ -230,6 +231,38 @@ $box-shadow: 0px 3px 6px 2px
         right: -20px
         top: 15px
         z-index: 10
+
+.viRow
+    margin: 0 1em
+    width: 33%
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+    align-items: center
+
+.viContainer
+    display: flex
+    justify-content: center
+    align-items: center
+    margin: auto
+    padding: 2em 2em 0 2em
+
+.viBox
+    background: #52c211
+    width: 8em
+    height: 5em
+    border-radius: 10px
+    box-shadow: 0px 4px 7px 0px #7c7c7c
+    margin-top: 1em
+
+.viImage
+    width: 9em
+    height: 9em
+
+.viHand
+    width: 40px
+    height: auto
+    position: absolute
 
 @media screen and (max-width: 992px)
     .titleGame
@@ -261,6 +294,13 @@ $box-shadow: 0px 3px 6px 2px
 
     .containerAudio
         margin: 0 .5em
+
+    .viImage
+        width: 7em
+        height: 7em
+
+    .viBox
+        height: 3.5em
 
 @media screen and (max-width: 768px) and (orientation: landscape)
     .containerBox
@@ -305,6 +345,26 @@ $box-shadow: 0px 3px 6px 2px
     .aiModalItem
         width: 60px
         height: 130px
+
+    .viContainer
+        flex-wrap: wrap
+        padding: 0 2em 0 2em
+
+    .viImage
+        width: 4.5em
+        height: 4.5em
+
+    .playButton
+        font-size: 1.2em
+
+    .viBox
+        height: 2em
+
+    .viHand
+        width: 25px
+
+    #viWordOptions
+        order: 3
 
 @media screen and (max-width: 325px)
     .titleGame

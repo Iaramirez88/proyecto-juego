@@ -14,6 +14,8 @@ import "../../assets/styles/games.css";
 import "../../assets/styles/main.css";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
 import backGround from "../../assets/images/background_tramas.svg";
+import TitleSound from "../../components/shared/TitleSound";
+import VocalIntructions from "../../components/games/VocalModule/VocalIntructions";
 
 const title = "Coloca la palabra al frente de cada imagen correspondiente";
 const Games = () => {
@@ -21,7 +23,6 @@ const Games = () => {
   useSetBackGround(backGround);
 
   const [position, setPosition] = useState(0);
-  const [isLevelUp, setIsLevelUp] = useState(false);
   const [statusWord, setStatusWord] = useState({
     word1: false,
     word2: false,
@@ -33,10 +34,15 @@ const Games = () => {
   const boxResponse1 = useRef(null);
   const boxResponse2 = useRef(null);
 
+  const [audio] = useState(new Audio(titleSound));
+  const [playing, setPlaying] = useState(false);
+
   const playSound = (sound) => {
     let snd = new Audio(sound);
     snd.play();
   };
+
+  const toggle = () => setPlaying(!playing);
 
   useEffect(() => {
     if (statusWord.word1 && statusWord.word2) {
@@ -69,12 +75,21 @@ const Games = () => {
   }, [transition]);
 
   useEffect(() => {
+    playing ? audio.play() : audio.pause();
+  }, [playing]);
+
+  useEffect(() => {
     let x = getData();
     x.then(function (data) {
       setList(data);
       setCurrent(data[0]);
       setIsLoading(true);
     });
+
+    audio.addEventListener("ended", () => setPlaying(false));
+    return () => {
+      audio.removeEventListener("ended", () => setPlaying(false));
+    };
   }, []);
 
   if (!isLoading) return <div></div>;
@@ -85,17 +100,13 @@ const Games = () => {
       style={transition ? { overflowX: "hidden" } : {}}
     >
       <Header></Header>
-      <div className="titleGame">
-        <h2>
-          <img
-            onClick={() => playSound(titleSound)}
-            src={iconSound}
-            alt="iconSound"
-          />
-          <audio src={titleSound} autoPlay />
-          {title}
-        </h2>
-      </div>
+      <TitleSound
+        title="Coloca la palabra al frente de cada imagen correspondiente"
+        titleSound={titleSound}
+        listAudio={[titleSound]}
+        ModalChild={VocalIntructions}
+        module="vocabulary"
+      />
       <div className="containerBox">
         <div className="containerOptions">
           <div className="cardImage">
@@ -112,7 +123,7 @@ const Games = () => {
             position="word1"
           />
         </div>
-        <div className={`${isLevelUp ? "hidden" : ""} containerWords`}>
+        <div className={`containerWords`}>
           <DragComponent
             word={current.word2.name}
             divResponse={[boxResponse1, boxResponse2]}
