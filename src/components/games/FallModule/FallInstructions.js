@@ -35,46 +35,20 @@ const FallInstructions = ({ display }) => {
 
   return (
     <div>
-      <div style={styles.container}>
-        <div style={styles.row}>
-          <img alt="leaf" src={leaf} style={styles.option} />
+      <div className="fiContainer">
+        <div className="fiRow">
+          <img alt="leaf" src={leaf} className="fiOption" />
         </div>
-        <div style={styles.row}>
-          <img alt="leaf" src={image} style={styles.option} />
-          <img alt="hand" id="fiHand" src={hand} style={styles.hand} />
+        <div className="fiRow">
+          <img alt="leaf" src={image} className="fiOption" />
+          <img alt="hand" id="fiHand" src={hand} className="fiHand" />
         </div>
-        <div style={styles.row}>
-          <img alt="leaf" src={leaf} style={styles.option} />
+        <div className="fiRow">
+          <img alt="leaf" src={leaf} className="fiOption" />
         </div>
       </div>
     </div>
   );
-};
-
-const styles = {
-  option: {
-    width: "120px",
-    height: "80px",
-  },
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexWrap: "wrap",
-    paddingTop: "1em",
-  },
-  row: {
-    display: "flex",
-    justifyContent: "center",
-    width: "50%",
-    position: "relative",
-  },
-  hand: {
-    width: "50px",
-    height: "50px",
-    position: "absolute",
-    top: "30px",
-  },
 };
 
 export default FallInstructions;

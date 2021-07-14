@@ -12,7 +12,8 @@ const VocalIntructions = ({ display }) => {
       if (dimension.width <= 480) return { x: -45, y: -42 };
       if (dimension.width <= 768) return { x: -120, y: 60 };
       if (dimension.width <= 992) return { x: -120, y: 84 };
-      return { x: -150, y: 95 };
+      if (dimension.width <= 1200) return { x: -150, y: 95 };
+      return { x: -169, y: 120 };
     };
 
     const moveSquare = () => {
