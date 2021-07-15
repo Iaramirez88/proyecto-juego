@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useDimesions } from "../../hooks/useDimesion";
 import { iconOpenModule, iconCloseModule } from "../../utils/imagesResources";
 import "../../assets/styles/home.css";
+import building from "../../assets/images/enConstruccion.svg";
 
 import { useHistory } from "react-router-dom";
 import { useRamdonId } from "../../hooks/useRamdonId";
@@ -14,15 +15,15 @@ const HomeGridComponent = ({ mainTitle, list, mainImage, moduleOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { setDataLocal } = useLocalStorage("module");
   const panelRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const gridCardRef = useRef(null);
   const { stateContext, dispatch } = useContext(GameContext);
 
   useEffect(() => {
-    if (stateContext.moduleOpen === moduleOpen) setIsOpen(true);
-  }, [stateContext, moduleOpen]);
-
-  useEffect(() => {
     const panel = panelRef.current;
-    panel.style.maxHeight = isOpen ? panel.scrollHeight + "px" : 0;
+    const { height } = gridCardRef.current.getBoundingClientRect();
+    console.log(panelRef.current.scrollHeight);
+    panel.style.maxHeight = isOpen ? height + "px" : 0;
   }, [isOpen]);
 
   useEffect(() => {
@@ -56,7 +57,7 @@ const HomeGridComponent = ({ mainTitle, list, mainImage, moduleOpen }) => {
         />
       </div>
       <div className="panel" ref={panelRef}>
-        <div className="gridCardList">
+        <div ref={gridCardRef} className="gridCardList">
           {list.map((item) => (
             <div
               className={`cardListGame ${item.especial ? "cardEspecial" : ""}`}
@@ -78,6 +79,9 @@ const HomeGridComponent = ({ mainTitle, list, mainImage, moduleOpen }) => {
               ))}
             </div>
           ))}
+          <div className="homeBuilding">
+            <img alt="building" src={building} />
+          </div>
         </div>
         <img
           className="iconAccordion iconCloseBotton"
