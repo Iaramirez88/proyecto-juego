@@ -121,6 +121,7 @@ const Games = () => {
             word={current.word1.name}
             styles="containerResponse"
             position="word1"
+            blocked={statusWord.word1}
           />
         </div>
         <div className={`containerWords`}>
@@ -164,6 +165,7 @@ const Games = () => {
             word={current.word2.name}
             styles="containerResponse"
             position="word2"
+            blocked={statusWord.word2}
           />
         </div>
       </div>

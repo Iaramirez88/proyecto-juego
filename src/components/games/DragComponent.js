@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useReducer } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useRef,
+  useReducer,
+  useState,
+} from "react";
 import gsap from "gsap";
 import { goodAnswer, wrongAnswer } from "../../utils/sounds";
 import { GameContext } from "../../context/GameContext";
@@ -6,6 +12,7 @@ import {
   reducerDragComponent,
   initialize,
 } from "../../reducer/components/games/dragComponentReducer";
+import { useSetTimer } from "../../hooks/useSetTimer";
 
 const DragComponent = ({
   children,
@@ -17,8 +24,14 @@ const DragComponent = ({
   const containerRef = useRef(null);
   const dragItemRef = useRef(null);
   const { dispatch } = useContext(GameContext);
-
   const [state, dispatchDrag] = useReducer(reducerDragComponent, initialize());
+
+  // const print = () => {
+  //   let dragger = dragItemRef.current;
+
+  // };
+
+  // const [setTimer] = useSetTimer(print, 2000);
 
   useEffect(() => {
     let dragitem = dragItemRef.current;
@@ -53,126 +66,149 @@ const DragComponent = ({
     container.addEventListener("mousemove", drag, false);
 
     function dragStart(e) {
-      dragItem.classList.add("active");
-      dragItem.onselectstart = function () {
-        return false;
-      };
-      let initialX, initialY;
-      let active;
-
-      if (e.type === "touchstart") {
-        initialX = e.touches[0].clientX - state.xOffset;
-        initialY = e.touches[0].clientY - state.yOffset;
-      } else {
-        initialX = e.clientX - state.xOffset;
-        initialY = e.clientY - state.yOffset;
+      if (!state.lockResponse) {
+        dragItem.classList.add("active");
+        dragItem.onselectstart = function () {
+          return false;
+        };
+        let initialX, initialY;
+        let active;
+        if (e.type === "touchstart") {
+          initialX = e.touches[0].clientX - state.xOffset;
+          initialY = e.touches[0].clientY - state.yOffset;
+        } else {
+          initialX = e.clientX - state.xOffset;
+          initialY = e.clientY - state.yOffset;
+        }
+        active = true;
+        currentNode = divResponse.reduce((prev, item) => {
+          let { x, y } = item.current.getBoundingClientRect();
+          let node = dragItem.getBoundingClientRect();
+          if (x === node.x && y === node.y) prev.push(item.current);
+          return prev;
+        }, []);
+        if (currentNode.length > 0) {
+          currentNode[0].classList.remove("containerCorrect");
+          currentNode[0].classList.remove("containerWrong");
+        }
+        dispatchDrag({
+          type: "START_DRAG",
+          data: {
+            initialX,
+            initialY,
+            active,
+          },
+        });
       }
-
-      active = true;
-      currentNode = divResponse.reduce((prev, item) => {
-        let { x, y } = item.current.getBoundingClientRect();
-        let node = dragItem.getBoundingClientRect();
-        if (x === node.x && y === node.y) prev.push(item.current);
-        return prev;
-      }, []);
-      if (currentNode.length > 0) {
-        currentNode[0].classList.remove("containerCorrect");
-        currentNode[0].classList.remove("containerWrong");
-      }
-      dispatchDrag({
-        type: "START_DRAG",
-        data: {
-          initialX,
-          initialY,
-          active,
-        },
-      });
     }
 
     function dragEnd(e) {
-      dragItem.classList.remove("active");
-      dispatchDrag({
-        type: "END_DRAG",
-        data: {
-          initialX: state.currentX,
-          initialY: state.currentY,
-        },
-      });
-      let node = divResponse.reduce((prev, item) => {
-        if (isInResponse(item.current, dragItem)) prev.push(item.current);
-        return prev;
-      }, []);
-      let snd;
-      let item;
-      if (node.length > 0) {
-        let positionX;
-        let positionY;
-
-        let { left, top } = node[0].getBoundingClientRect();
-        let { x, y } = container.getBoundingClientRect();
-
-        positionX = left - x;
-        positionY = top - y - 13;
-
+      if (!state.lockResponse) {
+        dragItem.classList.remove("active");
         dispatchDrag({
-          type: "SET_DRAG_POSITION",
+          type: "END_DRAG",
           data: {
-            initialY: positionY,
-            yOffset: positionY,
-            currentY: positionY,
-            initialX: positionX,
-            xOffset: positionX,
-            currentX: positionX,
+            initialX: state.currentX,
+            initialY: state.currentY,
           },
         });
-        setTranslate(positionX, positionY, dragItem);
-        let responseWord = node[0].dataset.word;
-        if (word.toLowerCase() === responseWord) {
-          node[0].classList.add("containerCorrect");
-          item = goodAnswer[Math.floor(Math.random() * goodAnswer.length)];
-          snd = new Audio(item);
-          snd.play();
-          if (!state.lockResponse) {
-            dispatch({
-              type: "ADD_POINTS",
-              value: 1,
-            });
-            dispatchDrag({
-              type: "LOCK_RESPONSE",
-              data: {},
-            });
+        let node = divResponse.reduce((prev, item) => {
+          if (isInResponse(item.current, dragItem)) prev.push(item.current);
+          return prev;
+        }, []);
+        let snd;
+        let item;
+        if (node.length > 0) {
+          let positionX;
+          let positionY;
 
-            let index = node[0].dataset.response;
-            setStatusWord({ ...statusWord, [index]: true });
+          let { left, top } = node[0].getBoundingClientRect();
+          let { x, y } = container.getBoundingClientRect();
+
+          positionX = left - x;
+          positionY = top - y - 13;
+
+          dispatchDrag({
+            type: "SET_DRAG_POSITION",
+            data: {
+              initialY: positionY,
+              yOffset: positionY,
+              currentY: positionY,
+              initialX: positionX,
+              xOffset: positionX,
+              currentX: positionX,
+            },
+          });
+          setTranslate(positionX, positionY, dragItem);
+          let responseWord = node[0].dataset.word;
+          if (word.toLowerCase() === responseWord) {
+            node[0].classList.add("containerCorrect");
+            item = goodAnswer[Math.floor(Math.random() * goodAnswer.length)];
+            snd = new Audio(item);
+            snd.play();
+            if (!state.lockResponse) {
+              dispatch({
+                type: "ADD_POINTS",
+                value: 1,
+              });
+              dispatchDrag({
+                type: "LOCK_RESPONSE",
+                data: {},
+              });
+
+              let index = node[0].dataset.response;
+              setStatusWord({ ...statusWord, [index]: true });
+            }
+          } else {
+            node[0].classList.add("containerWrong");
+            item = wrongAnswer[Math.floor(Math.random() * wrongAnswer.length)];
+            snd = new Audio(item);
+            snd.play();
+            if (!state.lockResponse) {
+              dispatch({
+                type: "ADD_POINTS",
+                value: -1,
+              });
+            }
+            setTimeout(() => {
+              dispatchDrag({
+                type: "WRONG_ANSWER",
+                data: {
+                  actualX: state.currentX,
+                  actualY: state.currentY,
+                },
+              });
+              node[0].classList.remove("containerWrong");
+            }, 2000);
           }
-        } else {
-          node[0].classList.add("containerWrong");
-          item = wrongAnswer[Math.floor(Math.random() * wrongAnswer.length)];
-          snd = new Audio(item);
-          snd.play();
-          if (!state.lockResponse) {
-            dispatch({
-              type: "ADD_POINTS",
-              value: -1,
-            });
-          }
-          setTimeout(() => {
-            dispatchDrag({
-              type: "WRONG_ANSWER",
-              data: {
-                actualX: state.currentX,
-                actualY: state.currentY,
-              },
-            });
-            node[0].classList.remove("containerWrong");
-          }, 2000);
+          return;
         }
       }
+      // gsap.fromTo(
+      //   dragItem,
+      //   { x: state.currentX, y: state.currentY },
+      //   {
+      //     x: 0,
+      //     y: 0,
+      //     duration: 1,
+      //     onComplete: function () {
+      //       dispatchDrag({
+      //         type: "WRONG_ANSWER",
+      //         data: {
+      //           actualX: null,
+      //           actualY: null,
+      //         },
+      //       });
+      //     },
+      //   }
+      // );
     }
 
     function drag(e) {
-      if (state.active) {
+      if (state.active && e.cancelable && !state.lockResponse) {
         e.preventDefault();
+
+        e.stopPropagation();
         let currentX;
         let currentY;
         if (e.type === "touchmove") {
@@ -239,30 +275,34 @@ function isInResponse(containerResponse, dragItem) {
   let { top, right, left, bottom } = containerResponse.getBoundingClientRect();
   let positionResponse = dragItem.getBoundingClientRect();
   let node;
-  if (left <= positionResponse.left && right >= positionResponse.left) {
-    if (top <= positionResponse.top && bottom >= positionResponse.top) {
-      // setear posicion de respuesta
-      node = containerResponse;
+  let blocked = containerResponse.dataset.blocked;
+  console.log();
+  if (blocked === "false") {
+    if (left <= positionResponse.left && right >= positionResponse.left) {
+      if (top <= positionResponse.top && bottom >= positionResponse.top) {
+        // setear posicion de respuesta
+        node = containerResponse;
+      } else if (
+        top <= positionResponse.bottom &&
+        bottom >= positionResponse.bottom
+      ) {
+        // setear posicion respuesta
+        node = containerResponse;
+      }
     } else if (
-      top <= positionResponse.bottom &&
-      bottom >= positionResponse.bottom
+      left <= positionResponse.right &&
+      right >= positionResponse.right
     ) {
-      // setear posicion respuesta
-      node = containerResponse;
-    }
-  } else if (
-    left <= positionResponse.right &&
-    right >= positionResponse.right
-  ) {
-    if (top <= positionResponse.top && bottom >= positionResponse.top) {
-      // setear posicion de respuesta
-      node = containerResponse;
-    } else if (
-      top <= positionResponse.bottom &&
-      bottom >= positionResponse.bottom
-    ) {
-      // setear posicion respuesta
-      node = containerResponse;
+      if (top <= positionResponse.top && bottom >= positionResponse.top) {
+        // setear posicion de respuesta
+        node = containerResponse;
+      } else if (
+        top <= positionResponse.bottom &&
+        bottom >= positionResponse.bottom
+      ) {
+        // setear posicion respuesta
+        node = containerResponse;
+      }
     }
   }
   return node;
