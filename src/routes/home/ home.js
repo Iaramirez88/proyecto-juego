@@ -63,25 +63,27 @@ const HomeGridComponent = ({ mainTitle, list, mainImage, moduleOpen }) => {
               className={`cardListGame ${item.especial ? "cardEspecial" : ""}`}
               key={item.id}
             >
+              {!item.active && <div className="folderNoAvailable"></div>}
               <h2>{item.title}</h2>
               {item.list.map((e) => (
                 <div className="rowList" key={getId()}>
                   {e.map((it) => (
                     <IconItem
                       key={it.id}
-                      styles={`itemList ${it.link ? "" : "disabled"}`}
-                      title={it.title}
-                      img={it.img}
+                      styles={`itemList ${
+                        it.link && it.active ? "" : "disabled"
+                      }`}
                       link={it.letter ? `${it.link}/${it.letter}` : it.link}
+                      {...it}
                     />
                   ))}
                 </div>
               ))}
             </div>
           ))}
-          <div className="homeBuilding">
+          {/* <div className="homeBuilding">
             <img alt="building" src={building} />
-          </div>
+          </div> */}
         </div>
         <img
           className="iconAccordion iconCloseBotton"
@@ -96,12 +98,13 @@ const HomeGridComponent = ({ mainTitle, list, mainImage, moduleOpen }) => {
   );
 };
 
-export const IconItem = ({ img, title, styles, link }) => {
+export const IconItem = ({ img, title, styles, link, active }) => {
   const history = useHistory();
+
   return (
     <div className={styles}>
       <img
-        onClick={link ? () => history.push(link) : null}
+        onClick={link && active ? () => history.push(link) : null}
         alt={title.toLowerCase()}
         width="40px"
         height="auto"

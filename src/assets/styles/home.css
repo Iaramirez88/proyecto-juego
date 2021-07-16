@@ -224,6 +224,22 @@
     height: auto;
   }
 }
+.disabled {
+  opacity: 0.5;
+}
+.disabled img:active {
+  transform: none !important;
+}
+
+.folderNoAvailable {
+  background: #e1e1e1;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0.7;
+  top: 0;
+}
+
 @media screen and (max-width: 992px) {
   .listContainerItem {
     display: flex;
