@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import iconBars from "../../assets/images/menuMovil.svg";
 import game from "../../assets/images/juegoMenu.svg";
 import user from "../../assets/images/perfilMenu.svg";
+import { GameContext } from "../../context/GameContext";
 import {
   caraOso,
   // caraDino,
@@ -22,9 +23,12 @@ import {
   // letterJCH,
   vocalAUList,
 } from "./elements";
+import { useHistory } from "react-router";
 
 const Home = () => {
   const screen = useDimesions();
+  const { stateContext } = useContext(GameContext);
+  const history = useHistory();
 
   useEffect(() => {
     document.documentElement.style.backgroundImage = "none";
@@ -34,9 +38,10 @@ const Home = () => {
 
   return (
     <div>
-      <div className="homeHeader">
-        <span>ARTWORKOALA PLAYAPP</span>
-        {screen.width >= 768 && (
+      <div className={`homeHeader ${stateContext.user ? "userLogged" : ""}`}>
+        <span>ARTWORKOALA PLAY</span>
+
+        {stateContext.user && screen.width >= 768 && (
           <div className="homeHeaderIcons">
             <img
               className="active"
@@ -46,6 +51,12 @@ const Home = () => {
               height="auto"
             />
             <img alt="iconUser" src={user} width="40px" height="auto" />
+          </div>
+        )}
+        {!stateContext.user && screen.width >= 768 && (
+          <div className="sesionButton">
+            <div onClick={() => history.push("sesion")}>Iniciar Sesión</div>
+            <div>Registrase</div>
           </div>
         )}
         {screen.width < 768 && (

@@ -22,7 +22,6 @@ const HomeGridComponent = ({ mainTitle, list, mainImage, moduleOpen }) => {
   useEffect(() => {
     const panel = panelRef.current;
     const { height } = gridCardRef.current.getBoundingClientRect();
-    console.log(panelRef.current.scrollHeight);
     panel.style.maxHeight = isOpen ? height + "px" : 0;
   }, [isOpen]);
 

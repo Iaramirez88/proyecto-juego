@@ -20,6 +20,13 @@ const reducer = (state, action) => {
       };
     }
 
+    case "SET_USER": {
+      return {
+        ...state,
+        user: action.data,
+      };
+    }
+
     default:
       return state;
   }
@@ -30,6 +37,7 @@ const initialState = () => {
   return {
     points: 0,
     moduleOpen: !data ? -1 : data["name"],
+    user: null,
   };
 };
 
@@ -37,10 +45,31 @@ export const GameContextProvider = ({ children }) => {
   const [stateContext, dispatch] = useReducer(reducer, initialState());
 
   const { batchSave } = useLocalStorage("instructions");
-
+  const { getData } = useLocalStorage("user");
   useEffect(() => {
     batchSave(modulesInstructions);
   }, [batchSave]);
+
+  useEffect(() => {
+    const user = getData();
+    if (user) {
+      fetch("http://localhost:8989/api/auth/logged", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.code === 200) {
+            dispatch({
+              type: "SET_USER",
+              data: user,
+            });
+          }
+        });
+    }
+  }, []);
 
   return (
     <GameContext.Provider value={{ stateContext, dispatch }}>

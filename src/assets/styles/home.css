@@ -154,8 +154,11 @@
   background: #356cfd;
 }
 
+.homeHeaderIcons {
+  margin-left: 15%;
+}
 .homeHeaderIcons img.active {
-  background: #006db2;
+  background: #006cb2;
   height: 80px;
   width: 3em;
   padding: 0 2em;
@@ -163,7 +166,7 @@
 }
 .homeHeaderIcons img {
   opacity: 0.3;
-  background: #006db2;
+  background: #006cb2;
   height: 80px;
   width: 3em;
   padding: 0 2em;
@@ -184,6 +187,27 @@
 .homeBuilding img {
   width: 250px;
   height: 200px;
+}
+
+.sesionButton {
+  display: flex;
+  width: 45%;
+  justify-content: space-around;
+}
+.sesionButton div {
+  cursor: pointer;
+  background: #006db2;
+  color: white;
+  height: 80px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  width: 50%;
+  font-size: 2em;
+  margin: 0 10px;
+}
+.sesionButton div:active {
+  transform: scale(0.9);
 }
 
 @media screen and (min-width: 1200px) {
@@ -240,11 +264,10 @@
 @media screen and (min-width: 768px) {
   .homeHeader {
     position: relative;
-    justify-content: start;
+    justify-content: space-between;
   }
-  .homeHeader div {
-    position: absolute;
-    left: 45%;
+  .homeHeader.userLogged {
+    justify-content: flex-start !important;
   }
 }
 @media screen and (max-width: 480px) {
