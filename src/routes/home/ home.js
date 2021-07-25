@@ -72,7 +72,6 @@ const HomeGridComponent = ({ mainTitle, list, mainImage, moduleOpen }) => {
                       styles={`itemList ${
                         it.link && it.active ? "" : "disabled"
                       }`}
-                      link={it.letter ? `${it.link}/${it.letter}` : it.link}
                       {...it}
                     />
                   ))}
@@ -97,13 +96,14 @@ const HomeGridComponent = ({ mainTitle, list, mainImage, moduleOpen }) => {
   );
 };
 
-export const IconItem = ({ img, title, styles, link, active }) => {
+export const IconItem = ({ img, title, styles, link, active, letter }) => {
   const history = useHistory();
-
+  const linkUrl = letter ? `${link}/${letter}` : link;
+  console.log(linkUrl);
   return (
     <div className={styles}>
       <img
-        onClick={link && active ? () => history.push(link) : null}
+        onClick={link && active ? () => history.push(linkUrl) : null}
         alt={title.toLowerCase()}
         width="40px"
         height="auto"
