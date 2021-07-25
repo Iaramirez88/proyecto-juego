@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ButtonDiv from "../Buttons";
 
 const ResetPassword = ({ onSubmit, titleButton }) => {
@@ -33,6 +33,13 @@ const ResetPassword = ({ onSubmit, titleButton }) => {
     }
     onSubmit(state);
   };
+
+  // useEffect(() => {
+
+  //   return () => {
+
+  //   }
+  // }, [])
 
   return (
     <div className="smFormContainer">

@@ -9,9 +9,9 @@ import RoutesSign from "./routes";
 const SignInModule = () => {
   useSetBackGround(null);
   const dimension = useDimesions();
-
   const containerRef = useRef(null);
   const titleKoalaRef = useRef(null);
+  const [hideTitle, setHideTitle] = useState(false);
 
   useEffect(() => {
     let container = containerRef.current;
@@ -47,12 +47,18 @@ const SignInModule = () => {
   return (
     <div className="containerSign" ref={containerRef}>
       <div className="rowSign" id="first-screen">
-        <img alt="koala-logo" id="sign-logo-koala" src={logoKoala} />
-        <div ref={titleKoalaRef}>
-          <p>ARTWORKOALA</p>
-          <p>PLAY</p>
+        <div className="row50 suLogo">
+          <img alt="koala-logo" id="sign-logo-koala" src={logoKoala} />
+          {hideTitle && (
+            <div ref={titleKoalaRef}>
+              <p>ARTWORKOALA</p>
+              <p>PLAY</p>
+            </div>
+          )}
         </div>
-        <RoutesSign></RoutesSign>
+        <div className="row50">
+          <RoutesSign></RoutesSign>
+        </div>
       </div>
     </div>
   );

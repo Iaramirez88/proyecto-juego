@@ -106,7 +106,7 @@ const SingIn = () => {
         <hr></hr>
         <ButtonDiv
           title="CREAR CUENTA NUEVA"
-          handler={() => history.push(`registro`)}
+          handler={() => history.push("terminos")}
           classStyle="smButton smNewAccount"
         />
       </div>

@@ -24,6 +24,7 @@ import {
   vocalAUList,
 } from "./elements";
 import { useHistory } from "react-router";
+import HeaderHome from "../../components/shared/HeaderHome";
 
 const Home = () => {
   const screen = useDimesions();
@@ -38,31 +39,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className={`homeHeader ${stateContext.user ? "userLogged" : ""}`}>
-        <span>ARTWORKOALA PLAY</span>
-
-        {stateContext.user && screen.width >= 768 && (
-          <div className="homeHeaderIcons">
-            <img
-              className="active"
-              alt="iconGame"
-              src={game}
-              width="40px"
-              height="auto"
-            />
-            <img alt="iconUser" src={user} width="40px" height="auto" />
-          </div>
-        )}
-        {!stateContext.user && screen.width >= 768 && (
-          <div className="sesionButton">
-            <div onClick={() => history.push("sesion")}>Iniciar Sesión</div>
-            <div>Registrase</div>
-          </div>
-        )}
-        {screen.width < 768 && (
-          <img alt="barsMenu" src={iconBars} width="40px" height="auto" />
-        )}
-      </div>
+      <HeaderHome />
       <div style={{ padding: "3em" }}>
         <h1 className="mainTitle">Abecedario</h1>
         <HomeGridComponent

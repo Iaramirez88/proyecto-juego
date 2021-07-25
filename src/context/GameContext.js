@@ -52,9 +52,10 @@ export const GameContextProvider = ({ children }) => {
 
   useEffect(() => {
     const user = getData();
+    console.log(user);
     if (user) {
       fetch("http://localhost:8989/api/auth/logged", {
-        method: "POST",
+        method: "GET",
         headers: {
           Authorization: `Bearer ${user.token}`,
         },

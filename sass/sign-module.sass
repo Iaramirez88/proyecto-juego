@@ -88,7 +88,7 @@
     flex-wrap: wrap
     justify-content: center
     align-items: center
-    width: 500px
+    width: 100%
     margin: auto
 
 .smBoxButton
@@ -133,18 +133,147 @@
     border-radius: 1em
 
 .snTerms
-    position: absolute
-    top: 0
     color: white
-    background: base.$koalaBackground
-    height: 90%
-    width: 90%
-    border-radius: 2em
-
+    background: #2fb5de
+    z-index: 100
+    position: initial
+    width: 50%
     h1
         color: base.$cardColor
+
+    .contentTerm
+        margin-top: 2em
+
+.coverTypeTutor
+    width: 100%
+    top: 0
+    background: white
+    height: 100%
+    position: absolute
+    z-index: 50
 
 .snFooter
     width: 70%
     margin: 3em auto 0
     font-size: 1.5em !important
+
+.smBack
+    background: base.$cardColor
+    box-shadow: 0px 3px 6px 2px base.$shadowBoxColor
+
+.smVerifyBox
+    height: 80px
+    width: 12em
+    margin: 2em auto 0
+    background: #52c211
+    color: white
+    border-radius: 1em
+    font-size: 2em
+    display: flex
+    align-items: center
+    justify-content: center
+
+.smBoxRedirect
+    height: 200px
+    width: 13em
+    padding: 0 20px
+
+.suBoxHeader
+    margin-top: 2em
+    display: flex
+    justify-content: space-between
+    height: 60px
+    padding: 0 50px
+
+.suTitleCuenta
+    background: base.$shadowCheckIcon
+    height: 40px
+    color: white
+    font-size: 2em
+    border-radius: 1em
+    padding: 0 1em
+    display: flex
+    align-items: center
+    box-shadow: 0px 2px 0px 1px #cbcbcb
+
+.suInfoIcon
+    color: white
+    background: base.$cardColor
+    height: 50px
+    width: 50px
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: 50%
+    font-size: 3.5em
+    box-shadow: -1px 1px 0px 1px base.$koalaBackground
+
+.suRowInfoPay
+    display: flex
+    justify-content: space-between
+
+.suBtnPay
+    background: #518930
+    display: flex
+    align-items: center
+    justify-content: center
+    color: white
+    border-radius: 1em
+    height: 40px
+    font-size: 1.5em
+    width: 80%
+
+.suTitleInfo
+    font-size: 2em
+
+.rowFlex
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+    p
+        font-size: 1.2em
+        font-family: 'Ghotic'
+
+.suBoxRow
+    margin-top: 1em
+
+@media screen and ( max-width: 992px )
+    .snTerms
+        position: absolute
+        top: 0
+        height: 100%
+        overflow: hidden
+        padding: 0 10%
+        width: 100%
+
+@media screen and ( min-width: 992px )
+    .coverTypeTutor
+        display: flex
+        justify-content: space-around
+        align-items: center
+
+    .logoKoala
+        width: 50%
+    .snTerms
+        width: 40%
+        height: 95%
+        margin: 5%
+        border-radius: 2em
+        .contentTerm
+            font-size: 1.5em
+            padding: 0 3em
+
+@media screen and ( min-width: 768px )
+    .rowSign
+        display: flex
+
+        .row50
+            width: 50%
+
+        img
+            width: 55%
+    .suLogo
+        display: flex
+        justify-content: center
+        justify-items: center

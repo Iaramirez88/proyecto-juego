@@ -9,6 +9,7 @@ import WrittingScreen from "./games/writting";
 import PairWords from "./games/pairWords";
 import FallModule from "./games/FallModule/fallModule";
 import SignInModule from "./signIn";
+import ScreenUser from "./home/ScreenUser";
 
 const Routes = () => {
   return (
@@ -22,6 +23,7 @@ const Routes = () => {
         <Route path="/pares" component={PairWords} />
         <Route path="/otoño/:id" component={FallModule} />
         <Route path="/sesion" component={SignInModule} />
+        <Route path="/mi-cuenta" component={ScreenUser} />
         <Route path="/" component={Home} />
       </Switch>
     </Router>

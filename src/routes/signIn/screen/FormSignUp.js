@@ -1,10 +1,14 @@
-import React, { useState } from "react";
-import { useParams } from "react-router";
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router";
 import btnNext from "../../../assets/images/botonNext.svg";
+import ButtonDiv from "../../../components/Buttons";
 import ResetPassword from "../../../components/forms/resetPassword";
+import { validateEmail } from "../../../utils/tools";
 
 const FormSignUp = () => {
   const { id } = useParams();
+  const history = useHistory();
+
   const [state, setState] = useState({
     name: "",
     email: "",
@@ -20,12 +24,18 @@ const FormSignUp = () => {
 
   const handlerUser = () => {
     if (!state.name && !state.email) {
-      setState({
+      return setState({
         ...state,
         error: true,
         message: "Los campos son requeridos",
       });
-      return;
+    }
+    if (!validateEmail(state.email)) {
+      return setState({
+        ...state,
+        error: true,
+        message: "Correo invalido",
+      });
     }
     setState({
       ...state,
@@ -33,9 +43,29 @@ const FormSignUp = () => {
     });
   };
 
-  const handlerPassword = ({ pass }) => {
+  const handlerPassword = async ({ pass }) => {
     setState({ ...state, step: 2 });
-    console.log({ ...state, pass });
+    let data = {
+      username: state.username,
+      password: state.password,
+      idtipotutor: id,
+      email: state.email,
+      idplan: 1,
+    };
+    const request = await fetch("", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json;",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const response = request.json();
+    console.log(response);
+  };
+
+  const onBackForm = () => {
+    setState({ ...state, step: 0 });
   };
 
   return (
@@ -72,7 +102,14 @@ const FormSignUp = () => {
         </div>
       )}
       {state.step === 1 && (
-        <ResetPassword titleButton="CREAR CUENTA" onSubmit={handlerPassword} />
+        <div>
+          <ResetPassword onSubmit={handlerPassword} />
+          <ButtonDiv
+            title="REGRESAR"
+            handler={() => onBackForm()}
+            classStyle="smButton smBoxButton smBack"
+          />
+        </div>
       )}
       {state.step === 2 && (
         <div className="snNotification">
