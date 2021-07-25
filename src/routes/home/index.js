@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import iconBars from "../../assets/images/menuMovil.svg";
 import game from "../../assets/images/juegoMenu.svg";
 import user from "../../assets/images/perfilMenu.svg";
+import { GameContext } from "../../context/GameContext";
 import {
   caraOso,
   // caraDino,
@@ -22,9 +23,13 @@ import {
   // letterJCH,
   vocalAUList,
 } from "./elements";
+import { useHistory } from "react-router";
+import HeaderHome from "../../components/shared/HeaderHome";
 
 const Home = () => {
   const screen = useDimesions();
+  const { stateContext } = useContext(GameContext);
+  const history = useHistory();
 
   useEffect(() => {
     document.documentElement.style.backgroundImage = "none";
@@ -34,24 +39,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className="homeHeader">
-        <span>ARTWORKOALA PLAYAPP</span>
-        {screen.width >= 768 && (
-          <div className="homeHeaderIcons">
-            <img
-              className="active"
-              alt="iconGame"
-              src={game}
-              width="40px"
-              height="auto"
-            />
-            <img alt="iconUser" src={user} width="40px" height="auto" />
-          </div>
-        )}
-        {screen.width < 768 && (
-          <img alt="barsMenu" src={iconBars} width="40px" height="auto" />
-        )}
-      </div>
+      <HeaderHome />
       <div style={{ padding: "3em" }}>
         <h1 className="mainTitle">Abecedario</h1>
         <HomeGridComponent

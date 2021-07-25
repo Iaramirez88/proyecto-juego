@@ -126,15 +126,16 @@
         background: #356cfd
 
 .homeHeaderIcons
+    margin-left: 15%
     img.active
-        background: #006db2
+        background: base.$cardColor
         height: 80px
         width: 3em
         padding: 0 2em
         opacity: 1
     img
         opacity: 0.3
-        background: #006db2
+        background: base.$cardColor
         height: 80px
         width: 3em
         padding: 0 2em
@@ -153,6 +154,29 @@
     img
         width: 250px
         height: 200px
+
+.sesionButton
+    display: flex
+    width: 45%
+    justify-content: space-around
+
+    & div
+        cursor: pointer
+        background: #006db2
+        color: white
+        height: 80px
+        justify-content: center
+        display: flex
+        align-items: center
+        width: 50%
+        font-size: 2em
+        margin: 0 10px
+
+        &:active
+            transform: scale(0.9)
+
+///////////// BEGIN MEDIA QUERY ////////////////////
+
 @media screen and ( min-width: 1200px )
     .cardListGame
         width: 30%
@@ -209,11 +233,11 @@
 @media screen and ( min-width: 768px )
     .homeHeader
         position: relative
-        justify-content: start
+        justify-content: space-between
 
-        div
-            position: absolute
-            left: 45%
+        &.userLogged
+            justify-content: flex-start !important
+
 @media screen and ( max-width: 480px )
     .letterTitle
         .iconAccordion

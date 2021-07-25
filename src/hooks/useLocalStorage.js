@@ -5,6 +5,16 @@ export const useLocalStorage = (item) => {
     localStorage.setItem(item, JSON.stringify(copy));
   };
 
+  const setData = (data) => {
+    localStorage.setItem(item, JSON.stringify(data));
+  };
+
+  const getData = () => {
+    let data = JSON.parse(localStorage.getItem(item));
+    if (!data) return null;
+    return data;
+  };
+
   const getDataLocal = (index) => {
     let data = JSON.parse(localStorage.getItem(item));
     if (!data) return -1;
@@ -17,5 +27,5 @@ export const useLocalStorage = (item) => {
     return;
   };
 
-  return { getDataLocal, setDataLocal, batchSave };
+  return { getDataLocal, setDataLocal, batchSave, setData, getData };
 };

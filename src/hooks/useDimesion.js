@@ -18,6 +18,30 @@ export function useDimesions() {
   return dimesion;
 }
 
+export const useDimesionClient = () => {
+  const [dimension, setDimension] = useState(getDimesionClient());
+  useEffect(() => {
+    const resize = () => {
+      setDimension(getDimesionClient());
+    };
+
+    window.addEventListener("resize", resize);
+
+    return () => {
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  return dimension;
+};
+
+const getDimesionClient = () => {
+  return {
+    width: document.body.clientWidth,
+    height: document.body.clientHeight,
+  };
+};
+
 function getDimesion() {
   return {
     width: window.innerWidth,

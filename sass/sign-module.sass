@@ -1,0 +1,279 @@
+@use 'base'
+
+.containerSign
+    // display: flex
+    // justify-content: center
+    // align-items: center
+    // overflow: hidden
+    // flex-wrap: wrap
+    padding-top: 6em
+
+.rowSign
+    text-align: center
+    img
+        width: 30%,
+        height: auto,
+    p
+        font-size: 2em
+
+.smButton
+    cursor: pointer
+    font-size: 1.5em
+    background: base.$wordBoxColor
+    width: 80%
+    margin: 0 auto 3.5em
+    height: 2.5em
+    color: white
+    border-radius: 1em
+    display: flex
+    justify-content: center
+    align-items: center
+    box-shadow: 0px 3px 6px 2px base.$shadowBoxColor2
+
+    &:active
+        transform: scale(0.9)
+
+.smButtonSesion
+    width: 100%
+    border-radius: .8em
+
+.smRecoverPass
+    font-size: 1.5em
+    color: #006cb2
+    cursor: pointer
+
+    &:active
+        transform: scale(0.9)
+
+.smNewAccount
+    width: 100%
+    background: base.$koalaBackground
+    box-shadow: 0px 3px 6px 2px base.$responseBoxColor
+
+.errorInput
+    box-shadow: 0px 3px 6px 2px base.$shadowCancelIcon !important
+
+.smForm
+    width: 65%
+    margin-bottom: 2em
+
+    & input
+        height: 3em
+        border-radius: .5em
+        border: solid 1px #c2c2c2
+        background: #c1e7fc
+        box-shadow: 0px 2px 4px 1px #8abae9
+        margin-bottom: 1em
+        width: 100%
+
+    & label
+        display: block
+        text-align: left
+        margin-bottom: 3px
+        font-size: 1.5em
+
+.errorText
+    font-size: 17px !important
+    margin: 0 auto 5px
+    top: 5em
+    color: #d04161
+    width: 65%
+
+.smContainerButton
+    display: flex
+    justify-content: center
+
+.smFormContainer
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+    align-items: center
+    width: 100%
+    margin: auto
+
+.smBoxButton
+    position: relative
+    width: 65%
+
+.smBoxTypes
+    padding-top: 4em
+
+.smNotif
+    width: 65%
+    margin: auto
+    background: base.$shadowBoxColor2
+    border-radius: 1em
+    color: white
+    padding: 2em 0em
+
+.smButtonOption
+    background: base.$shadowCheckIcon
+    box-shadow: 0px 3px 6px 2px base.$darkShadowCheckIcon
+
+    &.selected
+        background: base.$shadowBoxColor2
+        box-shadow: 0px 3px 6px 2px base.$wordBoxColor
+    &.disabled
+        opacity: 0.7
+        transform: none
+
+.smBtnNext
+    width: 90px !important
+    cursor: pointer
+    &:active
+        transform: scale(0.9)
+
+.snNotification
+    width: 60%
+    margin: 2em auto 0
+    background: base.$shadowBoxColor2
+    color: white
+    font-size: 2em
+    padding: 2em
+    border-radius: 1em
+
+.snTerms
+    color: white
+    background: #2fb5de
+    z-index: 100
+    position: initial
+    width: 50%
+    h1
+        color: base.$cardColor
+
+    .contentTerm
+        margin-top: 2em
+
+.coverTypeTutor
+    width: 100%
+    top: 0
+    background: white
+    height: 100%
+    position: absolute
+    z-index: 50
+
+.snFooter
+    width: 70%
+    margin: 3em auto 0
+    font-size: 1.5em !important
+
+.smBack
+    background: base.$cardColor
+    box-shadow: 0px 3px 6px 2px base.$shadowBoxColor
+
+.smVerifyBox
+    height: 80px
+    width: 12em
+    margin: 2em auto 0
+    background: #52c211
+    color: white
+    border-radius: 1em
+    font-size: 2em
+    display: flex
+    align-items: center
+    justify-content: center
+
+.smBoxRedirect
+    height: 200px
+    width: 13em
+    padding: 0 20px
+
+.suBoxHeader
+    margin-top: 2em
+    display: flex
+    justify-content: space-between
+    height: 60px
+    padding: 0 50px
+
+.suTitleCuenta
+    background: base.$shadowCheckIcon
+    height: 40px
+    color: white
+    font-size: 2em
+    border-radius: 1em
+    padding: 0 1em
+    display: flex
+    align-items: center
+    box-shadow: 0px 2px 0px 1px #cbcbcb
+
+.suInfoIcon
+    color: white
+    background: base.$cardColor
+    height: 50px
+    width: 50px
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: 50%
+    font-size: 3.5em
+    box-shadow: -1px 1px 0px 1px base.$koalaBackground
+
+.suRowInfoPay
+    display: flex
+    justify-content: space-between
+
+.suBtnPay
+    background: #518930
+    display: flex
+    align-items: center
+    justify-content: center
+    color: white
+    border-radius: 1em
+    height: 40px
+    font-size: 1.5em
+    width: 80%
+
+.suTitleInfo
+    font-size: 2em
+
+.rowFlex
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+    p
+        font-size: 1.2em
+        font-family: 'Ghotic'
+
+.suBoxRow
+    margin-top: 1em
+
+@media screen and ( max-width: 992px )
+    .snTerms
+        position: absolute
+        top: 0
+        height: 100%
+        overflow: hidden
+        padding: 0 10%
+        width: 100%
+
+@media screen and ( min-width: 992px )
+    .coverTypeTutor
+        display: flex
+        justify-content: space-around
+        align-items: center
+
+    .logoKoala
+        width: 50%
+    .snTerms
+        width: 40%
+        height: 95%
+        margin: 5%
+        border-radius: 2em
+        .contentTerm
+            font-size: 1.5em
+            padding: 0 3em
+
+@media screen and ( min-width: 768px )
+    .rowSign
+        display: flex
+
+        .row50
+            width: 50%
+
+        img
+            width: 55%
+    .suLogo
+        display: flex
+        justify-content: center
+        justify-items: center

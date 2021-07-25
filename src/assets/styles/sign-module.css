@@ -1,0 +1,336 @@
+@font-face {
+  font-family: GhoticB;
+  src: url("../fonts/GOTHICB.TTF");
+}
+@font-face {
+  font-family: Coopbl;
+  src: url("../fonts/COOPBL.TTF");
+}
+@font-face {
+  font-family: Ghotic;
+  src: url("../fonts/GOTHIC.TTF");
+}
+@font-face {
+  font-family: Century;
+  src: url("../fonts/CENTURY.TTF");
+}
+.containerSign {
+  padding-top: 6em;
+}
+
+.rowSign {
+  text-align: center;
+}
+.rowSign img {
+  width: 30%;
+  height: auto;
+}
+.rowSign p {
+  font-size: 2em;
+}
+
+.smButton {
+  cursor: pointer;
+  font-size: 1.5em;
+  background: #52c211;
+  width: 80%;
+  margin: 0 auto 3.5em;
+  height: 2.5em;
+  color: white;
+  border-radius: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 3px 6px 2px #48ab0f;
+}
+.smButton:active {
+  transform: scale(0.9);
+}
+
+.smButtonSesion {
+  width: 100%;
+  border-radius: 0.8em;
+}
+
+.smRecoverPass {
+  font-size: 1.5em;
+  color: #006cb2;
+  cursor: pointer;
+}
+.smRecoverPass:active {
+  transform: scale(0.9);
+}
+
+.smNewAccount {
+  width: 100%;
+  background: #2fb5de;
+  box-shadow: 0px 3px 6px 2px #7eb8f9;
+}
+
+.errorInput {
+  box-shadow: 0px 3px 6px 2px #d04161 !important;
+}
+
+.smForm {
+  width: 65%;
+  margin-bottom: 2em;
+}
+.smForm input {
+  height: 3em;
+  border-radius: 0.5em;
+  border: solid 1px #c2c2c2;
+  background: #c1e7fc;
+  box-shadow: 0px 2px 4px 1px #8abae9;
+  margin-bottom: 1em;
+  width: 100%;
+}
+.smForm label {
+  display: block;
+  text-align: left;
+  margin-bottom: 3px;
+  font-size: 1.5em;
+}
+
+.errorText {
+  font-size: 17px !important;
+  margin: 0 auto 5px;
+  top: 5em;
+  color: #d04161;
+  width: 65%;
+}
+
+.smContainerButton {
+  display: flex;
+  justify-content: center;
+}
+
+.smFormContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: auto;
+}
+
+.smBoxButton {
+  position: relative;
+  width: 65%;
+}
+
+.smBoxTypes {
+  padding-top: 4em;
+}
+
+.smNotif {
+  width: 65%;
+  margin: auto;
+  background: #48ab0f;
+  border-radius: 1em;
+  color: white;
+  padding: 2em 0em;
+}
+
+.smButtonOption {
+  background: #faac00;
+  box-shadow: 0px 3px 6px 2px #e5860a;
+}
+.smButtonOption.selected {
+  background: #48ab0f;
+  box-shadow: 0px 3px 6px 2px #52c211;
+}
+.smButtonOption.disabled {
+  opacity: 0.7;
+  transform: none;
+}
+
+.smBtnNext {
+  width: 90px !important;
+  cursor: pointer;
+}
+.smBtnNext:active {
+  transform: scale(0.9);
+}
+
+.snNotification {
+  width: 60%;
+  margin: 2em auto 0;
+  background: #48ab0f;
+  color: white;
+  font-size: 2em;
+  padding: 2em;
+  border-radius: 1em;
+}
+
+.snTerms {
+  color: white;
+  background: #2fb5de;
+  z-index: 100;
+  position: initial;
+  width: 50%;
+}
+.snTerms h1 {
+  color: #006cb2;
+}
+.snTerms .contentTerm {
+  margin-top: 2em;
+}
+
+.coverTypeTutor {
+  width: 100%;
+  top: 0;
+  background: white;
+  height: 100%;
+  position: absolute;
+  z-index: 50;
+}
+
+.snFooter {
+  width: 70%;
+  margin: 3em auto 0;
+  font-size: 1.5em !important;
+}
+
+.smBack {
+  background: #006cb2;
+  box-shadow: 0px 3px 6px 2px #2c65ac;
+}
+
+.smVerifyBox {
+  height: 80px;
+  width: 12em;
+  margin: 2em auto 0;
+  background: #52c211;
+  color: white;
+  border-radius: 1em;
+  font-size: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.smBoxRedirect {
+  height: 200px;
+  width: 13em;
+  padding: 0 20px;
+}
+
+.suBoxHeader {
+  margin-top: 2em;
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+  padding: 0 50px;
+}
+
+.suTitleCuenta {
+  background: #faac00;
+  height: 40px;
+  color: white;
+  font-size: 2em;
+  border-radius: 1em;
+  padding: 0 1em;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 2px 0px 1px #cbcbcb;
+}
+
+.suInfoIcon {
+  color: white;
+  background: #006cb2;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 3.5em;
+  box-shadow: -1px 1px 0px 1px #2fb5de;
+}
+
+.suRowInfoPay {
+  display: flex;
+  justify-content: space-between;
+}
+
+.suBtnPay {
+  background: #518930;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border-radius: 1em;
+  height: 40px;
+  font-size: 1.5em;
+  width: 80%;
+}
+
+.suTitleInfo {
+  font-size: 2em;
+}
+
+.rowFlex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.rowFlex p {
+  font-size: 1.2em;
+  font-family: "Ghotic";
+}
+
+.suBoxRow {
+  margin-top: 1em;
+}
+
+@media screen and (max-width: 992px) {
+  .snTerms {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    overflow: hidden;
+    padding: 0 10%;
+    width: 100%;
+  }
+}
+@media screen and (min-width: 992px) {
+  .coverTypeTutor {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .logoKoala {
+    width: 50%;
+  }
+
+  .snTerms {
+    width: 40%;
+    height: 95%;
+    margin: 5%;
+    border-radius: 2em;
+  }
+  .snTerms .contentTerm {
+    font-size: 1.5em;
+    padding: 0 3em;
+  }
+}
+@media screen and (min-width: 768px) {
+  .rowSign {
+    display: flex;
+  }
+  .rowSign .row50 {
+    width: 50%;
+  }
+  .rowSign img {
+    width: 55%;
+  }
+
+  .suLogo {
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+  }
+}
+
+/*# sourceMappingURL=sign-module.css.map */
