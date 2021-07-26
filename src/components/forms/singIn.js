@@ -36,7 +36,8 @@ const SingIn = () => {
     if (!validateEmail(state.email))
       return setState({ ...state, message: "Correo invalido", error: true });
 
-    const response = await fetch("http://localhost:8989/api/auth/login", {
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
