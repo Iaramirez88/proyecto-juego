@@ -8,6 +8,7 @@ import { validateEmail } from "../../../utils/tools";
 const FormSignUp = () => {
   const { id } = useParams();
   const history = useHistory();
+  const textTutor = "Padre";
 
   const [state, setState] = useState({
     name: "",
@@ -44,23 +45,26 @@ const FormSignUp = () => {
   };
 
   const handlerPassword = async ({ pass }) => {
-    setState({ ...state, step: 2 });
     let data = {
-      username: state.username,
-      password: state.password,
+      username: state.name,
+      password: pass,
       idtipotutor: id,
       email: state.email,
       idplan: 1,
     };
-    const request = await fetch("", {
+
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const request = await fetch(`${apiUrl}/user`, {
       method: "POST",
       headers: {
-        "Content-type": "application/json;",
+        "Content-type": "application/json; charset=UTF-8",
       },
       body: JSON.stringify(data),
     });
 
-    const response = request.json();
+    const response = await request.json();
+    // setState({ ...state, step: 2 });
+
     console.log(response);
   };
 
@@ -73,7 +77,7 @@ const FormSignUp = () => {
       {state.step === 0 && (
         <div className="smFormContainer">
           <div className="smForm">
-            <label htmlFor="user">Tutor</label>
+            <label htmlFor="user">Tutor {textTutor}</label>
             <input
               name="user"
               type="text"

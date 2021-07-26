@@ -40,7 +40,7 @@ const Home = () => {
   return (
     <div>
       <HeaderHome />
-      <div style={{ padding: "3em" }}>
+      <div style={{ padding: "0 3em" }}>
         <h1 className="mainTitle">Abecedario</h1>
         <HomeGridComponent
           mainTitle="Vocales AEIOU"

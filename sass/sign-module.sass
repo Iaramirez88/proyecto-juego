@@ -154,7 +154,7 @@
 
 .snFooter
     width: 70%
-    margin: 3em auto 0
+    margin: 1em auto 0
     font-size: 1.5em !important
 
 .smBack
@@ -175,11 +175,10 @@
 
 .smBoxRedirect
     height: 200px
-    width: 13em
-    padding: 0 20px
+    width: 14em
+    padding: 2em 2em
 
 .suBoxHeader
-    margin-top: 2em
     display: flex
     justify-content: space-between
     height: 60px
@@ -197,6 +196,8 @@
     box-shadow: 0px 2px 0px 1px #cbcbcb
 
 .suInfoIcon
+    cursor: pointer
+    text-decoration: none
     color: white
     background: base.$cardColor
     height: 50px
@@ -205,14 +206,18 @@
     align-items: center
     justify-content: center
     border-radius: 50%
-    font-size: 3.5em
+    font-size: 2.5em
     box-shadow: -1px 1px 0px 1px base.$koalaBackground
+
+    &:active
+        transform: scale(0.9)
 
 .suRowInfoPay
     display: flex
     justify-content: space-between
 
 .suBtnPay
+    cursor: pointer
     background: #518930
     display: flex
     align-items: center
@@ -222,6 +227,13 @@
     height: 40px
     font-size: 1.5em
     width: 80%
+
+    &:active
+        transform: scale(0.9)
+
+    & a
+        color: white
+        text-decoration: none
 
 .suTitleInfo
     font-size: 2em
@@ -238,6 +250,43 @@
 .suBoxRow
     margin-top: 1em
 
+.leftKoalaLogo
+    width: 50%
+    display: flex
+    align-items: flex-end
+    justify-content: flex-end
+
+    img
+        width: 60%
+
+.planForm
+    width: 50%
+    text-align: center
+    padding: 0em 8%
+
+.planContainer
+    position: relative
+    padding-top: 2em
+    align-items: end
+
+.planButton
+    width: 65%
+.planInput
+    margin: 0 auto 2em
+
+    & select
+        width: 100%
+        height: 3em
+        border-radius: 0.5em
+        background: #c1e7fc
+        box-shadow: 0px 2px 4px 1px #8abae9
+        font-size: 1em
+    & select option
+        padding: 2em 0
+
+    & input
+        width: 98% !important
+
 @media screen and ( max-width: 992px )
     .snTerms
         position: absolute
@@ -246,6 +295,13 @@
         overflow: hidden
         padding: 0 10%
         width: 100%
+
+@media screen and ( max-width: 480px )
+    .smBoxRedirect
+        height: 200px
+        width: 60%
+        padding: 1em 9%
+        font-size: 1.5em
 
 @media screen and ( min-width: 992px )
     .coverTypeTutor
@@ -257,7 +313,7 @@
         width: 50%
     .snTerms
         width: 40%
-        height: 95%
+        height: 100%
         margin: 5%
         border-radius: 2em
         .contentTerm

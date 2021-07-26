@@ -10,6 +10,8 @@ import PairWords from "./games/pairWords";
 import FallModule from "./games/FallModule/fallModule";
 import SignInModule from "./signIn";
 import ScreenUser from "./home/ScreenUser";
+import ScreenPlans from "./home/ScreenPlans";
+import ScreenPayment from "./home/ScreenPayment";
 
 const Routes = () => {
   return (
@@ -24,6 +26,8 @@ const Routes = () => {
         <Route path="/otoño/:id" component={FallModule} />
         <Route path="/sesion" component={SignInModule} />
         <Route path="/mi-cuenta" component={ScreenUser} />
+        <Route path="/planes" component={ScreenPlans} />
+        <Route path="/realizar-pagos" component={ScreenPayment} />
         <Route path="/" component={Home} />
       </Switch>
     </Router>

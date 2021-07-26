@@ -3,10 +3,9 @@ import btnNext from "../../../assets/images/botonNext.svg";
 import { useDimesionClient } from "../../../hooks/useDimesion";
 import logoKoala from "../../../assets/images/logoInicalAnimado.svg";
 
-const TermScreen = () => {
+const TermScreen = ({ setHideTitle }) => {
   const history = useHistory();
   const { width, height } = useDimesionClient();
-
   return (
     <div className="coverTypeTutor">
       <div className="logoKoala">
@@ -39,8 +38,14 @@ const TermScreen = () => {
           />
         </div>
         <p className="snFooter">
-          Al registrarte en ARTWORKOALA PLAY aceptas nuestros Términos y
-          Politica de Privacidad
+          Al registrarte en ARTWORKOALA PLAY aceptas nuestros{" "}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://www.artworkoala.com/terminos-y-condiciones/"
+          >
+            Términos y Politica de Privacidad
+          </a>
         </p>
       </div>
     </div>

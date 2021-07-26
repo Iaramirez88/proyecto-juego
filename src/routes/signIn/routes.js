@@ -16,7 +16,7 @@ import SignInStudent from "./screen/SignInStudent";
 import TermScreen from "./screen/TermsScreen";
 import VerifyEmailScreen from "./screen/VerifyEmailScreen";
 
-const RoutesSign = ({ children }) => {
+const RoutesSign = ({ children, setHideTitle }) => {
   let { path } = useRouteMatch();
 
   return (

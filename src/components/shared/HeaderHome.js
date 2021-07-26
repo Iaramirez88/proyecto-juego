@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useHistory } from "react-router";
+import { useHistory, useRouteMatch } from "react-router";
 import { GameContext } from "../../context/GameContext";
 import { useDimesions } from "../../hooks/useDimesion";
 import game from "../../assets/images/juegoMenu.svg";
@@ -10,6 +10,7 @@ const HeaderHome = () => {
   const { stateContext } = useContext(GameContext);
   const screen = useDimesions();
   const history = useHistory();
+  const { url } = useRouteMatch();
 
   return (
     <div>
@@ -19,18 +20,22 @@ const HeaderHome = () => {
         {stateContext.user && screen.width >= 768 && (
           <div className="homeHeaderIcons">
             <img
-              className="active"
+              className={url !== "/" ? "active" : ""}
               alt="iconUser"
               src={user}
               width="40px"
               height="auto"
+              onClick={() => history.push("mi-cuenta")}
+              style={{ cursor: "pointer" }}
             />
             <img
-              className="active"
+              className={url === "/" ? "active" : ""}
               alt="iconGame"
               src={game}
               width="40px"
               height="auto"
+              onClick={() => history.push("/")}
+              style={{ cursor: "pointer" }}
             />
           </div>
         )}

@@ -37,7 +37,7 @@ const SingIn = () => {
       return setState({ ...state, message: "Correo invalido", error: true });
 
     const apiUrl = process.env.REACT_APP_API_URL;
-    const response = await fetch(apiUrl, {
+    const response = await fetch(`${apiUrl}/auth/login`, {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",

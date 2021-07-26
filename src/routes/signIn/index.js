@@ -5,13 +5,16 @@ import { useDimesions } from "../../hooks/useDimesion";
 import "../../assets/styles/sign-module.css";
 import gsap from "gsap/gsap-core";
 import RoutesSign from "./routes";
+import { useHistory, useParams, useRouteMatch } from "react-router";
 
 const SignInModule = () => {
   useSetBackGround(null);
   const dimension = useDimesions();
   const containerRef = useRef(null);
   const titleKoalaRef = useRef(null);
-  const [hideTitle, setHideTitle] = useState(false);
+  const [hideTitle, setHideTitle] = useState(true);
+  const { pathname } = useHistory().location;
+  console.log(pathname);
 
   useEffect(() => {
     let container = containerRef.current;
@@ -47,17 +50,17 @@ const SignInModule = () => {
   return (
     <div className="containerSign" ref={containerRef}>
       <div className="rowSign" id="first-screen">
-        <div className="row50 suLogo">
-          <img alt="koala-logo" id="sign-logo-koala" src={logoKoala} />
-          {hideTitle && (
+        {pathname !== "/sesion/terminos" && (
+          <div className="row50 suLogo">
+            <img alt="koala-logo" id="sign-logo-koala" src={logoKoala} />
             <div ref={titleKoalaRef}>
               <p>ARTWORKOALA</p>
               <p>PLAY</p>
             </div>
-          )}
-        </div>
+          </div>
+        )}
         <div className="row50">
-          <RoutesSign></RoutesSign>
+          <RoutesSign setHideTitle={setHideTitle}></RoutesSign>
         </div>
       </div>
     </div>

@@ -17,9 +17,9 @@ const SelectTypeTutor = () => {
     history.push(`${url}/${state}`);
   };
 
-  const onSelectType = () => {
+  const onSelectType = (idtutor) => {
     setError(false);
-    setState(0);
+    setState(idtutor);
   };
 
   return (
@@ -28,9 +28,9 @@ const SelectTypeTutor = () => {
         <ButtonDiv
           title="Tutor Padre - 2 Niños"
           classStyle={`smButton smButtonOption ${
-            state === 0 ? "selected" : ""
+            state === 19 ? "selected" : ""
           }`}
-          handler={onSelectType}
+          handler={() => onSelectType(19)}
         />
         <ButtonDiv
           title="Tutor Docente - 20 Est"

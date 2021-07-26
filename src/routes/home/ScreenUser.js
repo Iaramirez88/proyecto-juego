@@ -1,9 +1,12 @@
 import React from "react";
+import { useHistory } from "react-router";
 import HeaderHome from "../../components/shared/HeaderHome";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
+import { Link } from "react-router-dom";
 
 const ScreenUser = () => {
   useSetBackGround();
+  const { history } = useHistory();
 
   return (
     <div>
@@ -11,19 +14,28 @@ const ScreenUser = () => {
       <div>
         <div className="suBoxHeader">
           <div className="suTitleCuenta">Información de cuenta</div>
-          <div className="suInfoIcon">?</div>
+          <a
+            href="https://www.artworkoala.com/preguntas-frecuentas/"
+            target="_blank"
+            className="suInfoIcon"
+            rel="noreferrer"
+          >
+            ?
+          </a>
         </div>
 
         <div style={{ padding: "0 80px", marginTop: "1.5em" }}>
           <div className="suRowInfoPay suBoxRow">
             <div>
               <div className="suTitleInfo">CUENTA Y FACTURACIÓN</div>
-              <div className="suBtnPay">Cambiar plan - Pagar</div>
+              <div className="suBtnPay">
+                <Link to="planes">Cambiar plan - Pagar</Link>
+              </div>
             </div>
             <div style={{ width: "60%" }}>
               <div className="rowFlex">
                 <p>ideas@usuario.com</p>
-                <a>Cambiar Plan</a>
+                <Link to="planes">Cambiar Plan</Link>
               </div>
               <div className="rowFlex">
                 <p>Contraseña: ******</p>

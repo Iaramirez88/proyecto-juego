@@ -27,6 +27,13 @@ const reducer = (state, action) => {
       };
     }
 
+    case "SET_LOADING": {
+      return {
+        ...state,
+        loading: action.value,
+      };
+    }
+
     default:
       return state;
   }
@@ -38,12 +45,12 @@ const initialState = () => {
     points: 0,
     moduleOpen: !data ? -1 : data["name"],
     user: null,
+    loading: false,
   };
 };
 
 export const GameContextProvider = ({ children }) => {
   const [stateContext, dispatch] = useReducer(reducer, initialState());
-
   const { batchSave } = useLocalStorage("instructions");
   const { getData } = useLocalStorage("user");
   useEffect(() => {
@@ -74,6 +81,7 @@ export const GameContextProvider = ({ children }) => {
 
   return (
     <GameContext.Provider value={{ stateContext, dispatch }}>
+      <div className={stateContext.loading ? "loader" : ""}></div>
       {children}
     </GameContext.Provider>
   );
