@@ -55,7 +55,8 @@ const FormSignUp = () => {
     };
 
     const enviroment = process.env.NODE_ENV || "local";
-    dotenv.config({ path: `__dirname, /.env.${enviroment}` });
+    let path = `${__dirname}.env.${enviroment}`;
+    dotenv.config({ path: path });
     const apiUrl = process.env.REACT_APP_API_URL;
     const request = await fetch(`${apiUrl}/user`, {
       method: "POST",
