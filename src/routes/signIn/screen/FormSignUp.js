@@ -4,6 +4,7 @@ import btnNext from "../../../assets/images/botonNext.svg";
 import ButtonDiv from "../../../components/Buttons";
 import ResetPassword from "../../../components/forms/resetPassword";
 import { validateEmail } from "../../../utils/tools";
+import dotenv from "dotenv";
 
 const FormSignUp = () => {
   const { id } = useParams();
@@ -53,6 +54,8 @@ const FormSignUp = () => {
       idplan: 1,
     };
 
+    const enviroment = process.env.NODE_ENV || "local";
+    dotenv.config({ path: `__dirname, /.env.${enviroment}` });
     const apiUrl = process.env.REACT_APP_API_URL;
     const request = await fetch(`${apiUrl}/user`, {
       method: "POST",
@@ -61,11 +64,15 @@ const FormSignUp = () => {
       },
       body: JSON.stringify(data),
     });
-
     const response = await request.json();
-    // setState({ ...state, step: 2 });
-
-    console.log(response);
+    if (response.code === 500) {
+      return setState({
+        ...state,
+        message: "Lo sentimos algo malo ha ocurrido",
+        error: true,
+      });
+    }
+    setState({ ...state, step: 2 });
   };
 
   const onBackForm = () => {
@@ -107,6 +114,12 @@ const FormSignUp = () => {
       )}
       {state.step === 1 && (
         <div>
+          {state.error && (
+            <p className="errorText">
+              {/* El correo electronico o la contraseña que ingresaste es incorrecta */}
+              {state.message}
+            </p>
+          )}
           <ResetPassword onSubmit={handlerPassword} />
           <ButtonDiv
             title="REGRESAR"

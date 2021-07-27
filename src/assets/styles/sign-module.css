@@ -339,6 +339,10 @@
   width: 98% !important;
 }
 
+.suLogo {
+  flex-wrap: wrap;
+}
+
 @media screen and (max-width: 992px) {
   .snTerms {
     position: absolute;
@@ -387,7 +391,7 @@
     width: 50%;
   }
   .rowSign img {
-    width: 55%;
+    width: 65%;
   }
 
   .suLogo {
