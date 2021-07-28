@@ -4,11 +4,13 @@ import ButtonDiv from "../Buttons";
 import { validateEmail } from "../../utils/tools";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { GameContext } from "../../context/GameContext";
+import { useRequestApi } from "../../hooks/useRequesApi";
 
 const SingIn = () => {
   const history = useHistory();
   let { url } = useRouteMatch();
   const { setData } = useLocalStorage("user");
+  const apiUser = useRequestApi("auth");
   const { dispatch } = useContext(GameContext);
 
   const [state, setState] = useState({
@@ -36,31 +38,24 @@ const SingIn = () => {
     if (!validateEmail(state.email))
       return setState({ ...state, message: "Correo invalido", error: true });
 
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const response = await fetch(`${apiUrl}/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({
-        username: state.email,
-        password: state.password,
-      }),
-    });
-    let data = await response.json();
+    let data = {
+      username: state.email,
+      password: state.password,
+    };
+    const response = await apiUser.post("login", data);
 
-    if (data.code !== 200)
+    if (response.code !== 200)
       return setState({
         ...state,
         error: true,
         message: "Oops! algo ha salido mal",
       });
-    if (data.code === 200) {
+    if (response.code === 200) {
       dispatch({
         type: "SET_USER",
-        data: data.response,
+        data: response.response,
       });
-      setData(data.response);
+      setData(response.response);
       return history.push("/");
     }
   };

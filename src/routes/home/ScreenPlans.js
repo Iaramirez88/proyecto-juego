@@ -1,15 +1,26 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router";
+import userEvent from "@testing-library/user-event";
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router";
 import logoKoala from "../../assets/images/logoInicalAnimado.svg";
 import ButtonDiv from "../../components/Buttons";
 import HeaderHome from "../../components/shared/HeaderHome";
+import { useLoading } from "../../hooks/useLoading";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useRequestApi } from "../../hooks/useRequesApi";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
 
 const ScreenPlans = () => {
   useSetBackGround();
   const { getData } = useLocalStorage("user");
   const history = useHistory();
+  const { id } = useParams();
+  const apiPlans = useRequestApi("price");
+  const apiUser = useRequestApi("user");
+  const [plans, setPlans] = useState([]);
+  const [user, setUser] = useState(null);
+  const setLoader = useLoading();
+  const [totalPay, setTotalPay] = useState(0);
+  const [alert, setAlert] = useState(false);
 
   const [state, setState] = useState({
     idplan: 0,
@@ -18,8 +29,21 @@ const ScreenPlans = () => {
     error: false,
   });
 
+  const setPayAmount = (id) => {
+    let find = -1;
+    let i = 0;
+    while (find < 0 && i < plans.length) {
+      if (parseInt(id) === plans[i].id_plan) {
+        find = i;
+      }
+      i++;
+    }
+    setTotalPay(plans[find].valor);
+  };
+
   const onChange = (e, type) => {
     const { value } = e.target;
+    type === "idplan" && setPayAmount(value);
     setState({ ...state, [type]: value, message: "", error: false });
   };
 
@@ -31,28 +55,81 @@ const ScreenPlans = () => {
         error: true,
       });
     }
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const auth = getData();
-    const response = await fetch(`${apiUrl}/user/plans`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        Authorization: `Bearer ${auth.token}`,
-      },
-      body: JSON.stringify({
-        password: state.password,
-      }),
-    });
-    let data = await response.json();
-    if (data.code === 401) {
+
+    console.log(user);
+    const { token } = getData();
+    let data = {
+      password: state.password,
+      email: user.correo_usuario,
+      idtipotutor: id,
+    };
+    setLoader(true);
+
+    const response = await apiUser.post("plans", data, token);
+    setLoader(false);
+
+    if (response.code === 401) {
       return setState({
         ...state,
         message: "Contraseña invalida",
         error: true,
       });
     }
-    return history.push("/realizar-pagos");
+    if (response.code === 500) {
+      return setState({
+        ...state,
+        message: "Lo sentimos algo ha salido mal",
+        error: true,
+      });
+    }
+    setAlert(true);
+    setTimeout(() => {
+      return history.push("/realizar-pagos");
+    }, 3000);
   };
+
+  useEffect(() => {
+    const getTitle = ({ meses_precio }) => {
+      if (meses_precio === 0) return "Gratis";
+      if (meses_precio === 1) return "Mensual";
+      if (meses_precio === 3) return "Trimestral - 3 meses";
+      if (meses_precio === 6) return "Semestral - 6 meses";
+    };
+
+    const init = async () => {
+      setLoader(true);
+      const { id, token } = getData();
+      const resUser = await apiUser.get(`${id}`, token);
+      if (resUser.code === 404) return;
+      setUser(resUser.response);
+      const id_tipo_tutor = resUser.response.id_tipo_tutor;
+      const resPlan = await apiPlans.get(`1/${id_tipo_tutor}`);
+      setLoader(false);
+      if (resPlan.code === 404) return;
+      const { response } = resPlan;
+      let data = response
+        .map((item) => {
+          return {
+            id_plan: item.id_plan,
+            title: getTitle(item),
+            valor: item.valor,
+            meses_precio: item.meses_precio,
+          };
+        })
+        .sort((a, b) => {
+          if (a.meses_precio > b.meses_precio) {
+            return 1;
+          }
+          if (a.meses_precio < b.meses_precio) {
+            return -1;
+          }
+          // a must be equal to b
+          return 0;
+        });
+      setPlans(data);
+    };
+    init();
+  }, []);
 
   return (
     <div>
@@ -64,19 +141,23 @@ const ScreenPlans = () => {
         </div>
         <div className="planForm">
           <div className="smForm planInput">
-            <label htmlFor="user">Plan</label>
+            <label htmlFor="user">Plan {user && user.texto_tutor}</label>
 
             <select name="plan" onChange={(e) => onChange(e, "idplan")}>
-              <option value="1" defaultChecked>
-                Gratis
-              </option>
-              <option value="2">Mensual</option>
-              <option value="3">Trimestral - 3 meses</option>
-              <option value="4">Semestral - 6 meses</option>
+              {plans &&
+                plans.map(({ title, id_plan, valor }) => (
+                  <option
+                    key={id_plan}
+                    defaultChecked={valor === 0 ? true : false}
+                    value={id_plan}
+                  >
+                    {title}
+                  </option>
+                ))}
             </select>
           </div>
           <div className="smForm planInput">
-            <label htmlFor="user">Contraseña</label>
+            <label htmlFor="password">Contraseña</label>
             <input
               name="password"
               type="password"
@@ -84,14 +165,26 @@ const ScreenPlans = () => {
               className={state.error ? "errorInput" : ""}
             />
           </div>
+          <div className="smForm planInput">
+            <label style={{ color: "#006cb3" }} htmlFor="payment">
+              Total a pagar: {totalPay}
+            </label>
+          </div>
 
           <div className="smForm planInput">
-            <span>
-              El plan gratis solo te permite jugar con algunas actividades de la
-              unidad de Vocales y solo para un estudiante, sin guardar su
-              progreso. Para aprovechar al máximo esta plataforma te
-              recomendamos cambiarte a un plan premiun.
-            </span>
+            {!alert && (
+              <span>
+                El plan gratis solo te permite jugar con algunas actividades de
+                la unidad de Vocales y solo para un estudiante, sin guardar su
+                progreso. Para aprovechar al máximo esta plataforma te
+                recomendamos cambiarte a un plan premiun.
+              </span>
+            )}
+            {alert && (
+              <span style={{ color: "#52c211", fontSize: "1.5em" }}>
+                Tu plan ha sido cambiado exitosamente
+              </span>
+            )}
           </div>
           {state.error && (
             <p className="errorText">
@@ -99,11 +192,14 @@ const ScreenPlans = () => {
               {state.message}
             </p>
           )}
-          <ButtonDiv
-            title="CAMBIAR PLAN"
-            handler={onSubmit}
-            classStyle="smButton smButtonSesion planButton"
-          />
+
+          {!alert && (
+            <ButtonDiv
+              title="CAMBIAR PLAN"
+              handler={onSubmit}
+              classStyle="smButton smButtonSesion planButton"
+            />
+          )}
         </div>
         <div
           className="suBoxHeader"

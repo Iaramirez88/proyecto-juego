@@ -14,7 +14,6 @@ const SignInModule = () => {
   const titleKoalaRef = useRef(null);
   const [hideTitle, setHideTitle] = useState(true);
   const { pathname } = useHistory().location;
-  console.log(pathname);
 
   useEffect(() => {
     let container = containerRef.current;

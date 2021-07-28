@@ -26,7 +26,7 @@ const Routes = () => {
         <Route path="/otoño/:id" component={FallModule} />
         <Route path="/sesion" component={SignInModule} />
         <Route path="/mi-cuenta" component={ScreenUser} />
-        <Route path="/planes" component={ScreenPlans} />
+        <Route path="/planes/:id" component={ScreenPlans} />
         <Route path="/realizar-pagos" component={ScreenPayment} />
         <Route path="/" component={Home} />
       </Switch>

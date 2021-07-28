@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import btnNext from "../../../assets/images/botonNext.svg";
 import ButtonDiv from "../../../components/Buttons";
 import ResetPassword from "../../../components/forms/resetPassword";
+import { GameContext } from "../../../context/GameContext";
+import { useRequestApi } from "../../../hooks/useRequesApi";
+import { useLoading } from "../../../hooks/useLoading";
 import { validateEmail } from "../../../utils/tools";
-import dotenv from "dotenv";
 
 const FormSignUp = () => {
   const { id } = useParams();
   const history = useHistory();
+  const apiSign = useRequestApi("user");
   const textTutor = "Padre";
+  const { dispatch } = useContext(GameContext);
+  const setLoader = useLoading();
 
   const [state, setState] = useState({
     name: "",
@@ -17,6 +22,7 @@ const FormSignUp = () => {
     error: false,
     step: 0,
     message: "",
+    success: false,
   });
 
   const onChange = (type, e) => {
@@ -46,6 +52,7 @@ const FormSignUp = () => {
   };
 
   const handlerPassword = async ({ pass }) => {
+    setLoader(true);
     let data = {
       username: state.name,
       password: pass,
@@ -54,26 +61,20 @@ const FormSignUp = () => {
       idplan: 1,
     };
 
-    const enviroment = process.env.NODE_ENV || "local";
-    let path = `${__dirname}.env.${enviroment}`;
-    dotenv.config({ path: path });
-    const apiUrl = process.env.REACT_APP_API_URL;
-    const request = await fetch(`${apiUrl}/user`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify(data),
-    });
-    const response = await request.json();
-    if (response.code === 500) {
+    const { code } = await apiSign.post("", data);
+    setLoader(false);
+
+    if (code === 500) {
       return setState({
         ...state,
         message: "Lo sentimos algo malo ha ocurrido",
         error: true,
       });
     }
-    setState({ ...state, step: 2 });
+    if (code === 201) {
+      // User created successfully
+      setState({ ...state, step: 2 });
+    }
   };
 
   const onBackForm = () => {
@@ -115,13 +116,13 @@ const FormSignUp = () => {
       )}
       {state.step === 1 && (
         <div>
+          <ResetPassword onSubmit={handlerPassword} />
           {state.error && (
             <p className="errorText">
               {/* El correo electronico o la contraseña que ingresaste es incorrecta */}
               {state.message}
             </p>
           )}
-          <ResetPassword onSubmit={handlerPassword} />
           <ButtonDiv
             title="REGRESAR"
             handler={() => onBackForm()}

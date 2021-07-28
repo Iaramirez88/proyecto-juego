@@ -1,5 +1,7 @@
 import React, { useEffect, useReducer } from "react";
+import LoadingComponent from "../components/shared/LoadingComponent";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useRequestApi } from "../hooks/useRequesApi";
 import { modulesInstructions } from "../utils/modulesInstructions";
 
 export const GameContext = React.createContext();
@@ -53,35 +55,31 @@ export const GameContextProvider = ({ children }) => {
   const [stateContext, dispatch] = useReducer(reducer, initialState());
   const { batchSave } = useLocalStorage("instructions");
   const { getData } = useLocalStorage("user");
+  const apiAuth = useRequestApi("auth");
   useEffect(() => {
     batchSave(modulesInstructions);
   }, [batchSave]);
 
   useEffect(() => {
-    const user = getData();
-    console.log(user);
-    if (user) {
-      fetch("http://localhost:8989/api/auth/logged", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.code === 200) {
-            dispatch({
-              type: "SET_USER",
-              data: user,
-            });
-          }
-        });
-    }
+    const init = async () => {
+      const user = getData();
+      if (user) {
+        let { code } = await apiAuth.get("logged", user.token);
+        if (code === 200) {
+          dispatch({
+            type: "SET_USER",
+            data: user,
+          });
+        }
+      }
+    };
+
+    init();
   }, []);
 
   return (
     <GameContext.Provider value={{ stateContext, dispatch }}>
-      <div className={stateContext.loading ? "loader" : ""}></div>
+      {stateContext.loading && <LoadingComponent />}
       {children}
     </GameContext.Provider>
   );
