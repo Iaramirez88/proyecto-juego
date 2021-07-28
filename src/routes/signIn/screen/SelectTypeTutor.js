@@ -32,7 +32,9 @@ const SelectTypeTutor = () => {
       setLoader(true);
       let { response } = await apiUser.get("tutors");
       setLoader(false);
-      setTypeTutor(response);
+      if (response.code !== 500) {
+        setTypeTutor(response);
+      }
     };
 
     init();
