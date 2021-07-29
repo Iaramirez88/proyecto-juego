@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer } from "react";
 import LoadingComponent from "../components/shared/LoadingComponent";
+import { useLoading } from "../hooks/useLoading";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useRequestApi } from "../hooks/useRequesApi";
 import { modulesInstructions } from "../utils/modulesInstructions";
@@ -56,6 +57,7 @@ export const GameContextProvider = ({ children }) => {
   const { batchSave } = useLocalStorage("instructions");
   const { getData } = useLocalStorage("user");
   const apiAuth = useRequestApi("auth");
+
   useEffect(() => {
     batchSave(modulesInstructions);
   }, [batchSave]);
@@ -64,7 +66,21 @@ export const GameContextProvider = ({ children }) => {
     const init = async () => {
       const user = getData();
       if (user) {
+        dispatch({
+          type: "SET_LOADING",
+          value: true,
+        });
         let { code } = await apiAuth.get("logged", user.token);
+        dispatch({
+          type: "SET_LOADING",
+          value: false,
+        });
+        if (code === 403) {
+          dispatch({
+            type: "SET_USER",
+            data: null,
+          });
+        }
         if (code === 200) {
           dispatch({
             type: "SET_USER",

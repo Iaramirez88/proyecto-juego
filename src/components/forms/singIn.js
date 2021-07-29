@@ -5,6 +5,7 @@ import { validateEmail } from "../../utils/tools";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { GameContext } from "../../context/GameContext";
 import { useRequestApi } from "../../hooks/useRequesApi";
+import { useLoading } from "../../hooks/useLoading";
 
 const SingIn = () => {
   const history = useHistory();
@@ -12,6 +13,7 @@ const SingIn = () => {
   const { setData } = useLocalStorage("user");
   const apiUser = useRequestApi("auth");
   const { dispatch } = useContext(GameContext);
+  const setLoader = useLoading();
 
   const [state, setState] = useState({
     email: "",
@@ -42,8 +44,15 @@ const SingIn = () => {
       username: state.email,
       password: state.password,
     };
+    setLoader(true);
     const response = await apiUser.post("login", data);
-
+    setLoader(false);
+    if (response.code === 404)
+      return setState({
+        ...state,
+        error: true,
+        message: "Correo o contraseña incorrectos",
+      });
     if (response.code !== 200)
       return setState({
         ...state,

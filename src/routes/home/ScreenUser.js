@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 import HeaderHome from "../../components/shared/HeaderHome";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
 import { Link } from "react-router-dom";
@@ -11,6 +11,7 @@ import logokoala from "../../assets/images/logoInicalAnimado.svg";
 const ScreenUser = () => {
   useSetBackGround();
   const { history } = useHistory();
+  const { id } = useParams();
   const api = useRequestApi("user");
   const setLoader = useLoading();
   const { getData } = useLocalStorage("user");
@@ -19,12 +20,14 @@ const ScreenUser = () => {
 
   useEffect(() => {
     const init = async () => {
-      setLoader(true);
-      const { id, token } = getData();
-      const request = await api.get(`/${id}`, token);
-      setLoader(false);
-      if (request.code === 404) return setError(true);
-      setUser(request.response);
+      const { token } = getData() || {};
+      if (token) {
+        setLoader(true);
+        const request = await api.get(`${id}`, token);
+        setLoader(false);
+        if (request.code === 404) return setError(true);
+        setUser(request.response);
+      }
     };
 
     init();
@@ -58,17 +61,19 @@ const ScreenUser = () => {
               <div>
                 <div className="suTitleInfo">CUENTA Y FACTURACIÓN</div>
                 <div className="suBtnPay">
-                  <Link to="planes">Cambiar plan - Pagar</Link>
+                  <Link to={`/planes/${user.id_cuenta}`}>
+                    Cambiar plan - Pagar
+                  </Link>
                 </div>
               </div>
               <div style={{ width: "60%" }}>
                 <div className="rowFlex">
                   <p>{user.correo_usuario}</p>
-                  <Link to={`planes/${user.id_cuenta}`}>Cambiar Plan</Link>
+                  <p>Cambiar correo</p>
                 </div>
                 <div className="rowFlex">
                   <p>Contraseña: ******</p>
-                  <a>Cambiar Contraseña</a>
+                  <p>Cambiar Contraseña</p>
                 </div>
                 <div className="rowFlex">
                   <p>Tu proxima fecha de facturacion dia-mes-año</p>
@@ -82,7 +87,7 @@ const ScreenUser = () => {
               <div className="suTitleInfo">INFORMACIÓN DEL PLAN</div>
               <div className="rowFlex" style={{ width: "60%" }}>
                 <p>Gratis</p>
-                <a>Cambiar plan - Pagar</a>
+                <Link to={`/planes/${user.id_cuenta}`}>Cambiar Plan</Link>
               </div>
             </div>
             <hr></hr>

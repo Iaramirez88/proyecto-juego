@@ -25,7 +25,7 @@ const HeaderHome = () => {
               src={user}
               width="40px"
               height="auto"
-              onClick={() => history.push("mi-cuenta")}
+              onClick={() => history.push(`mi-cuenta/${stateContext.user.id}`)}
               style={{ cursor: "pointer" }}
             />
             <img
@@ -41,8 +41,12 @@ const HeaderHome = () => {
         )}
         {!stateContext.user && screen.width >= 768 && (
           <div className="sesionButton">
-            <div onClick={() => history.push("sesion")}>Iniciar Sesión</div>
-            <div onClick={() => history.push(`sesion/terminos`)}>
+            <div onClick={() => history.replace({ pathname: "/sesion" })}>
+              Iniciar Sesión
+            </div>
+            <div
+              onClick={() => history.replace({ pathname: "sesion/terminos" })}
+            >
               Registrase
             </div>
           </div>
