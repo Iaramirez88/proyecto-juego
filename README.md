@@ -25,10 +25,22 @@ npm start
 npm run dev-serve
 ```
 
-**Run documentation code:**
+**Generate documentation file:**
 
 ```
 npm run doc
+```
+
+**Generate documentation file and open docs in linux**
+
+```
+npm run doc:linux
+```
+
+**Generate documentation file and open docs in windows**
+
+```
+npm run doc:windows
 ```
 
 ## Code tree explanation

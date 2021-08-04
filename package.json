@@ -32,7 +32,9 @@
     "eject": "react-scripts eject",
     "serve": "serve",
     "dev-serve": "npm run-script build && npm run serve build/",
-    "doc": "jsdoc -c jsdoc.json"
+    "doc": "jsdoc -c jsdoc.json",
+    "doc:windows":"jsdoc -c jsdoc.json && start ./docs/index.html",
+    "doc:linux":"jsdoc -c jsdoc.json && xdg-open ./docs/index.html"
   },
   "eslintConfig": {
     "extends": [
