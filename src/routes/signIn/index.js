@@ -59,10 +59,10 @@ const SignInModule = () => {
               onClick={() => history.push("")}
             />
             <div className="signTitleKoala" ref={titleKoalaRef}>
-              <p>
+              <p id="welcomeText">
                 <span>BIENVENIDOS</span>
               </p>
-              <p>
+              <p id="titleApp">
                 <span>ARTWORKOALA</span>
                 <span> PLAY</span>
               </p>

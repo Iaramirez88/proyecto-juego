@@ -39,12 +39,16 @@ export const useRequestApi = (resource) => {
     let url = setUrl(path);
     const id = setTimeout(() => controller.abort(), timeout);
     const headers = setHeader(null, auth);
-    const request = await fetch(url, {
-      headers,
-      signal: controller.signal,
-    });
-    clearTimeout(id);
-    return request.json();
+    try {
+      const request = await fetch(url, {
+        headers,
+        signal: controller.signal,
+      });
+      clearTimeout(id);
+      return request.json();
+    } catch (error) {
+      return { code: 500 };
+    }
   };
 
   /**

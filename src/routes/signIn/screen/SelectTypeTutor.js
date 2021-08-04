@@ -28,16 +28,23 @@ const SelectTypeTutor = () => {
   };
 
   useEffect(() => {
+    let isMounted = true;
     const init = async () => {
       setLoader(true);
-      let { response } = await apiUser.get("tutors");
-      setLoader(false);
-      if (response.code !== 500) {
-        setTypeTutor(response);
+      let { code, response } = await apiUser.get("tutors");
+      if (isMounted) {
+        setLoader(false);
+        if (code !== 500) {
+          setTypeTutor(response);
+        }
       }
     };
 
     init();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
