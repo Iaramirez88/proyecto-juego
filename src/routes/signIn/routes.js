@@ -1,12 +1,4 @@
-import {
-  Route,
-  Router,
-  Switch,
-  useLocation,
-  useRouteMatch,
-} from "react-router";
-import ResetPassword from "../../components/forms/resetPassword";
-import SingIn from "../../components/forms/singIn";
+import { Route, Switch, useRouteMatch } from "react-router";
 import NotificationScreen from "./screen/NotificationScreen";
 import SelectTypeUser from "./screen/selectTypeUser";
 import SelectTypeTutor from "./screen/SelectTypeTutor";
@@ -15,8 +7,9 @@ import ResetPasswordScreen from "./screen/ResetPasswordScreen";
 import SignInStudent from "./screen/SignInStudent";
 import TermScreen from "./screen/TermsScreen";
 import VerifyEmailScreen from "./screen/VerifyEmailScreen";
+import SingIn from "./screen/singIn";
 
-const RoutesSign = ({ children, setHideTitle }) => {
+const RoutesSign = ({ children }) => {
   let { path } = useRouteMatch();
 
   return (

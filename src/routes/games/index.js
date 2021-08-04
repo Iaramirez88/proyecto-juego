@@ -1,15 +1,15 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import gsap from "gsap";
 
-import { iconSound, iconSoundWhite } from "../../utils/imagesResources";
+import { iconSoundWhite } from "../../utils/imagesResources";
 import titleSound from "../../assets/sounds/moduloVocabulario.mp3";
 
 import DragComponent from "../../components/games/DragComponent";
 import ResponseComponent from "../../components/games/ResponseComponent";
 
 import Header from "../../components/shared/Header";
-import { getData } from "../../utils/mockData/mockModule1";
+import { getData } from "../../utils/mockData/modVocabulario";
 import "../../assets/styles/games.css";
 import "../../assets/styles/main.css";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
@@ -17,10 +17,10 @@ import backGround from "../../assets/images/background_tramas.svg";
 import TitleSound from "../../components/shared/TitleSound";
 import VocalIntructions from "../../components/games/VocalModule/VocalIntructions";
 
-const title = "Coloca la palabra al frente de cada imagen correspondiente";
 const Games = () => {
   let history = useHistory();
   useSetBackGround(backGround);
+  const { idLetter } = useParams();
 
   const [position, setPosition] = useState(0);
   const [statusWord, setStatusWord] = useState({
@@ -42,8 +42,6 @@ const Games = () => {
     snd.play();
   };
 
-  const toggle = () => setPlaying(!playing);
-
   useEffect(() => {
     if (statusWord.word1 && statusWord.word2) {
       if (position + 1 < list.length) {
@@ -55,7 +53,7 @@ const Games = () => {
         setCurrent(list[position + 1]);
         setTransition(true);
       } else {
-        history.push("level-up");
+        history.push("/level-up");
       }
     }
   }, [statusWord, position, history, list]);
@@ -79,12 +77,10 @@ const Games = () => {
   }, [playing]);
 
   useEffect(() => {
-    let x = getData();
-    x.then(function (data) {
-      setList(data);
-      setCurrent(data[0]);
-      setIsLoading(true);
-    });
+    let data = getData(idLetter);
+    setList(data);
+    setCurrent(data[0]);
+    setIsLoading(true);
 
     audio.addEventListener("ended", () => setPlaying(false));
     return () => {

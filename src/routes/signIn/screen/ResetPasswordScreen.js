@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router";
 import ResetPassword from "../../../components/forms/resetPassword";
 

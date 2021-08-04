@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  useRef,
-  useReducer,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useRef, useReducer } from "react";
 import gsap from "gsap";
 import { goodAnswer, wrongAnswer } from "../../utils/sounds";
 import { GameContext } from "../../context/GameContext";
@@ -12,7 +6,6 @@ import {
   reducerDragComponent,
   initialize,
 } from "../../reducer/components/games/dragComponentReducer";
-import { useSetTimer } from "../../hooks/useSetTimer";
 
 const DragComponent = ({
   children,

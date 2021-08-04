@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 
 import background from "../../assets/images/fondoModPares.svg";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
 import audioTitle from "../../assets/sounds/intructions/modArmarPares.mp3";
-import { getModuleData } from "../../utils/mockData/mockModule5";
+import { getModuleData } from "../../utils/mockData/modPairs";
 import { GameContext } from "../../context/GameContext";
 import { useResponseAudio } from "../../hooks/usePlaySounds";
 
@@ -16,6 +16,7 @@ import PairInstructions from "../../components/games/PairModule/PairInstructions
 
 const PairWords = () => {
   useSetBackGround(background);
+  const { idLetter } = useParams();
   const { dispatch } = useContext(GameContext);
   const [state, setState] = useState({
     open: 0,
@@ -75,10 +76,10 @@ const PairWords = () => {
   useEffect(() => {
     const { correct } = state;
     if (!state.loading) {
-      setState(initialState());
+      setState(initialState(idLetter));
     }
     if (correct === 0) {
-      history.push("level-up");
+      history.push("/level-up");
     }
   }, [state]);
 
@@ -138,10 +139,10 @@ const CardItem = ({ image, name, show, selectCard, check }) => {
   );
 };
 
-function initialState() {
+function initialState(letter) {
   return {
     open: 0,
-    cards: getModuleData().map((item) => ({
+    cards: getModuleData(letter).map((item) => ({
       ...item,
       check: false,
       show: false,

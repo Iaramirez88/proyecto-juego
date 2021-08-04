@@ -1,41 +1,79 @@
-import { useLoading } from "./useLoading";
-import { useLocalStorage } from "./useLocalStorage";
+// @ts-check
 
+/**
+ * @namespace useRequestApi
+ */
+
+/**
+ * The following hook is used to make request to api workoala
+ * @function
+ * @param {String} resource Principal route to api request
+ * @property {Function} get GET method
+ * @property {Function} post POST method
+ * @returns {Object} Object with all methods used to request [GET,POST,UPDATE,DELETE]
+ */
 export const useRequestApi = (resource) => {
   const apiUrl = process.env.REACT_APP_API_URL;
-  const { getData } = useLocalStorage("user");
-  const api = {
-    get: async (path, auth) => {
-      let url = `${apiUrl}/${resource}/${path}`;
-      let headers = auth
-        ? {
-            Authorization: `Bearer ${auth}`,
-          }
-        : {};
+  const timeout = 8000;
 
-      const request = await fetch(url, {
-        headers,
-      });
-      return request.json();
-    },
-    post: async (path, data, auth) => {
-      let url = `${apiUrl}/${resource}/${path}`;
-      let headers = {
-        "Content-type": "application/json; charset=UTF-8",
-      };
-      if (auth) {
-        headers["Authorization"] = `Bearer ${auth}`;
-      }
+  const setHeader = (data, auth) => {
+    const header = new Headers();
+    if (data) header.append("Content-type", "application/json; charset=UTF-8");
+    if (auth) header.append("Authorization", `Bearer ${auth}`);
+    return header;
+  };
 
+  const setUrl = (path) => {
+    return `${apiUrl}/${resource}/${path}`;
+  };
+
+  /**
+   * Method GET
+   * @function
+   * @param {string} path Url to make the request
+   * @param {string} auth Token for authorize some request
+   * @returns {Promise<Object>} Object requested
+   */
+  const get = async (path, auth) => {
+    const controller = new AbortController();
+    let url = setUrl(path);
+    const id = setTimeout(() => controller.abort(), timeout);
+    const headers = setHeader(null, auth);
+    const request = await fetch(url, {
+      headers,
+      signal: controller.signal,
+    });
+    clearTimeout(id);
+    return request.json();
+  };
+
+  /**
+   * Method POST
+   * @function
+   * @param {string} path Url to make the request
+   * @param {object} data Json object to save
+   * @param {string} auth Token for authorize some request
+   * @returns {Promise<Object>} Object with response and code of response
+   */
+  const post = async (path, data, auth) => {
+    let url = setUrl(path);
+    const headers = setHeader(data, auth);
+
+    try {
       let body = JSON.stringify(data);
       const request = await fetch(url, {
         method: "POST",
         headers,
         body,
       });
+
       return request.json();
-    },
+    } catch (error) {
+      return { code: 500 };
+    }
   };
+
+  const api = { get, post };
 
   return api;
 };

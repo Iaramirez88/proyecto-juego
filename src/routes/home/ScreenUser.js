@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router";
+import { useParams } from "react-router";
 import HeaderHome from "../../components/shared/HeaderHome";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
 import { Link } from "react-router-dom";
@@ -10,7 +10,6 @@ import logokoala from "../../assets/images/logoInicalAnimado.svg";
 
 const ScreenUser = () => {
   useSetBackGround();
-  const { history } = useHistory();
   const { id } = useParams();
   const api = useRequestApi("user");
   const setLoader = useLoading();

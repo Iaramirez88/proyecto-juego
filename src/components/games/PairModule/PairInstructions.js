@@ -4,7 +4,6 @@ import hand from "../../../assets/images/instructions/dedoTocas.svg";
 import gsap from "gsap/gsap-core";
 import fondoBlanco from "../../../assets/images/instructions/apoyoEmergenteBlanco.svg";
 import { useDimesions } from "../../../hooks/useDimesion";
-import audioPares from "../../../assets/sounds/intructions/apoyoModPares.mp3";
 
 const PairInstructions = ({ display }) => {
   const [image, setImage] = useState(fondoMorado);

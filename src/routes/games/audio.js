@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import gsap from "gsap/gsap-core";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import Header from "../../components/shared/Header";
 import instructions from "../../assets/sounds/moduloEscucha.mp3";
@@ -12,13 +12,14 @@ import {
 } from "../../components/games/CardComponent";
 import { useResponseAudio } from "../../hooks/usePlaySounds";
 
-import { getData } from "../../utils/mockData/mockModule2";
+import { getData } from "../../utils/mockData/modAudio";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
 import backGround from "../../assets/images/fondoModEscGranAlto.svg";
 import AudioInstructions from "../../components/games/AudioModule/AudioInstructions";
 
 export const AudioScreen = () => {
   useSetBackGround(backGround);
+  const { idLetter } = useParams();
 
   const [playResponseAudio] = useResponseAudio();
   const [transition, setTransition] = useState(false);
@@ -53,17 +54,16 @@ export const AudioScreen = () => {
   };
 
   useEffect(() => {
-    getData().then((data) => {
-      setState({
-        words: data,
-        current: data[0],
-        response: "a",
-        checked: 0,
-        position: 0,
-        spring: 0,
-      });
-      setIsLoading(true);
+    let data = getData(idLetter);
+    setState({
+      words: data,
+      current: data[0],
+      response: idLetter.toLowerCase(),
+      checked: 0,
+      position: 0,
+      spring: 0,
     });
+    setIsLoading(true);
   }, []);
 
   useEffect(() => {
@@ -95,7 +95,7 @@ export const AudioScreen = () => {
         setTransition(true);
         setState(status);
       } else {
-        history.push("level-up");
+        history.push("/level-up");
       }
     }
   }, [state, history]);

@@ -1,32 +1,49 @@
+/**
+ * Screen and form used to sign in a user.
+ * @module SingIn*/
+
 import React, { useContext, useState } from "react";
-import { useHistory, useParams, useRouteMatch } from "react-router";
-import ButtonDiv from "../Buttons";
-import { validateEmail } from "../../utils/tools";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { GameContext } from "../../context/GameContext";
-import { useRequestApi } from "../../hooks/useRequesApi";
-import { useLoading } from "../../hooks/useLoading";
+import { useHistory } from "react-router";
+import ButtonDiv from "../../../components/Buttons";
+import { GameContext } from "../../../context/GameContext";
+import useAuth from "../../../hooks/useAuth";
+import { validateEmail } from "../../../utils/tools";
 
+/**
+ * @function
+ * @property {object} state Current state of app
+ * @property {string} state.email
+ * @property {string} state.password
+ * @property {boolean} state.error
+ * @property {string} state.message
+ */
 const SingIn = () => {
-  const history = useHistory();
-  let { url } = useRouteMatch();
-  const { setData } = useLocalStorage("user");
-  const apiUser = useRequestApi("auth");
-  const { dispatch } = useContext(GameContext);
-  const setLoader = useLoading();
-
   const [state, setState] = useState({
     email: "",
     password: "",
     error: false,
     message: "",
   });
+  const history = useHistory();
+  const { dispatch } = useContext(GameContext);
+  const { signIn } = useAuth(dispatch);
 
   const onChange = (type, e) => {
     const { value } = e.target;
-
     setState({ ...state, [type]: value, error: false, message: "" });
   };
+
+  const onSuccess = () => history.push("/");
+
+  const onFailed = (code) =>
+    setState({
+      ...state,
+      error: true,
+      message:
+        code === 403
+          ? "Correo o contraseña incorrectos"
+          : "Oops! algo ha salido mal",
+    });
 
   const onSubmit = async () => {
     if (!state.email)
@@ -44,29 +61,8 @@ const SingIn = () => {
       username: state.email,
       password: state.password,
     };
-    setLoader(true);
-    const response = await apiUser.post("login", data);
-    setLoader(false);
-    if (response.code === 404)
-      return setState({
-        ...state,
-        error: true,
-        message: "Correo o contraseña incorrectos",
-      });
-    if (response.code !== 200)
-      return setState({
-        ...state,
-        error: true,
-        message: "Oops! algo ha salido mal",
-      });
-    if (response.code === 200) {
-      dispatch({
-        type: "SET_USER",
-        data: response.response,
-      });
-      setData(response.response);
-      return history.push("/");
-    }
+
+    await signIn(data, onSuccess, onFailed);
   };
 
   return (
@@ -101,12 +97,12 @@ const SingIn = () => {
           handler={onSubmit}
           classStyle="smButton smButtonSesion"
         />
+        <ButtonDiv
+          title="¿Has olvidado tu contraseña?"
+          handler={() => history.push("recuperar-contrasena")}
+          classStyle="smRecoverPass"
+        />
       </div>
-      <ButtonDiv
-        title="¿Has olvidado tu contraseña?"
-        handler={() => history.push("recuperar-contrasena")}
-        classStyle="smRecoverPass"
-      />
       <div className="smBoxButton">
         <hr></hr>
         <ButtonDiv

@@ -1,19 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
 import logoKoala from "../../assets/images/logoInicalAnimado.svg";
 import { useDimesions } from "../../hooks/useDimesion";
 import "../../assets/styles/sign-module.css";
 import gsap from "gsap/gsap-core";
 import RoutesSign from "./routes";
-import { useHistory, useParams, useRouteMatch } from "react-router";
+import { useHistory } from "react-router";
 
 const SignInModule = () => {
   useSetBackGround(null);
   const dimension = useDimesions();
   const containerRef = useRef(null);
   const titleKoalaRef = useRef(null);
-  const [hideTitle, setHideTitle] = useState(true);
   const { pathname } = useHistory().location;
+  const history = useHistory();
 
   useEffect(() => {
     let container = containerRef.current;
@@ -51,15 +51,26 @@ const SignInModule = () => {
       <div className="rowSign" id="first-screen">
         {pathname !== "/sesion/terminos" && (
           <div className="row50 suLogo">
-            <img alt="koala-logo" id="sign-logo-koala" src={logoKoala} />
-            <div ref={titleKoalaRef}>
-              <p>ARTWORKOALA</p>
-              <p>PLAY</p>
+            <img
+              alt="koala-logo"
+              id="sign-logo-koala"
+              className="signLogoKoala"
+              src={logoKoala}
+              onClick={() => history.push("")}
+            />
+            <div className="signTitleKoala" ref={titleKoalaRef}>
+              <p>
+                <span>BIENVENIDOS</span>
+              </p>
+              <p>
+                <span>ARTWORKOALA</span>
+                <span> PLAY</span>
+              </p>
             </div>
           </div>
         )}
         <div className="row50">
-          <RoutesSign setHideTitle={setHideTitle}></RoutesSign>
+          <RoutesSign></RoutesSign>
         </div>
       </div>
     </div>

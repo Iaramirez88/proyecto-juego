@@ -12,7 +12,7 @@ import { BottonAudioComponent } from "../../components/games/CardComponent";
 import DragComponent from "../../components/shared/DragComponent";
 import { useDragPosition } from "../../hooks/useDragPosition";
 import { GameContext } from "../../context/GameContext";
-import { mockWriteData } from "../../utils/mocks";
+import { mockWriteData } from "../../utils/mockData/modWrite";
 import { useDimesions } from "../../hooks/useDimesion";
 import { useResponseAudio } from "../../hooks/usePlaySounds";
 import WrittingInstructions from "../../components/games/WrittingModule/WrittingInstructions";
@@ -119,7 +119,7 @@ const WrittingScreen = () => {
             });
             setTransition(true);
           } else {
-            history.push("level-up");
+            history.push("/level-up");
           }
         } else {
           dragItem.classList.add("wrLetterBad");

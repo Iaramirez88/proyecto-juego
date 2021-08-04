@@ -1,19 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 
-import background from "../../../assets/images/background/fondoModOtonno.svg";
-import Header from "../../../components/shared/Header";
-import TitleSound from "../../../components/shared/TitleSound";
-import { GameContext } from "../../../context/GameContext";
-import { useSetBackGround } from "../../../hooks/useSetBackGround";
-import instruction from "../../../assets/sounds/intructions/enunciadoOtonnoVocal.mp3";
-import vocalA from "../../../assets/sounds/intructions/vocalAa.mp3";
-import { getData } from "../../../utils/mockData/mockModule6";
-import "../../../assets/styles/fall-module.css";
-import { useTransitionGame } from "../../../hooks/useTransitionGame";
-import { useResponseAudio } from "../../../hooks/usePlaySounds";
-import { useLocalStorage } from "../../../hooks/useLocalStorage";
-import FallInstructions from "../../../components/games/FallModule/FallInstructions";
+import background from "../../assets/images/background/fondoModOtonno.svg";
+import Header from "../../components/shared/Header";
+import TitleSound from "../../components/shared/TitleSound";
+import { GameContext } from "../../context/GameContext";
+import { useSetBackGround } from "../../hooks/useSetBackGround";
+import instruction from "../../assets/sounds/intructions/enunciadoOtonnoVocal.mp3";
+import vocalA from "../../assets/sounds/intructions/vocalAa.mp3";
+import { getData } from "../../utils/mockData/modFall";
+import "../../assets/styles/fall-module.css";
+import { useTransitionGame } from "../../hooks/useTransitionGame";
+import { useResponseAudio } from "../../hooks/usePlaySounds";
+import FallInstructions from "../../components/games/FallModule/FallInstructions";
 
 const FallModule = () => {
   useSetBackGround(background);
@@ -21,7 +20,6 @@ const FallModule = () => {
   const history = useHistory();
   let { id } = useParams();
   const [playResponseAudio] = useResponseAudio();
-  const { getDataLocal } = useLocalStorage("instructions");
   const [state, setState] = useState({
     words: [],
     current: [],
@@ -33,23 +31,20 @@ const FallModule = () => {
   const [transition, setTransition] = useTransitionGame(".containerGame");
 
   useEffect(() => {
-    console.log(getDataLocal("fall"));
-  }, [getDataLocal]);
-
-  useEffect(() => {
-    if (!state.isLoading) {
-      getData().then((response) => {
-        const data = prepareData(response[0]);
-        setState({
-          ...state,
-          words: response,
-          current: data,
-          isLoading: true,
-          letter: setPrincipalLetter(id),
-        });
+    const init = () => {
+      const response = getData(id);
+      const data = prepareData(response[0]);
+      setState({
+        ...state,
+        words: response,
+        current: data,
+        isLoading: true,
+        letter: setPrincipalLetter(id),
       });
-    }
-  }, [state, id]);
+    };
+
+    init();
+  }, []);
 
   const selectItem = (index) => {
     const { position } = state;

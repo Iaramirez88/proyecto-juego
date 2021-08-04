@@ -1,10 +1,9 @@
-import userEvent from "@testing-library/user-event";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import logoKoala from "../../assets/images/logoInicalAnimado.svg";
 import ButtonDiv from "../../components/Buttons";
 import HeaderHome from "../../components/shared/HeaderHome";
-import { useLoading } from "../../hooks/useLoading";
+import LoadingComponent from "../../components/shared/LoadingComponent";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useRequestApi } from "../../hooks/useRequesApi";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
@@ -18,9 +17,9 @@ const ScreenPlans = () => {
   const apiUser = useRequestApi("user");
   const [plans, setPlans] = useState([]);
   const [user, setUser] = useState(null);
-  const setLoader = useLoading();
   const [totalPay, setTotalPay] = useState(0);
   const [alert, setAlert] = useState(false);
+  const [loading, setLoader] = useState(true);
 
   const [state, setState] = useState({
     idplan: 0,
@@ -56,7 +55,6 @@ const ScreenPlans = () => {
       });
     }
 
-    console.log(user);
     const { token } = getData();
     let data = {
       password: state.password,
@@ -89,6 +87,7 @@ const ScreenPlans = () => {
   };
 
   useEffect(() => {
+    let isMounted = true;
     const getTitle = ({ meses_precio }) => {
       if (meses_precio === 0) return "Gratis";
       if (meses_precio === 1) return "Mensual";
@@ -97,14 +96,11 @@ const ScreenPlans = () => {
     };
 
     const init = async () => {
-      setLoader(true);
       const { id, token } = getData();
       const resUser = await apiUser.get(`${id}`, token);
       if (resUser.code === 404) return;
-      setUser(resUser.response);
       const id_tipo_tutor = resUser.response.id_tipo_tutor;
       const resPlan = await apiPlans.get(`1/${id_tipo_tutor}`);
-      setLoader(false);
       if (resPlan.code === 404) return;
       const { response } = resPlan;
       let data = response
@@ -123,13 +119,22 @@ const ScreenPlans = () => {
           if (a.meses_precio < b.meses_precio) {
             return -1;
           }
-          // a must be equal to b
           return 0;
         });
-      setPlans(data);
+      if (isMounted) {
+        setUser(resUser.response);
+        setPlans(data);
+        setLoader(false);
+      }
     };
     init();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
+
+  if (loading) return <LoadingComponent />;
 
   return (
     <div>
@@ -167,7 +172,7 @@ const ScreenPlans = () => {
           </div>
           <div className="smForm planInput">
             <label style={{ color: "#006cb3" }} htmlFor="payment">
-              Total a pagar: {totalPay}
+              Total a pagar: {totalPay} $
             </label>
           </div>
 

@@ -40,7 +40,7 @@ const VerifyEmailScreen = () => {
       setText("success");
       dispatch({
         type: "SET_USER",
-        data: { ...response, token },
+        value: { ...response, token },
       });
       setData({ ...response, token });
       setStartCount(true);

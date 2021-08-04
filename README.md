@@ -25,6 +25,12 @@ npm start
 npm run dev-serve
 ```
 
+**Run documentation code:**
+
+```
+npm run doc
+```
+
 ## Code tree explanation
 
 ```

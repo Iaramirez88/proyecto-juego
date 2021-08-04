@@ -1,19 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router";
+import React, { useState } from "react";
+import { useParams } from "react-router";
 import btnNext from "../../../assets/images/botonNext.svg";
 import ButtonDiv from "../../../components/Buttons";
 import ResetPassword from "../../../components/forms/resetPassword";
-import { GameContext } from "../../../context/GameContext";
 import { useRequestApi } from "../../../hooks/useRequesApi";
 import { useLoading } from "../../../hooks/useLoading";
 import { validateEmail } from "../../../utils/tools";
 
 const FormSignUp = () => {
   const { id } = useParams();
-  const history = useHistory();
   const apiSign = useRequestApi("user");
   const textTutor = "Padre";
-  const { dispatch } = useContext(GameContext);
   const setLoader = useLoading();
 
   const [state, setState] = useState({

@@ -1,12 +1,27 @@
-import React, { useEffect, useReducer } from "react";
+// @ts-check
+
+/**
+ * the following context manage results score in global scope, and accordion in home
+ * also shared user logged data
+ * @module GameContext
+ */
+import React, { useEffect, useReducer, useState } from "react";
 import LoadingComponent from "../components/shared/LoadingComponent";
-import { useLoading } from "../hooks/useLoading";
+import useAuth from "../hooks/useAuth";
 import { useLocalStorage } from "../hooks/useLocalStorage";
-import { useRequestApi } from "../hooks/useRequesApi";
 import { modulesInstructions } from "../utils/modulesInstructions";
 
-export const GameContext = React.createContext();
+export const GameContext = React.createContext(null);
 
+/**
+ * Reducer for handler state application
+ * @function
+ * @param {Object} state Previous state of the app
+ * @param {Object} action New data provided for state app
+ * @param {Object} action.type Type of action to set in next new state
+ * @param {Object} action.value Value to store in next new state
+ * @returns {Object} new state of the app
+ */
 const reducer = (state, action) => {
   switch (action.type) {
     case "ADD_POINTS": {
@@ -26,7 +41,7 @@ const reducer = (state, action) => {
     case "SET_USER": {
       return {
         ...state,
-        user: action.data,
+        user: action.value,
       };
     }
 
@@ -47,55 +62,36 @@ const initialState = () => {
   return {
     points: 0,
     moduleOpen: !data ? -1 : data["name"],
-    user: null,
     loading: false,
+    user: null,
   };
 };
 
+/**
+ * GameContext Provider
+ * @function
+ */
 export const GameContextProvider = ({ children }) => {
   const [stateContext, dispatch] = useReducer(reducer, initialState());
   const { batchSave } = useLocalStorage("instructions");
-  const { getData } = useLocalStorage("user");
-  const apiAuth = useRequestApi("auth");
-
-  useEffect(() => {
-    batchSave(modulesInstructions);
-  }, [batchSave]);
+  const { isLogged } = useAuth(dispatch);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const init = async () => {
-      const user = getData();
-      if (user) {
-        dispatch({
-          type: "SET_LOADING",
-          value: true,
-        });
-        let { code } = await apiAuth.get("logged", user.token);
-        dispatch({
-          type: "SET_LOADING",
-          value: false,
-        });
-        if (code === 403) {
-          dispatch({
-            type: "SET_USER",
-            data: null,
-          });
-        }
-        if (code === 200) {
-          dispatch({
-            type: "SET_USER",
-            data: user,
-          });
-        }
-      }
+      setLoading(true);
+      batchSave(modulesInstructions);
+      await isLogged();
+      setLoading(false);
     };
 
     init();
   }, []);
 
+  if (loading) return <LoadingComponent />;
+
   return (
     <GameContext.Provider value={{ stateContext, dispatch }}>
-      {stateContext.loading && <LoadingComponent />}
       {children}
     </GameContext.Provider>
   );

@@ -10,7 +10,7 @@ import {
   oso,
   elefante,
   alas,
-} from "../utils/imagesGames";
+} from "../imagesGames";
 
 import {
   arbolSound,
@@ -24,7 +24,7 @@ import {
   insectosSound,
   osoSound,
   alasSound,
-} from "../utils/sounds";
+} from "../sounds";
 
 export const getUniqueId = () => {
   return Math.floor(Math.random() * new Date().getTime());

@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useDimesions } from "../../hooks/useDimesion";
 import { iconOpenModule, iconCloseModule } from "../../utils/imagesResources";
 import "../../assets/styles/home.css";
-import building from "../../assets/images/enConstruccion.svg";
 
 import { useHistory } from "react-router-dom";
 import { useRamdonId } from "../../hooks/useRamdonId";
@@ -15,9 +14,8 @@ const HomeGridComponent = ({ mainTitle, list, mainImage, moduleOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { setDataLocal } = useLocalStorage("module");
   const panelRef = useRef(null);
-  const [loading, setLoading] = useState(false);
   const gridCardRef = useRef(null);
-  const { stateContext, dispatch } = useContext(GameContext);
+  const { dispatch } = useContext(GameContext);
 
   useEffect(() => {
     const panel = panelRef.current;
@@ -99,7 +97,6 @@ const HomeGridComponent = ({ mainTitle, list, mainImage, moduleOpen }) => {
 export const IconItem = ({ img, title, styles, link, active, letter }) => {
   const history = useHistory();
   const linkUrl = letter ? `${link}/${letter}` : link;
-  console.log(linkUrl);
   return (
     <div className={styles}>
       <img

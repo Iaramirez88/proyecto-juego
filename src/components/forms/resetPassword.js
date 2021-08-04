@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ButtonDiv from "../Buttons";
 
 const ResetPassword = ({ onSubmit, titleButton }) => {
@@ -31,7 +31,7 @@ const ResetPassword = ({ onSubmit, titleButton }) => {
       });
       return;
     }
-    onSubmit(state);
+    onSubmit({ pass: state.pass.trim() });
   };
 
   // useEffect(() => {
