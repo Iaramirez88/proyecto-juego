@@ -69,15 +69,15 @@ export const vocalAUList = [
   {
     id: getUId(),
     title: "E",
-    active: 0,
+    active: 1,
     list: [
       [
-        { id: getUId(), title: "Vocabulario", img: iconoVocabulario },
-        { id: getUId(), title: "Escucha", img: iconoEscucha },
-        { id: getUId(), title: "Pares", img: iconopares },
+        { id: getUId(), title: "Vocabulario", img: iconoVocabulario, link:"vocabulario", letter:"e", active:1 },
+        { id: getUId(), title: "Escucha", img: iconoEscucha, link:"Escucha", letter:"e", active:1 },
+        { id: getUId(), title: "Pares", img: iconopares, link:"pares" , letter: "e", active: 1},
       ],
       [
-        { id: getUId(), title: "Otoño", img: iconoOtono },
+        { id: getUId(), title: "Otoño", img: iconoOtono, link:"otoño", letter:"e", active:1 },
         { id: getUId(), title: "Escritura", img: iconoEscritura },
         { id: getUId(), title: "Armar", img: iconoArmar },
       ],

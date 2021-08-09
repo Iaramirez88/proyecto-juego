@@ -8,9 +8,22 @@ import {
   avion,
   alas,
   astronauta,
+  //o
   oso,
+  //e
+  enano,
+  erizo,
   elefante,
+  escalera,
+  escarabajo,
+  escoba,
+  escorpion,
+  espejo,
+  estrella,
+  esquiar,
+  //i
   insectos,
+  //u
   unicornio,
 } from "../imagesGames";
 
@@ -22,12 +35,25 @@ import {
   avionSound,
   AbejaSound,
   anilloSound,
-  elefanteSound,
-  insectosSound,
-  osoSound,
   alasSound,
-  unicornioSound,
   astronautaSound,
+  //e
+  elefanteSound,
+  enanoSound,
+  erizoSound,
+  escaleraSoumd,
+  escarabajoSound,
+  escobaSound,
+  escorpionSound,
+  espejoSound,
+  esquiarSound,
+  estrellaSound,
+  //i
+  insectosSound,
+  //o
+  osoSound,
+  //u
+  unicornioSound,
 } from "../sounds";
 
 const listItem = {
@@ -98,14 +124,68 @@ const listItem = {
   e: [
     {
       id: 11,
+      name: "Enano",
+      image: enano,
+      sound: enanoSound,
+    },
+    {
+      id: 12,
+      name: "Erizo",
+      image: erizo,
+      sound: erizoSound,
+    },
+    {
+      id: 13,
       name: "Elefante",
       image: elefante,
       sound: elefanteSound,
     },
+    {
+      id: 14,
+      name: "Estralla",
+      image: estrella,
+      sound: estrellaSound,
+    },
+    {
+      id: 15,
+      name: "Escoba",
+      image: escoba,
+      sound: escobaSound,
+    },
+    {
+      id: 16,
+      name: "Espejo",
+      image: espejo,
+      sound: espejoSound,
+    },
+    {
+      id: 17,
+      name: "Escalera",
+      image: escalera,
+      sound: escaleraSoumd,
+    },
+    {
+      id: 18,
+      name: "Esquiar",
+      image: esquiar,
+      sound: esquiarSound,
+    },
+    {
+      id: 19,
+      name: "Escarabjo",
+      image: escarabajo,
+      sound: escarabajoSound,
+    },
+    {
+      id: 18,
+      name: "Escorpion",
+      image: escorpion,
+      sound: escorpionSound,
+    }
   ],
   i: [
     {
-      id: 12,
+      id: 19,
       name: "Insectos",
       image: insectos,
       sound: insectosSound,
@@ -113,7 +193,7 @@ const listItem = {
   ],
   u: [
     {
-      id: 13,
+      id: 20,
       name: "Unicornio",
       image: unicornio,
       sound: unicornioSound,

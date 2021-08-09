@@ -8,6 +8,17 @@ import {
   avion,
   alas,
   astronauta,
+  //e
+  enano,
+  erizo,
+  elefante,
+  escalera,
+  escarabajo,
+  escoba,
+  escorpion,
+  espejo,
+  estrella,
+  esquiar
 } from "../imagesGames";
 
 import {
@@ -20,6 +31,17 @@ import {
   anilloSound,
   alasSound,
   astronautaSound,
+  //e
+  elefanteSound,
+  enanoSound,
+  erizoSound,
+  escaleraSoumd,
+  escarabajoSound,
+  escobaSound,
+  escorpionSound,
+  espejoSound,
+  esquiarSound,
+  estrellaSound
 } from "../sounds";
 
 import { getUniqueId } from "./modWrite";
@@ -274,6 +296,259 @@ export const listPair = {
         name: "Arbol",
         sound: arbolSound,
         image: arbol,
+      },
+    ],
+  ],
+  e: [
+    [
+      {
+        id: getUniqueId(),
+        name: "Escoba",
+        image: escoba,
+        sound: escobaSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Enano",
+        image: enano,
+        sound: enanoSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "EScorpion",
+        image: escorpion,
+        sound: escorpionSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Enano",
+        image: enano,
+        sound: enanoSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Estralla",
+        image: estrella,
+        sound: estrellaSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Escoba",
+        image: escoba,
+        sound: escobaSound,
+      },
+      {
+        
+        id: getUniqueId(),
+        name: "EScorpion",
+        image: escorpion,
+        sound: escorpionSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Estralla",
+        image: estrella,
+        sound: estrellaSound,
+      },
+    ],
+    [
+      {
+        id: getUniqueId(),
+        name: "Elefante",
+        image: elefante,
+        sound: elefanteSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Erizo",
+        image: erizo,
+        sound: erizoSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Escalera",
+        image: escalera,
+        sound: escaleraSoumd,
+      },
+      {
+        id: getUniqueId(),
+        name: "Elefante",
+        image: elefante,
+        sound: elefanteSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Erizo",
+        image: erizo,
+        sound: erizoSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Escalera",
+        image: escalera,
+        sound: escaleraSoumd,
+      },
+      {
+        id: getUniqueId(),
+        name: "EScorpion",
+        image: escorpion,
+        sound: escorpionSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "EScorpion",
+        image: escorpion,
+        sound: escorpionSound,
+      },
+    ],
+    [
+      {
+        id: getUniqueId(),
+        name: "Erizo",
+        image: erizo,
+        sound: erizoSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Espejo",
+        image: espejo,
+        sound: espejoSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Escoba",
+        image: escoba,
+        sound: escobaSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Escarabjo",
+        image: escarabajo,
+        sound: escarabajoSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Escarabjo",
+        image: escarabajo,
+        sound: escarabajoSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Erizo",
+        image: erizo,
+        sound: erizoSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Escoba",
+        image: escoba,
+        sound: escobaSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Espejo",
+        image: espejo,
+        sound: espejoSound,
+      },
+    ],
+    [
+      {
+        id: getUniqueId(),
+        name: "Escarabjo",
+        image: escarabajo,
+        sound: escarabajoSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Esquiar",
+        image: esquiar,
+        sound: esquiarSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Enano",
+        image: enano,
+        sound: enanoSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Escalera",
+        image: escalera,
+        sound: escaleraSoumd,
+      },
+      {
+        id: getUniqueId(),
+        name: "Enano",
+        image: enano,
+        sound: enanoSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Esquiar",
+        image: esquiar,
+        sound: esquiarSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Escalera",
+        image: escalera,
+        sound: escaleraSoumd,
+      },
+      {
+        id: getUniqueId(),
+        name: "Escarabjo",
+        image: escarabajo,
+        sound: escarabajoSound,
+      },
+    ],
+    [
+      {
+        id: getUniqueId(),
+        name: "Estralla",
+        image: estrella,
+        sound: estrellaSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Espejo",
+        image: espejo,
+        sound: espejoSound
+      },
+      {
+        id: getUniqueId(),
+        name: "Estralla",
+        image: estrella,
+        sound: estrellaSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Elefante",
+        image: elefante,
+        sound: elefanteSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Esquiar",
+        image: esquiar,
+        sound: esquiarSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Esquiar",
+        image: esquiar,
+        sound: esquiarSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Espejo",
+        image: espejo,
+        sound: espejoSound
+      },
+      {
+        id: getUniqueId(),
+        name: "Elefante",
+        image: elefante,
+        sound: elefanteSound,
       },
     ],
   ],
