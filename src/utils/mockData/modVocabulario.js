@@ -7,6 +7,17 @@ import {
   avion,
   alas,
   astronauta,
+    //e
+    enano,
+    erizo,
+    elefante,
+    escalera,
+    escarabajo,
+    escoba,
+    escorpion,
+    espejo,
+    estrella,
+    esquiar
 } from "../imagesGames";
 
 import {
@@ -18,6 +29,17 @@ import {
   anilloSound,
   alasSound,
   astronautaSound,
+  //e
+  elefanteSound,
+  enanoSound,
+  erizoSound,
+  escaleraSoumd,
+  escarabajoSound,
+  escobaSound,
+  escorpionSound,
+  espejoSound,
+  esquiarSound,
+  estrellaSound,
 } from "../sounds";
 
 export const dataList = {
@@ -70,6 +92,69 @@ export const dataList = {
       image: alas,
       sound: alasSound,
     },
+  ],
+  e: [
+    {
+      id: 7,
+      name: "Enano",
+      image: enano,
+      sound: enanoSound,
+    },
+    {
+      id: 8,
+      name: "Erizo",
+      image: erizo,
+      sound: erizoSound,
+    },
+    {
+      id: 9,
+      name: "Elefante",
+      image: elefante,
+      sound: elefanteSound,
+    },
+    {
+      id: 10,
+      name: "Estralla",
+      image: estrella,
+      sound: estrellaSound,
+    },
+    {
+      id: 11,
+      name: "Escoba",
+      image: escoba,
+      sound: escobaSound,
+    },
+    {
+      id: 12,
+      name: "Espejo",
+      image: espejo,
+      sound: espejoSound,
+    },
+    {
+      id: 13,
+      name: "Escalera",
+      image: escalera,
+      sound: escaleraSoumd,
+    },
+    {
+      id: 14,
+      name: "Esquiar",
+      image: esquiar,
+      sound: esquiarSound,
+    },
+    {
+      id: 15,
+      name: "Escarabjo",
+      image: escarabajo,
+      sound: escarabajoSound,
+    },
+    {
+      id: 16,
+      name: "Escorpion",
+      image: escorpion,
+      sound: escorpionSound,
+    }
+
   ],
 };
 

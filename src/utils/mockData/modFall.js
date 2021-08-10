@@ -115,6 +115,121 @@ const data = {
       },
     ],
   ],
+  e:[
+    [
+     {
+        id: getUniqueId(),
+        name: "E",
+      },
+      {
+        id: getUniqueId(),
+        name: "A",
+      },
+      {
+        id: getUniqueId(),
+        name: "I",
+      },
+    ],
+    [
+      {
+        id: getUniqueId(),
+        name: "A",
+      },
+      {
+        id: getUniqueId(),
+        name: "U",
+      },
+      {
+        id: getUniqueId(),
+        name: "E",
+      },
+    ],
+    [
+      {
+        id: getUniqueId(),
+        name: "o",
+      },
+      {
+        id: getUniqueId(),
+        name: "e",
+      },
+      {
+        id: getUniqueId(),
+        name: "a",
+      },
+    ],
+    [
+      {
+        id: getUniqueId(),
+        name: "u",
+      },
+      {
+        id: getUniqueId(),
+        name: "e",
+      },
+      {
+        id: getUniqueId(),
+        name: "i",
+      },
+    ],
+    [
+      {
+        id: getUniqueId(),
+        name: "i",
+      },
+      {
+        id: getUniqueId(),
+        name: "a",
+      },
+      {
+        id: getUniqueId(),
+        name: "e",
+      },
+    ],
+    [
+      {
+        id: getUniqueId(),
+        name: "a",
+      },
+      {
+        id: getUniqueId(),
+        name: "e",
+      },
+      {
+        id: getUniqueId(),
+        name: "u",
+      },
+    ],
+    [
+      {
+        id: getUniqueId(),
+        name: "U",
+      },
+      {
+        id: getUniqueId(),
+        name: "I",
+      },
+      {
+        id: getUniqueId(),
+        name: "E",
+      },
+    ],
+    [
+      {
+        id: getUniqueId(),
+        name: "a",
+      },
+      {
+        id: getUniqueId(),
+        name: "e",
+      },
+      {
+        id: getUniqueId(),
+        name: "i",
+      },
+  ]
+]
+
 };
 
 export const getData = (letter) => {

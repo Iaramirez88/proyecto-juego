@@ -10,6 +10,15 @@ import {
   oso,
   elefante,
   alas,
+  enano,
+  erizo,
+  estrella,
+  escoba,
+  espejo,
+  escalera,
+  esquiar,
+  escarabajo,
+  escorpion,
 } from "../imagesGames";
 
 import {
@@ -24,6 +33,15 @@ import {
   insectosSound,
   osoSound,
   alasSound,
+  enanoSound,
+  erizoSound,
+  estrellaSound,
+  escobaSound,
+  espejoSound,
+  escaleraSoumd,
+  esquiarSound,
+  escarabajoSound,
+  escorpionSound,
 } from "../sounds";
 
 export const getUniqueId = () => {
@@ -73,6 +91,76 @@ export const data = [
       sound: avionSound,
     },
   },
+  {
+    word1:{
+      id: 7,
+      name: "Enano",
+      image: enano,
+      sound: enanoSound,
+      },
+    word2:{
+      id:8,
+      name: "Erizo",
+      image: erizo,
+      sound: erizoSound,
+    },
+  },
+  {
+    word1:{
+      id:9,
+      name: "Elefante",
+      image: elefante,
+      sound:elefanteSound,
+    },
+    word2:{
+      id:10,
+      name:"Estralla",
+      image: estrella,
+      sound: estrellaSound,
+    }
+  },
+  {
+    word1:{
+      id:11,
+      name:"Escoba",
+      image: escoba,
+      sound: escobaSound,
+    },
+    word2:{
+      id:12,
+      name:"Espejo",
+      image: espejo,
+      sound: espejoSound,
+    },
+  },
+  {
+   word1:{
+     id:13,
+     name:"Escalera",
+     image: escalera,
+     sound: escaleraSoumd,
+   },
+   word2:{
+     id:14,
+     name:"Esquiar",
+     image: esquiar,
+     sound: esquiarSound,
+   }
+  },
+  {
+    word1:{
+      id:15,
+      name: "Escarabjo",
+      image: escarabajo,
+      sound: escarabajoSound, 
+    },
+    word2:{
+      id:16,
+      name: "Escorpion",
+      image: escorpion,
+      sound: escorpionSound,
+    }
+  }
 ];
 
 export const mockAudioData = [
@@ -144,6 +232,7 @@ const listWrite = [
   { id: 2, name: "Araña", sound: aranaSound, image: arana },
   { id: 3, name: "Abeja", sound: AbejaSound, image: abeja },
   { id: 4, name: "Alas", sound: alasSound, image: alas },
+  { id:5, name:"enano", sooud:enanoSound,image:enano},
 ];
 
 export const mockWriteData = listWrite
