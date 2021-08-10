@@ -67,6 +67,7 @@
   padding: 1em;
   border-radius: 0.5em;
   box-shadow: -4px 4px 2px 0px #006cb2;
+  box-sizing: unset;
 }
 .rowLetterTitle p {
   color: white;
@@ -167,6 +168,7 @@
   opacity: 1;
 }
 .homeHeaderIcons img {
+  box-sizing: unset;
   opacity: 0.3;
   background: #006cb2;
   height: 80px;

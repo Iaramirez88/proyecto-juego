@@ -28,7 +28,7 @@ const Routes = () => {
         <Route path="/sesion" component={SignInModule} />
         <Route path="/mi-cuenta/:id" component={ScreenUser} />
         <Route path="/planes/:id" component={ScreenPlans} />
-        <Route path="/realizar-pagos" component={ScreenPayment} />
+        <Route path="/registro-de-pagos/:id" component={ScreenPayment} />
         <Route path="/" component={Home} />
       </Switch>
     </Router>

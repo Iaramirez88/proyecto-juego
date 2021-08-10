@@ -15,8 +15,8 @@
   src: url("../fonts/CENTURY.TTF");
 }
 body, html {
-  font-size: 100%;
-  font-family: GhoticB;
+  font-size: 100% !important;
+  font-family: GhoticB !important;
   height: 100%;
   margin: 0;
   background-image: url("../images/background_tramas.svg");
@@ -89,10 +89,15 @@ header img {
   display: none !important;
 }
 
-.row {
+.rowCustom {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.inputReadonly {
+  background: #c2c2c2 !important;
+  box-shadow: 0px 2px 4px 1px #c2c2c2 !important;
 }
 
 .modal {
@@ -172,7 +177,7 @@ header img {
 }
 @media screen and (max-width: 1200px) {
   body {
-    font-size: 80%;
+    font-size: 80% !important;
   }
 
   .backgroundImage {
@@ -183,7 +188,7 @@ header img {
 }
 @media screen and (max-width: 992px) {
   body {
-    font-size: 70%;
+    font-size: 70% !important;
   }
 
   header {
@@ -192,7 +197,7 @@ header img {
 }
 @media screen and (max-width: 768px) {
   body {
-    font-size: 65%;
+    font-size: 65% !important;
   }
 
   header {

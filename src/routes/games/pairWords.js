@@ -115,7 +115,7 @@ const Board = ({ cards, selectCard }) => {
   }, []);
 
   return rows.map((item, index) => (
-    <div className="pwRow row" key={index}>
+    <div className="pwRow rowCustom" key={index}>
       {item.map((item, i) => (
         <CardItem
           key={item.id}

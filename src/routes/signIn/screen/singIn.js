@@ -35,15 +35,17 @@ const SingIn = () => {
 
   const onSuccess = () => history.push("/");
 
-  const onFailed = (code) =>
+  const onFailed = (code) => {
+    console.log(code);
     setState({
       ...state,
       error: true,
       message:
-        code === 403
+        code === 403 || code === 404
           ? "Correo o contraseña incorrectos"
           : "Oops! algo ha salido mal",
     });
+  };
 
   const onSubmit = async () => {
     if (!state.email)

@@ -26,6 +26,7 @@ const useAuth = (dispatch) => {
    */
   const signIn = async (data, onSuccess, onFailed) => {
     const request = await api.post("login", data);
+    console.log(request);
     if (request.code === 403 || request.code === 500) onFailed();
     if (request.code === 200) {
       const { response } = request;

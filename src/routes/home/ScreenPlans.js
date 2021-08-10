@@ -20,6 +20,7 @@ const ScreenPlans = () => {
   const [totalPay, setTotalPay] = useState(0);
   const [alert, setAlert] = useState(false);
   const [loading, setLoader] = useState(true);
+  console.log(plans);
 
   const [state, setState] = useState({
     idplan: 0,
@@ -82,7 +83,7 @@ const ScreenPlans = () => {
     }
     setAlert(true);
     setTimeout(() => {
-      return history.push("/realizar-pagos");
+      return history.push(`/registro-de-pagos/${id}`);
     }, 3000);
   };
 

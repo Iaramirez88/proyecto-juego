@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import gsap from "gsap";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import { useSetBackGround } from "../../hooks/useSetBackGround";
 import backGround from "../../assets/images/fondoModEscritura.svg";
@@ -19,13 +19,15 @@ import WrittingInstructions from "../../components/games/WrittingModule/Writting
 
 const WrittingScreen = () => {
   useSetBackGround(backGround);
+  const { idLetter } = useParams();
+
   const [isInPosition] = useDragPosition();
   const dimesion = useDimesions();
   const { dispatch } = useContext(GameContext);
   const history = useHistory();
   const [playResponseAudio] = useResponseAudio();
   const [transition, setTransition] = useState(false);
-  const [state, setState] = useState(initialState());
+  const [state, setState] = useState(initialState(idLetter));
 
   useEffect(() => {
     if (transition) {
@@ -285,10 +287,10 @@ function setResponse(word) {
   return { ...word, spell: response };
 }
 
-function initialState() {
+function initialState(letter) {
   let [options, numLetters] = createOptions(
     mockWriteData[0].name.toLowerCase(),
-    "a"
+    letter
   );
   return {
     words: mockWriteData,
@@ -296,7 +298,7 @@ function initialState() {
     current: setResponse(mockWriteData[0]),
     position: 0,
     numLetters: numLetters,
-    response: "a",
+    response: letter,
   };
 }
 
