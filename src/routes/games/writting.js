@@ -110,7 +110,7 @@ const WrittingScreen = () => {
             let position = state.position + 1;
             let [options, numLetters] = createOptions(
               state.words[position].name.toLowerCase(),
-              "a"
+              idLetter
             );
             setState({
               ...state,
@@ -288,14 +288,12 @@ function setResponse(word) {
 }
 
 function initialState(letter) {
-  let [options, numLetters] = createOptions(
-    mockWriteData[0].name.toLowerCase(),
-    letter
-  );
+  const data = mockWriteData(letter);
+  let [options, numLetters] = createOptions(data[0].name.toLowerCase(), letter);
   return {
-    words: mockWriteData,
+    words: data,
     options: options,
-    current: setResponse(mockWriteData[0]),
+    current: setResponse(data[0]),
     position: 0,
     numLetters: numLetters,
     response: letter,

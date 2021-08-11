@@ -118,7 +118,7 @@ const Board = ({ cards, selectCard }) => {
     <div className="pwRow rowCustom" key={index}>
       {item.map((item, i) => (
         <CardItem
-          key={item.id}
+          key={item.id * Math.random()}
           {...item}
           selectCard={() => selectCard(index === 0 ? i : i + 4)}
         />

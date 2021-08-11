@@ -3,7 +3,7 @@ import gsap from "gsap/gsap-core";
 import { useHistory, useParams } from "react-router-dom";
 
 import Header from "../../components/shared/Header";
-import instructions from "../../assets/sounds/moduloEscucha.mp3";
+import { autioTitleIntructions } from "../../utils/modulesInstructions";
 import TitleSound from "../../components/shared/TitleSound";
 import { GameContext } from "../../context/GameContext";
 import {
@@ -27,6 +27,7 @@ export const AudioScreen = () => {
   const [state, setState] = useState({});
   const { dispatch } = useContext(GameContext);
   const history = useHistory();
+  const instructions = autioTitleIntructions.audio;
 
   const checkWord = (e, cardState, setCardState) => {
     let word = e.target.alt || e.target.dataset.word;
@@ -109,9 +110,9 @@ export const AudioScreen = () => {
     >
       <Header></Header>
       <TitleSound
-        title="Selecciona las imágenes que empiezan con la vocal a"
+        title={`Selecciona las imágenes que empiezan con la vocal ${idLetter}`}
         titleSound={instructions}
-        listAudio={[instructions]}
+        listAudio={[instructions.intro, instructions.letter[idLetter]]}
         ModalChild={AudioInstructions}
         module="audio"
       />

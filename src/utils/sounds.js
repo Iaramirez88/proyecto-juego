@@ -19,13 +19,13 @@ import astronautaSound from "../assets/sounds/astronauta.mp3";
 //e
 import elefanteSound from "../assets/sounds/e/elefante.mp3";
 import estrellaSound from "../assets/sounds/e/estrella.mp3";
-import enanoSound  from  "../assets/sounds/e/elefante.mp3";
+import enanoSound from "../assets/sounds/e/elefante.mp3";
 import erizoSound from "../assets/sounds/e/elefante.mp3";
-import escaleraSoumd  from "../assets/sounds/e/escalera.mp3";
+import escaleraSoumd from "../assets/sounds/e/escalera.mp3";
 import escarabajoSound from "../assets/sounds/e/escarabajo.mp3";
 import espejoSound from "../assets/sounds/e/espejo.mp3";
-import esquiarSound  from "../assets/sounds/e/esquiar.mp3";
-import escorpionSound  from "../assets/sounds/e/escorpion.mp3";
+import esquiarSound from "../assets/sounds/e/esquiar.mp3";
+import escorpionSound from "../assets/sounds/e/escorpion.mp3";
 import escobaSound from "../assets/sounds/e/escoba.mp3";
 
 //i

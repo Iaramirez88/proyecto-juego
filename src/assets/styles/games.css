@@ -57,8 +57,8 @@
   align-items: center;
 }
 .cardImage img {
-  width: 11em;
-  height: 13em;
+  width: 12em;
+  height: 12em;
 }
 
 .buttonAudio {
@@ -189,6 +189,7 @@
   margin-right: 0.5em;
 }
 .pointsBox p {
+  margin: 0;
   font-size: 2em;
   font-weight: bold;
   color: white;
