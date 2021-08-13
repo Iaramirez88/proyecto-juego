@@ -42,7 +42,7 @@ const ModalComponent = ({ children, showModal, closeButton, playInfo }) => {
   }, [showModal, playInfo, showFinger]);
 
   return (
-    <div className={`modal ${showModal ? "" : "hidden"}`}>
+    <div className={`modalComponent ${showModal ? "" : "hidden"}`}>
       <div className={`${showFinger ? "aiCover" : ""}`}></div>
       <div ref={refClick} className="playButton">
         {showFinger && <img id="fingerModal" src={finger} alt="finger" />}►
