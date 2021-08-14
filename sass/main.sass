@@ -126,17 +126,23 @@ header
   left: 48%
   top: 40%
 
+.mdContainerBody
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 100%
+
 @media screen and ( min-width: 1440px )
-  .modal
+  .modalComponent
     width: 50%
     height: 500px
 
 @media screen and ( min-width: 1200px )
-  .modal
+  .modalComponent
     height: 350px !important
 
 @media screen and ( min-width: 992px )
-  .modal
+  .modalComponent
     width: 500px
     height: 300px
 
@@ -160,11 +166,11 @@ header
     font-size: 65% !important
   header
     padding: 0
-  .modal
+  .modalComponent
     top: 200px
 
 @media screen and ( max-width: 485px  )
-  .modal
+  .modalComponent
     width: 250px
 
 @media screen and (max-width: 480px)

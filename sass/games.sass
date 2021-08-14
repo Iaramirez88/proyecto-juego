@@ -208,6 +208,7 @@ $box-shadow: 0px 3px 6px 2px
     background: base.$wordBoxColor
     padding: 5px 15px
     border-radius: 10px
+    box-sizing: unset
 
 .aiModalFinger
     width: 40px
@@ -266,6 +267,14 @@ $box-shadow: 0px 3px 6px 2px
     width: 40px
     height: auto
     position: absolute
+
+@media screen and ( min-width: 992px  )
+    .aiModalButton
+        width: 3.5em
+        height: 2.5em
+    .aiModalItem
+        width: 140px
+        height: 250px
 
 @media screen and (max-width: 992px)
     .titleGame

@@ -105,6 +105,7 @@
 
 .wrModalContainer {
   position: relative;
+  width: 90%;
 }
 
 .wrModalRow {

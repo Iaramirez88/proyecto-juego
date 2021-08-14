@@ -240,6 +240,7 @@
   background: #52c211;
   padding: 5px 15px;
   border-radius: 10px;
+  box-sizing: unset;
 }
 
 .aiModalFinger {
@@ -309,6 +310,17 @@
   position: absolute;
 }
 
+@media screen and (min-width: 992px) {
+  .aiModalButton {
+    width: 3.5em;
+    height: 2.5em;
+  }
+
+  .aiModalItem {
+    width: 140px;
+    height: 250px;
+  }
+}
 @media screen and (max-width: 992px) {
   .titleGame {
     top: 4em;

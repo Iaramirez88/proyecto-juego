@@ -53,7 +53,7 @@ const ModalComponent = ({ children, showModal, closeButton, playInfo }) => {
           <img src={imageClose} alt="close" />
         </button>
       </div>
-      <div>{children}</div>
+      <div className="mdContainerBody">{children}</div>
     </div>
   );
 };
