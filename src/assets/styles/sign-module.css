@@ -73,7 +73,7 @@
 
 .smForm {
   width: 65%;
-  margin-bottom: 1em;
+  margin: 0 auto 1em;
 }
 .smForm input {
   height: 3em;
@@ -92,7 +92,7 @@
 }
 
 .errorText {
-  font-size: 17px !important;
+  font-size: 14px !important;
   margin: 0 auto 5px;
   top: 5em;
   color: #d04161;
@@ -218,13 +218,13 @@
 .suBoxHeader {
   display: flex;
   justify-content: space-between;
-  height: 60px;
+  height: 10em;
   padding: 0 50px;
 }
 
 .suTitleCuenta {
   background: #faac00;
-  height: 40px;
+  height: 3em;
   color: white;
   font-size: 2em;
   border-radius: 1em;
@@ -348,12 +348,12 @@
   cursor: pointer;
 }
 
-#titleApp {
+.titleAppLogo {
   font-size: 2em;
   color: #48ab0f;
 }
 
-#welcomeText {
+.welcomeTextLogo {
   font-size: 1.7em;
   color: #1100AA;
 }

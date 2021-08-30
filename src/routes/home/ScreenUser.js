@@ -7,6 +7,7 @@ import { useRequestApi } from "../../hooks/useRequesApi";
 import { useLoading } from "../../hooks/useLoading";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import logokoala from "../../assets/images/logoInicalAnimado.svg";
+import TitleInfo from "./TitleInfo";
 
 const ScreenUser = () => {
   useSetBackGround();
@@ -36,17 +37,7 @@ const ScreenUser = () => {
     <div>
       <HeaderHome />
       <div>
-        <div className="suBoxHeader">
-          <div className="suTitleCuenta">Información de cuenta</div>
-          <a
-            href="https://www.artworkoala.com/preguntas-frecuentas/"
-            target="_blank"
-            className="suInfoIcon"
-            rel="noreferrer"
-          >
-            ?
-          </a>
-        </div>
+        <TitleInfo title="Información de cuenta" />
         {error && (
           <div style={{ textAlign: "center", marginTop: "3em" }}>
             <img alt="logoKoala" src={logokoala} width="100px" height="auto" />

@@ -6,6 +6,7 @@
  * @module GameContext
  */
 import React, { useEffect, useReducer, useState } from "react";
+import { useHistory } from "react-router";
 import LoadingComponent from "../components/shared/LoadingComponent";
 import useAuth from "../hooks/useAuth";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -74,14 +75,16 @@ const initialState = () => {
 export const GameContextProvider = ({ children }) => {
   const [stateContext, dispatch] = useReducer(reducer, initialState());
   const { batchSave } = useLocalStorage("instructions");
+  const { setDataLocal } = useLocalStorage("user");
   const { isLogged } = useAuth(dispatch);
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     const init = async () => {
       setLoading(true);
       batchSave(modulesInstructions);
-      await isLogged();
+      const logged = await isLogged();
       setLoading(false);
     };
 

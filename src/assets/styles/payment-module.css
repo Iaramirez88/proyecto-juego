@@ -1,0 +1,71 @@
+@font-face {
+  font-family: GhoticB;
+  src: url("../fonts/GOTHICB.TTF");
+}
+@font-face {
+  font-family: Coopbl;
+  src: url("../fonts/COOPBL.TTF");
+}
+@font-face {
+  font-family: Ghotic;
+  src: url("../fonts/GOTHIC.TTF");
+}
+@font-face {
+  font-family: Century;
+  src: url("../fonts/CENTURY.TTF");
+}
+.stepsBox {
+  height: 7em;
+  align-items: center;
+  margin: auto !important;
+}
+
+.stepsIcon {
+  width: 50px;
+  height: 50px;
+  background: #e4e4e4;
+  border-radius: 50px;
+  font-size: 2em;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stepsIcon.active {
+  background: #006cb2;
+  color: white;
+}
+
+.pyContainerButton {
+  padding-bottom: 1em;
+  display: flex;
+  justify-content: center;
+}
+.pyContainerButton div {
+  width: 30%;
+}
+
+.submitPayment {
+  color: white;
+  background: #52c211 !important;
+  font-size: 1.5em !important;
+  box-shadow: 0px 3px 6px 2px #48ab0f !important;
+}
+.submitPayment:active {
+  transform: scale(0.9);
+}
+.submitPayment .smBoxButton {
+  width: 40% !important;
+}
+.submitPayment .backColor {
+  background: #e5860a;
+  box-shadow: 0px 3px 6px 2px #faac00;
+}
+
+@media screen and (min-width: 992px) {
+  .pyInputRow {
+    height: 105px;
+  }
+}
+
+/*# sourceMappingURL=payment-module.css.map */

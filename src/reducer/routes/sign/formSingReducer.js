@@ -1,8 +1,18 @@
-const reducer = (state, action) => {
+export const reducer = (state, action) => {
   switch (action.type) {
-    case "": {
+    case "SET_USER": {
+      const { data } = action;
       return {
         ...state,
+        name: data.name,
+        dni: data.dni,
+        dnitype: data.dnitype,
+        phoneNumber: data.phoneNumber,
+        country: data.country,
+        productId: data.productId,
+        date: data.date,
+        price: data.price,
+        currency: data.currency,
       };
     }
 
@@ -11,4 +21,16 @@ const reducer = (state, action) => {
   }
 };
 
-const initialState = () => {};
+export const initialState = () => {
+  return {
+    name: "",
+    dni: "",
+    dnitype: "",
+    phoneNumber: "",
+    country: "",
+    productId: "",
+    date: "",
+    price: 0,
+    currency: "",
+  };
+};

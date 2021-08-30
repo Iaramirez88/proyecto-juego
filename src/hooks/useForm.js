@@ -17,5 +17,5 @@ export const useForm = (props) => {
     setState({ ...state, [type]: value });
   };
 
-  return [state, onChange];
+  return [state, onChange, setState];
 };

@@ -1,0 +1,85 @@
+@font-face {
+  font-family: GhoticB;
+  src: url("../fonts/GOTHICB.TTF");
+}
+@font-face {
+  font-family: Coopbl;
+  src: url("../fonts/COOPBL.TTF");
+}
+@font-face {
+  font-family: Ghotic;
+  src: url("../fonts/GOTHIC.TTF");
+}
+@font-face {
+  font-family: Century;
+  src: url("../fonts/CENTURY.TTF");
+}
+.llContainer {
+  padding: 0 60px;
+  margin-top: 3em !important;
+  width: 100%;
+}
+
+.llTitleRow {
+  height: 5em;
+  display: flex;
+  align-items: center;
+}
+
+.llContainerList {
+  margin-top: 3em !important;
+  display: flex !important;
+  align-items: center;
+}
+
+.llItemName {
+  background: #2c65ac;
+  border-radius: 10px;
+  color: white;
+  font-size: 1.5em;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 10px;
+  height: 3em;
+  margin-bottom: 0px;
+}
+.llItemName img {
+  background: #7eb8f9;
+  position: absolute;
+  left: 0;
+  border-radius: 15px;
+}
+
+.llBoxRow {
+  padding: 0px 1em;
+}
+
+.llInputItem {
+  background: #c0e7fc;
+  height: 3em;
+}
+
+.llCheboxRow {
+  display: flex;
+  justify-content: space-evenly;
+}
+.llCheboxRow img {
+  background: #c0e7fc;
+  width: 3.5em;
+  height: 3.5em;
+  border-radius: 10px;
+  padding: 0.3em;
+}
+
+.llCheckbox {
+  width: 3em;
+  height: 3em;
+}
+
+.mb-3 {
+  margin-bottom: 0px;
+}
+
+/*# sourceMappingURL=license-module.css.map */

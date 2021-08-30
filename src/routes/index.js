@@ -10,8 +10,9 @@ import PairWords from "./games/pairWords";
 import SignInModule from "./signIn";
 import ScreenUser from "./home/ScreenUser";
 import ScreenPlans from "./home/ScreenPlans";
-import ScreenPayment from "./home/ScreenPayment";
 import FallModule from "./games/fallModule";
+import ScreenPayment from "./payment/ScreenPayment";
+import ScreenLicense from "./licenses/ScreenLicense";
 
 /** */
 const Routes = () => {
@@ -26,9 +27,13 @@ const Routes = () => {
         <Route path="/pares/:idLetter" component={PairWords} />
         <Route path="/otoño/:id" component={FallModule} />
         <Route path="/sesion" component={SignInModule} />
+        <Route
+          path="/mi-cuenta/registrar-pago/:id/:idplan"
+          component={ScreenPayment}
+        />
+        <Route path="/mi-cuenta/planes/:id" component={ScreenPlans} />
+        <Route path="/mi-cuenta/licencias/:id" component={ScreenLicense} />
         <Route path="/mi-cuenta/:id" component={ScreenUser} />
-        <Route path="/planes/:id" component={ScreenPlans} />
-        <Route path="/registro-de-pagos/:id" component={ScreenPayment} />
         <Route path="/" component={Home} />
       </Switch>
     </Router>

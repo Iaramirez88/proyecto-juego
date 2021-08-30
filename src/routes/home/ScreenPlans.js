@@ -5,6 +5,7 @@ import ButtonDiv from "../../components/Buttons";
 import HeaderHome from "../../components/shared/HeaderHome";
 import LoadingComponent from "../../components/shared/LoadingComponent";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { usePriceTitle } from "../../hooks/usePriceTitle";
 import { useRequestApi } from "../../hooks/useRequesApi";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
 
@@ -20,7 +21,8 @@ const ScreenPlans = () => {
   const [totalPay, setTotalPay] = useState(0);
   const [alert, setAlert] = useState(false);
   const [loading, setLoader] = useState(true);
-  console.log(plans);
+  const getPrice = usePriceTitle();
+  console.log(id);
 
   const [state, setState] = useState({
     idplan: 0,
@@ -83,19 +85,12 @@ const ScreenPlans = () => {
     }
     setAlert(true);
     setTimeout(() => {
-      return history.push(`/registro-de-pagos/${id}`);
+      return history.push(`/mi-cuenta/registrar-pago/${id}/${state.idplan}`);
     }, 3000);
   };
 
   useEffect(() => {
     let isMounted = true;
-    const getTitle = ({ meses_precio }) => {
-      if (meses_precio === 0) return "Gratis";
-      if (meses_precio === 1) return "Mensual";
-      if (meses_precio === 3) return "Trimestral - 3 meses";
-      if (meses_precio === 6) return "Semestral - 6 meses";
-    };
-
     const init = async () => {
       const { id, token } = getData();
       const resUser = await apiUser.get(`${id}`, token);
@@ -108,9 +103,10 @@ const ScreenPlans = () => {
         .map((item) => {
           return {
             id_plan: item.id_plan,
-            title: getTitle(item),
+            title: getPrice(item.meses_precio),
             valor: item.valor,
             meses_precio: item.meses_precio,
+            isFree: item.meses_precio === 0 ? true : false,
           };
         })
         .sort((a, b) => {
@@ -188,7 +184,7 @@ const ScreenPlans = () => {
             )}
             {alert && (
               <span style={{ color: "#52c211", fontSize: "1.5em" }}>
-                Tu plan ha sido cambiado exitosamente
+                Verificación exitosa.
               </span>
             )}
           </div>

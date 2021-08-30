@@ -42,6 +42,10 @@ p {
   font-size: 0.9em;
 }
 
+.center {
+  text-align: center;
+}
+
 header {
   display: flex;
   justify-content: space-between;
