@@ -22,9 +22,16 @@ import espejo from "../assets/images/games/e/espejo.svg";
 import esquiar from "../assets/images/games/e/esquiar.svg";
 
 //i
-import insectos from "../assets/images/games/insectos.svg";
-import isla from "../assets/images/games/isla.svg";
-
+import iglu from "../assets/images/games/i/iglu.svg";
+import iguana from "../assets/images/games/i/iguana.svg";
+import iman from "../assets/images/games/i/iman.svg";
+import impresora from "../assets/images/games/i/impresora.svg";
+import incendio from "../assets/images/games/i/Incendio.svg";
+import insectos from "../assets/images/games/i/insectos.svg";
+import isla from "../assets/images/games/i/isla.svg";
+import invierno from "../assets/images/games/i/invierno.svg";
+import imagen from "../assets/images/games/i/imagen.svg";
+import indigena from "../assets/images/games/i/indigena.svg";
 //o
 import oso from "../assets/images/games/oso.svg";
 import uva from "../assets/images/games/uva.svg";
@@ -58,6 +65,15 @@ export {
   //i
   insectos,
   isla,
+  incendio,
+  iglu,
+  iman,
+  impresora,
+  iguana,
+  invierno,
+  indigena,
+  imagen,
+  //o
   oso,
   uva,
   utiles,

@@ -19,9 +19,11 @@ import astronautaSound from "../assets/sounds/astronauta.mp3";
 //e
 import elefanteSound from "../assets/sounds/e/elefante.mp3";
 import estrellaSound from "../assets/sounds/e/estrella.mp3";
+
 import enanoSound from "../assets/sounds/e/enano.mp3";
 import erizoSound from "../assets/sounds/e/erizo.mp3";
 import escaleraSoumd from "../assets/sounds/e/escalera.mp3";
+
 import escarabajoSound from "../assets/sounds/e/escarabajo.mp3";
 import espejoSound from "../assets/sounds/e/espejo.mp3";
 import esquiarSound from "../assets/sounds/e/esquiar.mp3";
@@ -29,8 +31,17 @@ import escorpionSound from "../assets/sounds/e/escorpion.mp3";
 import escobaSound from "../assets/sounds/e/escoba.mp3";
 
 //i
-import islaSound from "../assets/sounds/isla.mp3";
-import insectosSound from "../assets/sounds/insectos.mp3";
+import islaSound from "../assets/sounds/i/isla.mp3";
+import insectosSound from "../assets/sounds/i/insectos.mp3";
+import incendioSound from "../assets/sounds/i/incendio.mp3";
+import igluSound from "../assets/sounds/i/iglu.mp3";
+import imanSound from "../assets/sounds/i/iman.mp3";
+import impresoraSound from "../assets/sounds/i/impresora.mp3";
+import iguanaSound from "../assets/sounds/i/iguana.mp3";
+import inviernoSound from "../assets/sounds/i/invierno.mp3";
+import indigenaSound from "../assets/sounds/i/indigenaa.mp3";
+import imagenSound from "../assets/sounds/i/imageen.mp3";
+
 import osoSound from "../assets/sounds/oso.mp3";
 import utilesSound from "../assets/sounds/utiles.mp3";
 import uvaSound from "../assets/sounds/uva.mp3";
@@ -57,8 +68,18 @@ export {
   escorpionSound,
   espejoSound,
   esquiarSound,
+  //i
   islaSound,
   insectosSound,
+  incendioSound,
+  igluSound,
+  iguanaSound,
+  imanSound,
+  impresoraSound,
+  inviernoSound,
+  indigenaSound,
+  imagenSound,
+  //o
   osoSound,
   utilesSound,
   uvaSound,

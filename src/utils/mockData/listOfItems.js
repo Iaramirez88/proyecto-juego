@@ -24,6 +24,15 @@ import {
   //i
   insectos,
   isla,
+  // Images for games
+  iglu,
+  iguana,
+  iman,
+  impresora,
+  incendio,
+  invierno,
+  imagen,
+  indigena,
   //u
   unicornio,
   uva,
@@ -54,6 +63,14 @@ import {
   //i
   insectosSound,
   islaSound,
+  incendioSound,
+  igluSound,
+  imanSound,
+  impresoraSound,
+  iguanaSound,
+  inviernoSound,
+  indigenaSound,
+  imagenSound,
   //o
   osoSound,
   //u
@@ -201,6 +218,54 @@ export const listItem = {
       name: "Isla",
       image: isla,
       sound: islaSound,
+    },
+    {
+      id: 26,
+      name: "Incendio",
+      image: incendio,
+      sound: incendioSound,
+    },
+    {
+      id: 27,
+      name: "Iglu",
+      image: iglu,
+      sound: igluSound,
+    },
+    {
+      id: 28,
+      name: "Iguana",
+      image: iguana,
+      sound: iguanaSound,
+    },
+    {
+      id: 29,
+      name: "Imán",
+      image: iman,
+      sound: imanSound,
+    },
+    {
+      id: 30,
+      name: "Impresora",
+      image: impresora,
+      sound: impresoraSound,
+    },
+    {
+      id: 31,
+      name: "Invierno",
+      image: invierno,
+      sound: inviernoSound,
+    },
+    {
+      id: 32,
+      name: "Imagen",
+      image: imagen,
+      sound: imagenSound,
+    },
+    {
+      id: 33,
+      name: "Indígena",
+      image: indigena,
+      sound: indigenaSound,
     },
   ],
   u: [
