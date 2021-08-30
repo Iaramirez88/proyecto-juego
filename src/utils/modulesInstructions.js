@@ -2,6 +2,7 @@ import introAudio from "../assets/sounds/intructions/introModAudio.mp3";
 
 import modAudioA from "../assets/sounds/intructions/modAudioA.mp3";
 import modAudioE from "../assets/sounds/intructions/modAudioE.mp3";
+import modAudioI from "../assets/sounds/intructions/modAudioI.mp3";
 
 export const modulesInstructions = {
   vocabulary: {
@@ -46,6 +47,7 @@ export const autioTitleIntructions = {
     letter: {
       a: modAudioA,
       e: modAudioE,
+      i: modAudioI,
     },
   },
 };

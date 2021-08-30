@@ -21,6 +21,7 @@ export const TitleSound = ({
   const [runInfo, setRunInfo] = useState(true);
   const [loading, setLoading] = useState(false);
   const closeButton = useRef(null);
+  const [state, setState] = useState(false);
 
   const setAudioPlay = (sounds) => {
     setShowInfo(false);
@@ -28,13 +29,13 @@ export const TitleSound = ({
     snd.play();
     if (sounds.length > 1) {
       snd.addEventListener("ended", () => {
+        console.log(21313);
         let sndVocal = new Audio(sounds[1]);
         sndVocal.play();
       });
       return;
     }
   };
-
 
   const playInfo = () => {
     setRunInfo(false);
@@ -90,16 +91,15 @@ export const TitleSound = ({
     }
   }, [loading, display, setDataLocal, module]);
 
-  const[state,setState]= useState(false);
-  function on(){
+  function on() {
     setTimeout(() => {
       setAudioPlay(listAudio);
       setState(true);
-    }, 1);
+    }, 3);
     setTimeout(() => {
       setState(false);
     }, 6000);
-  };
+  }
 
   return (
     <div className="titleGame">
@@ -111,11 +111,8 @@ export const TitleSound = ({
           className={`fingerInstructions ${!showInfo ? "hidden" : ""}`}
           onClick={() => setAudioPlay(listAudio)}
         />
-        <button id="buttontitle"  disabled={state} onClick={()=> on()}>
-        <img
-          src={iconSound}
-          alt="iconSound"
-        />
+        <button id="buttontitle" disabled={state} onClick={() => on()}>
+          <img src={iconSound} alt="iconSound" />
         </button>
         {title}
       </h2>
