@@ -1,8 +1,9 @@
 import React from "react";
 
+
 const ButtonDiv = ({ classStyle, handler, title }) => {
   return (
-    <div className={classStyle} onClick={handler}>
+    <div className={classStyle} onClick={handler} >
       {title}
     </div>
   );

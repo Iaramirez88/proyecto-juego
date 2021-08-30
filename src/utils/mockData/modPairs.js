@@ -18,7 +18,18 @@ import {
   escorpion,
   espejo,
   estrella,
-  esquiar
+  esquiar,
+  //i
+  insectos,
+  iman,
+  incendio,
+  isla,
+  iguana,
+  iglu,
+  invierno,
+  impresora,
+  imagen,
+  indigena,
 } from "../imagesGames";
 
 import {
@@ -41,7 +52,17 @@ import {
   escorpionSound,
   espejoSound,
   esquiarSound,
-  estrellaSound
+  estrellaSound,
+  insectosSound,
+  imanSound,
+  incendioSound,
+  islaSound,
+  iguanaSound,
+  igluSound,
+  inviernoSound,
+  impresoraSound,
+  indigenaSound,
+  imagenSound
 } from "../sounds";
 
 import { getUniqueId } from "./modWrite";
@@ -549,6 +570,208 @@ export const listPair = {
         name: "Elefante",
         image: elefante,
         sound: elefanteSound,
+      },
+    ],
+  ],
+  i:[
+    [
+      {
+        id: getUniqueId(),
+        name: "Iman",
+        image: iman,
+        sound: imanSound, 
+      },
+      {
+        id: getUniqueId(),
+        name: "Insectos",
+        image: insectos,
+        sound: insectosSound
+      },
+      {
+        id: getUniqueId(),
+        name: "Iman",
+        image: iman,
+        sound: imanSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Incendio",
+        image: incendio,
+        sound: incendioSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Isla",
+        image: isla,
+        sound: islaSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Isla",
+        image: isla,
+        sound: islaSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Insectos",
+        image: insectos,
+        sound: insectosSound
+      },
+      {
+        id: getUniqueId(),
+        name: "Incendio",
+        image: incendio,
+        sound: incendioSound,
+      },
+    ],
+    [
+      {
+        id: getUniqueId(),
+        name: "Iguana",
+        image: iguana,
+        sound: iguanaSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Impreosa",
+        image: impresora,
+        sound: impresoraSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Iglu",
+        image: iglu,
+        sound: igluSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Invierno",
+        image: invierno,
+        sound: inviernoSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Invierno",
+        image: invierno,
+        sound: inviernoSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Iguana",
+        image: iguana,
+        sound: iguanaSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Iglu",
+        image: iglu,
+        sound: igluSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Impreosa",
+        image: impresora,
+        sound: impresoraSound,
+      },
+    ],
+    [
+      {
+        id: getUniqueId(),
+        name: "Indigena",
+        image: indigena,
+        sound: indigenaSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Iman",
+        image: iman,
+        sound: imanSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Iglu",
+        image: iglu,
+        sound: igluSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Invierno",
+        image: invierno,
+        sound: inviernoSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Invierno",
+        image: invierno,
+        sound: inviernoSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Indigena",
+        image: indigena,
+        sound: indigenaSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Iglu",
+        image: iglu,
+        sound: igluSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Iman",
+        image: iman,
+        sound: imanSound,
+      },
+    ],
+    [
+      {
+        id: getUniqueId(),
+        name: "Iguana",
+        image: iguana,
+        sound: iguanaSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Imagen",
+        image: imagen,
+        sound: imagenSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Iglu",
+        image: iglu,
+        sound: igluSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Indigena",
+        image: indigena,
+        sound: indigenaSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Indigena",
+        image: indigena,
+        sound: indigenaSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Iguana",
+        image: iguana,
+        sound: iguanaSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Iglu",
+        image: iglu,
+        sound: igluSound,
+      },
+      {
+        id: getUniqueId(),
+        name: "Imgen",
+        image: imagen,
+        sound: imagenSound,
       },
     ],
   ],

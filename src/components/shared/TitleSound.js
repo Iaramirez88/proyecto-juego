@@ -35,6 +35,7 @@ export const TitleSound = ({
     }
   };
 
+
   const playInfo = () => {
     setRunInfo(false);
   };
@@ -89,6 +90,17 @@ export const TitleSound = ({
     }
   }, [loading, display, setDataLocal, module]);
 
+  const[state,setState]= useState(false);
+  function on(){
+    setTimeout(() => {
+      setAudioPlay(listAudio);
+      setState(true);
+    }, 1);
+    setTimeout(() => {
+      setState(false);
+    }, 6000);
+  };
+
   return (
     <div className="titleGame">
       <h2>
@@ -99,11 +111,12 @@ export const TitleSound = ({
           className={`fingerInstructions ${!showInfo ? "hidden" : ""}`}
           onClick={() => setAudioPlay(listAudio)}
         />
+        <button id="buttontitle"  disabled={state} onClick={()=> on()}>
         <img
-          onClick={() => setAudioPlay(listAudio)}
           src={iconSound}
           alt="iconSound"
         />
+        </button>
         {title}
       </h2>
       {ModalChild && (

@@ -6,7 +6,6 @@ import {
   arcoiris,
   ave,
   avion,
-  insectos,
   oso,
   elefante,
   alas,
@@ -19,6 +18,16 @@ import {
   esquiar,
   escarabajo,
   escorpion,
+  insectos,
+  isla,
+  iman,
+  incendio,
+  impresora,
+  invierno,
+  iglu,
+  iguana,
+  imagen,
+  indigena,
 } from "../imagesGames";
 
 import {
@@ -30,7 +39,6 @@ import {
   AbejaSound,
   anilloSound,
   elefanteSound,
-  insectosSound,
   osoSound,
   alasSound,
   enanoSound,
@@ -42,6 +50,15 @@ import {
   esquiarSound,
   escarabajoSound,
   escorpionSound,
+  insectosSound,
+  islaSound,
+  iguanaSound,
+  imanSound,
+  impresoraSound,
+  inviernoSound,
+  igluSound,
+  incendioSound,
+  indigenaSound,
 } from "../sounds";
 
 export const getUniqueId = () => {
@@ -159,8 +176,78 @@ export const data = [
       name: "Escorpion",
       image: escorpion,
       sound: escorpionSound,
+    },
+  },
+  {
+    word1:{
+      id: 17,
+      name: "Insectos",
+      image: insectos,
+      sound: insectosSound,
+    },
+    word2:{
+      id: 18,
+      name: "Isla",
+      image: isla,
+      sound: islaSound,
+    },
+  },
+  {
+    word1:{
+        id: 19,
+        name: "Iman",
+        image: iman,
+        sound: imanSound,
+    },
+    word2:{
+      id: 20,
+      name: "Incendio",
+      image: incendio,
+      sound: incendioSound,
+    },
+  },
+  {
+    word1:{
+      id: 21,
+      name: "Invierno",
+      image: invierno,
+      sound: inviernoSound,
+    },
+    word2:{
+      id: 22,
+      name: "Iguana",
+      image: iguana,
+      sound: iguanaSound,
+    },
+  },
+  {
+    word1:{
+      id: 23,
+      name: "Iglu",
+      image: iglu,
+      sound: igluSound,
+    },
+    word2:{
+      id: 24,
+      name: "Impresora",
+      image: impresora,
+      sound: impresoraSound,
     }
-  }
+  },
+  {
+    word1:{
+      id: 23,
+      name: "Imagen",
+      image: imagen,
+      sound: imanSound,
+    },
+    word2:{
+      id: 24,
+      name: "Indigina",
+      image: indigena,
+      sound: indigenaSound,
+    }
+  },
 ];
 
 export const mockAudioData = [

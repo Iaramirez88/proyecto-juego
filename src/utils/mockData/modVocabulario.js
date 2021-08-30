@@ -7,17 +7,26 @@ import {
   avion,
   alas,
   astronauta,
-    //e
-    enano,
-    erizo,
-    elefante,
-    escalera,
-    escarabajo,
-    escoba,
-    escorpion,
-    espejo,
-    estrella,
-    esquiar
+  //e
+  enano,
+  erizo,
+  elefante,
+  escalera,
+  escarabajo,
+  escoba,
+  escorpion,
+  espejo,
+  estrella,
+  esquiar,
+  //i
+  insectos,
+  isla,
+  iman,
+  incendio,
+  impresora,
+  invierno,
+  iglu,
+  iguana,
 } from "../imagesGames";
 
 import {
@@ -40,6 +49,15 @@ import {
   espejoSound,
   esquiarSound,
   estrellaSound,
+   //i
+   insectosSound,
+   islaSound,
+   iguanaSound,
+   imanSound,
+   impresoraSound,
+   inviernoSound,
+   igluSound,
+   incendioSound,
 } from "../sounds";
 
 export const dataList = {
@@ -155,6 +173,56 @@ export const dataList = {
       sound: escorpionSound,
     }
 
+  ],
+  i: [
+    {
+      id: 17,
+      name: "Insectos",
+      image: insectos,
+      sound: insectosSound,
+    },
+    {
+      id: 18,
+      name: "Isla",
+      image: isla,
+      sound: islaSound,
+    },
+    {
+      id: 19,
+      name: "Iman",
+      image: iman,
+      sound: imanSound,
+    },
+    {
+      id: 20,
+      name: "Impresora",
+      image: impresora,
+      sound: impresoraSound,
+    },
+    {
+      id: 21,
+      name: "Invierno",
+      image: invierno,
+      sound: inviernoSound,
+    },
+    {
+      id: 22,
+      name: "Incendio",
+      image: incendio,
+      sound: incendioSound,
+    },
+    {
+      id: 23,
+      name: "Iguana",
+      image: iguana,
+      sound: iguanaSound,
+    },
+    {
+      id: 24,
+      name: "Iglu",
+      image: iglu,
+      sound: igluSound,
+    },
   ],
 };
 

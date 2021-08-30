@@ -21,12 +21,20 @@
 
 .titleGame {
   display: flex;
+  align-items: center;
   justify-content: center;
   position: absolute;
   top: 2em;
   left: 0%;
   width: 95%;
 }
+.titleGame #buttontitle {
+  background-color:transparent;
+  border-color: transparent;
+  width: 3.2rem;
+  height: 3rem;
+}
+
 .titleGame h2 {
   display: flex;
   font-size: 1.5em;
@@ -61,10 +69,13 @@
 }
 
 .buttonAudio {
+  border-color: transparent;
+  margin: auto;
   background: #48ab0f;
   width: 6em;
   height: 4em;
   display: flex;
+  align-items: center;
   justify-content: center;
   border-radius: 1em;
   box-shadow: 0px 3px 6px 2px #48ab0f;
@@ -87,6 +98,7 @@
 
 .containerAudio {
   margin: 0 2.5em;
+  justify-content: center;
 }
 .containerAudio div {
   margin: auto;
@@ -468,5 +480,6 @@
     width: 9em;
   }
 }
+
 
 /*# sourceMappingURL=games.css.map */

@@ -23,6 +23,13 @@ import {
   esquiar,
   //i
   insectos,
+  isla,
+  iman,
+  incendio,
+  impresora,
+  invierno,
+  iglu,
+  iguana,
   //u
   unicornio,
 } from "../imagesGames";
@@ -50,6 +57,13 @@ import {
   estrellaSound,
   //i
   insectosSound,
+  islaSound,
+  iguanaSound,
+  imanSound,
+  impresoraSound,
+  inviernoSound,
+  igluSound,
+  incendioSound,
   //o
   osoSound,
   //u
@@ -190,10 +204,52 @@ const listItem = {
       image: insectos,
       sound: insectosSound,
     },
+    {
+      id: 20,
+      name: "Isla",
+      image: isla,
+      sound: islaSound,
+    },
+    {
+      id: 21,
+      name: "Iman",
+      image: iman,
+      sound: imanSound,
+    },
+    {
+      id: 22,
+      name: "Incendio",
+      image: incendio,
+      sound: incendioSound,
+    },
+    {
+      id: 23,
+      name: "Invierno",
+      image: invierno,
+      sound: inviernoSound,
+    },
+    {
+      id: 24,
+      name: "Iguana",
+      image: iguana,
+      sound: iguanaSound,
+    },
+    {
+      id: 25,
+      name: "Iglu",
+      image: iglu,
+      sound: igluSound,
+    },
+    {
+      id: 25,
+      name: "Impresora",
+      image: impresora,
+      sound: impresoraSound,
+    }
   ],
   u: [
     {
-      id: 20,
+      id: 26,
       name: "Unicornio",
       image: unicornio,
       sound: unicornioSound,
