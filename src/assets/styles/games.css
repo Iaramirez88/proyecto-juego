@@ -21,24 +21,25 @@
 
 .titleGame {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   position: absolute;
   top: 2em;
   left: 0%;
   width: 95%;
 }
 .titleGame #buttontitle {
-  background-color:transparent;
+  background-color: transparent;
   border-color: transparent;
   width: 3.2rem;
   height: 3rem;
 }
-
 .titleGame h2 {
   display: flex;
   font-size: 1.5em;
   position: relative;
+  justify-content: center;
+  align-items: center;
 }
 .titleGame h2 img {
   padding-right: 0.5em;
@@ -69,16 +70,16 @@
 }
 
 .buttonAudio {
-  border-color: transparent;
-  margin: auto;
   background: #48ab0f;
   width: 6em;
   height: 4em;
   display: flex;
-  align-items: center;
   justify-content: center;
   border-radius: 1em;
   box-shadow: 0px 3px 6px 2px #48ab0f;
+  border-color: transparent;
+  margin: auto;
+  align-items: center;
 }
 .buttonAudio:active {
   transform: scale(0.9);
@@ -480,6 +481,5 @@
     width: 9em;
   }
 }
-
 
 /*# sourceMappingURL=games.css.map */
