@@ -21,6 +21,7 @@ const ScreenPayment = () => {
   const [isLoading, setIsLoading] = useState(false);
   const getPrice = usePriceTitle();
   const history = useHistory();
+  const [allowSubmit, setAllowSubmit] = useState(false);
   const [error, setError] = useState({
     active: false,
     title: "",
@@ -95,8 +96,10 @@ const ScreenPayment = () => {
 
   const onChange = (e, type) => {
     const { value } = e.target;
+    const cpForm = { ...form, [type]: value };
     setError({ active: false, title: "" });
-    setForm({ ...form, [type]: value });
+    setForm(cpForm);
+    setAllowSubmit(handlerFields(cpForm));
   };
 
   const validateCreditCart = (number) => {
@@ -107,79 +110,17 @@ const ScreenPayment = () => {
     return false;
   };
 
-  const handlerSteps = (next) => {
-    if (steps === 1) {
-      if (form.name.trim() === "")
-        return setError({ field: "name", title: "Nombre requerido" });
-      if (form.dni.trim() === "")
-        return setError({
-          field: "dni",
-          title: "Numero de identificacion requerido",
-        });
-      if (!validateNumber(form.dni)) {
-        return setError({
-          field: "dni",
-          title: "Número dni invalido",
-        });
-      }
-      if (form.phoneNumber.trim() === "")
-        return setError({
-          field: "phoneNumber",
-          title: "Numero de teléfono requerido",
-        });
-      if (!validateNumber(form.phoneNumber)) {
-        return setError({
-          field: "phoneNumber",
-          title: "Número de telefono invalido",
-        });
-      }
-      setSteps(next);
-    }
-    if (steps === 2) {
-      if (form.creditName.trim() === "") {
-        return setError({
-          field: "creditName",
-          title: "Este campo es obligatorio",
-        });
-      }
-      if (form.cardNumber.trim() === "") {
-        return setError({
-          field: "cardNumber",
-          title: "Este campo es obligatorio",
-        });
-      }
-      if (!validateCreditCart(form.cardNumber)) {
-        return setError({
-          field: "cardNumber",
-          title: "Tarjeta invalida",
-        });
-      }
-      if (form.cvv.trim() === "") {
-        return setError({
-          field: "cvv",
-          title: "Este campo es obligatorio",
-        });
-      }
-      if (form.cvv.length > 4 || form.cvv.length < 3) {
-        return setError({
-          field: "cvv",
-          title: "Código invalido",
-        });
-      }
-      if (form.expiredDate.trim() === "") {
-        return setError({
-          field: "expiredDate",
-          title: "Este campo es obligatorio",
-        });
-      }
-      setSteps(next);
-    }
+  const handlerFields = (cpForm) => {
+    if (cpForm.name.trim().length <= 0) return false;
+    if (cpForm.dni.trim().length <= 0) return false;
+    if (cpForm.phoneNumber.trim().length <= 0) return false;
+    return true;
   };
 
   return (
     <div>
       <HeaderHome />
-      <StepsIcons step={steps} />
+      {/* <StepsIcons step={steps} /> */}
       {steps === 1 && (
         <FormPayment onChange={onChange} state={form} error={error} />
       )}
@@ -188,23 +129,23 @@ const ScreenPayment = () => {
       )}
 
       <div className="smForm pyContainerButton">
-        {steps > 1 && (
+        {/* {steps > 1 && (
           <ButtonDiv
             title="ATRAS"
             handler={() => setSteps(steps - 1)}
             classStyle="smButton smBoxButton backColor"
           />
-        )}
+        )} */}
 
-        {steps === 3 && (
-          <ButtonDiv
+        {/* {steps === 3 && (
+          )} */}
+        {/* <ButtonDiv
             title="PAGAR"
             handler={() => onSubmit()}
             classStyle="smButton smBoxButton smBack"
-          />
-        )}
+          /> */}
 
-        <PayUFormButton />
+        <PayUFormButton allowSubmit={allowSubmit} />
       </div>
     </div>
   );

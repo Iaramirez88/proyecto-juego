@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-const PayUFormButton = () => {
+const PayUFormButton = ({ allowSubmit }) => {
+  useEffect(() => {}, []);
+
   return (
     <div>
       <form
@@ -34,10 +36,11 @@ const PayUFormButton = () => {
           value="http://www.test.com/confirmation"
         />
         <input
-          className="submitPayment"
+          className={`submitPayment ${!allowSubmit ? "disable" : ""}`}
           name="Submit"
           type="submit"
           value="Enviar"
+          disabled={!allowSubmit}
         />
       </form>
     </div>

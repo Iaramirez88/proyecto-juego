@@ -166,16 +166,6 @@ export const StepsIcons = ({ step }) => {
           <p className={`stepsIcon ${isActive(1)}`}>1</p>
         </div>
       </Col>
-      <Col {...columns} className="center">
-        <div>
-          <p className={`stepsIcon ${isActive(2)}`}>2</p>
-        </div>
-      </Col>
-      <Col {...columns} className="center">
-        <div>
-          <p className={`stepsIcon ${isActive(3)}`}>3</p>
-        </div>
-      </Col>
     </Row>
   );
 };

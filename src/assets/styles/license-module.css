@@ -55,6 +55,9 @@
 .llBoxRow {
   padding: 0px 1em;
 }
+.llBoxRow .mb-3 {
+  margin-bottom: 0px !important;
+}
 
 .llInputItem {
   background: #c0e7fc;
@@ -78,8 +81,8 @@
   height: 3em;
 }
 
-.mb-3 {
-  margin-bottom: 0px;
+.titleMidCol h3 {
+  text-align: center;
 }
 
 /*# sourceMappingURL=license-module.css.map */

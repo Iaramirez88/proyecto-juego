@@ -23,7 +23,7 @@ const HeaderHome = () => {
 
         {stateContext.user && screen.width >= 768 && (
           <div className="homeHeaderIcons">
-            <img
+            {/* <img
               className={
                 currentRoute === "mi-cuenta" && paths.length <= 3
                   ? "active"
@@ -50,7 +50,7 @@ const HeaderHome = () => {
                 history.push(`/mi-cuenta/licencias/${stateContext.user.id}`)
               }
               style={{ cursor: "pointer" }}
-            />
+            /> */}
             <img
               className={currentRoute === "" ? "active" : ""}
               alt="iconGame"

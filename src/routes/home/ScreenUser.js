@@ -51,7 +51,7 @@ const ScreenUser = () => {
               <div>
                 <div className="suTitleInfo">CUENTA Y FACTURACIÓN</div>
                 <div className="suBtnPay">
-                  <Link to={`/planes/${user.id_cuenta}`}>
+                  <Link to={`/mi-cuenta/planes/${user.id_cuenta}`}>
                     Cambiar plan - Pagar
                   </Link>
                 </div>
@@ -77,7 +77,9 @@ const ScreenUser = () => {
               <div className="suTitleInfo">INFORMACIÓN DEL PLAN</div>
               <div className="rowFlex" style={{ width: "60%" }}>
                 <p>Gratis</p>
-                <Link to={`/planes/${user.id_cuenta}`}>Cambiar Plan</Link>
+                <Link to={`/mi-cuenta/planes/${user.id_cuenta}`}>
+                  Cambiar Plan
+                </Link>
               </div>
             </div>
             <hr></hr>

@@ -22,7 +22,6 @@ const ScreenPlans = () => {
   const [alert, setAlert] = useState(false);
   const [loading, setLoader] = useState(true);
   const getPrice = usePriceTitle();
-  console.log(id);
 
   const [state, setState] = useState({
     idplan: 0,
@@ -65,7 +64,6 @@ const ScreenPlans = () => {
       idtipotutor: id,
     };
     setLoader(true);
-
     const response = await apiUser.post("plans", data, token);
     setLoader(false);
 
