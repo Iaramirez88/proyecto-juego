@@ -151,6 +151,10 @@
   justify-content: center;
   bottom: 18px;
 }
+.buttongame{
+  background-color: transparent;
+  border-color: transparent;
+}
 
 .item {
   cursor: pointer;

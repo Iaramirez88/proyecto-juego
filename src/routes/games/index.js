@@ -36,7 +36,8 @@ const Games = () => {
 
   const [audio] = useState(new Audio(titleSound));
   const [playing, setPlaying] = useState(false);
-
+  const [state, setState] = useState(false);
+  const [state2, setState2] = useState(false);
   const playSound = (sound) => {
     let snd = new Audio(sound);
     snd.play();
@@ -90,6 +91,25 @@ const Games = () => {
 
   if (!isLoading) return <div></div>;
 
+  function on() {
+    setTimeout(() => {
+      setState(true);
+    }, 1);
+    setTimeout(() => {
+      setState(false);
+    }, 3000);
+    playSound(current.word2.sound);
+  };
+
+  function un() {
+    setTimeout(() => {
+      setState2(true);
+    }, 1);
+    setTimeout(() => {
+      setState2(false);
+    }, 3000);
+    playSound(current.word1.sound);
+  };
   return (
     <div
       className="containerGame"
@@ -126,12 +146,12 @@ const Games = () => {
             divResponse={[boxResponse1, boxResponse2]}
             setStatusWord={setStatusWord}
             statusWord={statusWord}
-          >
-            <img
-              onClick={() => playSound(current.word2.sound)}
-              src={iconSoundWhite}
-              alt="iconSound"
-            />
+          ><button disabled={state} className="buttongame" onClick={() => on()} >
+              <img
+                src={iconSoundWhite}
+                alt="iconSound"
+              />
+            </button>
             <h3>{current.word2.name}</h3>
           </DragComponent>
           <DragComponent
@@ -139,12 +159,13 @@ const Games = () => {
             divResponse={[boxResponse1, boxResponse2]}
             setStatusWord={setStatusWord}
             statusWord={statusWord}
-          >
-            <img
-              onClick={() => playSound(current.word1.sound)}
-              src={iconSoundWhite}
-              alt="iconSound"
-            />
+          ><button disabled={state2} className="buttongame" onClick={() => un()} >
+              <img
+                src={iconSoundWhite}
+                alt="iconSound"
+              />
+            </button>
+
             <h3>{current.word1.name}</h3>
           </DragComponent>
         </div>
