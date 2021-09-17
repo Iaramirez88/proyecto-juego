@@ -9,10 +9,20 @@ const TermScreen = ({ setHideTitle }) => {
   return (
     <div className="coverTypeTutor">
       <div className="logoKoala">
-        <img alt="koala-logo" id="sign-logo-koala" src={logoKoala} />
-        <div>
-          <p>ARTWORKOALA</p>
-          <p>PLAY</p>
+        <img
+          alt="koala-logo"
+          onClick={() => history.push("/")}
+          id="sign-logo-koala"
+          src={logoKoala}
+        />
+        <div className="signTitleKoala">
+          <p className="welcomeTextLogo">
+            <span>BIENVENIDOS</span>
+          </p>
+          <p className="titleAppLogo">
+            <span>ARTWORKOALA</span>
+            <span> PLAY</span>
+          </p>
         </div>
       </div>
 

@@ -7,6 +7,7 @@ import { useRequestApi } from "../../hooks/useRequesApi";
 import { useLoading } from "../../hooks/useLoading";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import logokoala from "../../assets/images/logoInicalAnimado.svg";
+import TitleInfo from "./TitleInfo";
 
 const ScreenUser = () => {
   useSetBackGround();
@@ -36,17 +37,7 @@ const ScreenUser = () => {
     <div>
       <HeaderHome />
       <div>
-        <div className="suBoxHeader">
-          <div className="suTitleCuenta">Información de cuenta</div>
-          <a
-            href="https://www.artworkoala.com/preguntas-frecuentas/"
-            target="_blank"
-            className="suInfoIcon"
-            rel="noreferrer"
-          >
-            ?
-          </a>
-        </div>
+        <TitleInfo title="Información de cuenta" />
         {error && (
           <div style={{ textAlign: "center", marginTop: "3em" }}>
             <img alt="logoKoala" src={logokoala} width="100px" height="auto" />
@@ -60,7 +51,7 @@ const ScreenUser = () => {
               <div>
                 <div className="suTitleInfo">CUENTA Y FACTURACIÓN</div>
                 <div className="suBtnPay">
-                  <Link to={`/planes/${user.id_cuenta}`}>
+                  <Link to={`/mi-cuenta/planes/${user.id_cuenta}`}>
                     Cambiar plan - Pagar
                   </Link>
                 </div>
@@ -86,7 +77,9 @@ const ScreenUser = () => {
               <div className="suTitleInfo">INFORMACIÓN DEL PLAN</div>
               <div className="rowFlex" style={{ width: "60%" }}>
                 <p>Gratis</p>
-                <Link to={`/planes/${user.id_cuenta}`}>Cambiar Plan</Link>
+                <Link to={`/mi-cuenta/planes/${user.id_cuenta}`}>
+                  Cambiar Plan
+                </Link>
               </div>
             </div>
             <hr></hr>

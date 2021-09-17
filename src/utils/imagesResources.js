@@ -13,6 +13,9 @@ import iconClose from "../assets/images/iconClose.svg";
 import imageClose from "../assets/images/closeIcon.png";
 import iconOpenModule from "../assets/images/IconoModulosVolve.svg";
 import iconCloseModule from "../assets/images/IconoModulosVolver.svg";
+import menuMovil from "../assets/images/menuMovil.svg";
+import correo from "../assets/images/correo.svg";
+import bien from "../assets/images/bien.svg";
 
 // Icons Home
 
@@ -68,4 +71,7 @@ export {
   imageClose,
   iconOpenModule,
   iconCloseModule,
+  menuMovil,
+  correo,
+  bien,
 };

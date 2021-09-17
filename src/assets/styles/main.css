@@ -42,6 +42,10 @@ p {
   font-size: 0.9em;
 }
 
+.center {
+  text-align: center;
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -140,13 +144,21 @@ header img {
   height: 50px;
 }
 
-.loader {
+.containerLoader {
   background: white;
   opacity: 0.5;
   width: 100%;
   height: 100%;
-  position: absolute;
+  position: fixed;
   z-index: 100;
+  top: 0;
+  left: 0;
+}
+.containerLoader.active {
+  display: inherit;
+}
+.containerLoader.hidden {
+  display: none;
 }
 
 .barLoader {

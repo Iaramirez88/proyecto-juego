@@ -66,8 +66,8 @@
   align-items: center;
 }
 .cardImage img {
-  width: 12em;
-  height: 12em;
+  width: 11em;
+  height: 13em;
 }
 
 .buttonAudio {
@@ -151,10 +151,6 @@
   display: flex;
   justify-content: center;
   bottom: 18px;
-}
-.buttongame{
-  background-color: transparent;
-  border-color: transparent;
 }
 
 .item {

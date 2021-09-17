@@ -9,6 +9,9 @@ const InputForm = ({
   onChange,
   name,
   type,
+  defaultValue,
+  error,
+  autoComplete,
 }) => {
   return (
     <Col {...columns}>
@@ -17,11 +20,16 @@ const InputForm = ({
       </label>
       <input
         readOnly={readonly}
-        className={`${styles.input} ${readonly ? "inputReadonly" : ""}`}
+        className={`${styles.input} ${readonly ? "inputReadonly" : ""} ${
+          error.field === name ? "errorInput" : ""
+        }`}
         name={name}
         type={type}
         onChange={onChange}
+        defaultValue={defaultValue}
+        autoComplete={autoComplete ? "off" : ""}
       />
+      {error.field === name && <span className="errorText">{error.title}</span>}
     </Col>
   );
 };

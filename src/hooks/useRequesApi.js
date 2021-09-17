@@ -29,7 +29,7 @@ export const useRequestApi = (resource) => {
 
   /**
    * Method GET
-   * @function
+   * @function get
    * @param {string} path Url to make the request
    * @param {string} auth Token for authorize some request
    * @returns {Promise<Object>} Object requested

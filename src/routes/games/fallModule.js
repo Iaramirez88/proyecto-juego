@@ -14,6 +14,7 @@ import "../../assets/styles/fall-module.css";
 import { useTransitionGame } from "../../hooks/useTransitionGame";
 import { useResponseAudio } from "../../hooks/usePlaySounds";
 import FallInstructions from "../../components/games/FallModule/FallInstructions";
+import { autioTitleIntructions } from "../../utils/modulesInstructions";
 
 const FallModule = () => {
   useSetBackGround(background);
@@ -21,6 +22,7 @@ const FallModule = () => {
   const history = useHistory();
   let { id } = useParams();
   const [playResponseAudio] = useResponseAudio();
+  const instructions = autioTitleIntructions.fall;
   const [state, setState] = useState({
     words: [],
     current: [],
@@ -91,8 +93,8 @@ const FallModule = () => {
       <Header></Header>
       <TitleSound
         title="Selecciona la misma vocal"
-        titleSound={instruction}
-        listAudio={[instruction, vocalA,vocalE]}
+        titleSound={instructions}
+        listAudio={[instructions.intro, instructions.letter[id]]}
         ModalChild={FallInstructions}
         module="fall"
       />

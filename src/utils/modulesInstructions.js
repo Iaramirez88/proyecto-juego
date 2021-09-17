@@ -1,4 +1,8 @@
 import introAudio from "../assets/sounds/intructions/introModAudio.mp3";
+import introAudioFall from "../assets/sounds/intructions/enunciadoOtonnoVocal.mp3";
+import soundA from "../assets/sounds/intructions/vocalAa.mp3";
+import soundE from "../assets/sounds/intructions/e.mp3";
+import soundI from "../assets/sounds/intructions/i.mp3";
 
 import modAudioA from "../assets/sounds/intructions/modAudioA.mp3";
 import modAudioE from "../assets/sounds/intructions/modAudioE.mp3";
@@ -40,7 +44,14 @@ export const autioTitleIntructions = {
     a: [],
   },
   write: {},
-  fall: {},
+  fall: {
+    intro: introAudioFall,
+    letter: {
+      a: soundA,
+      e: soundE,
+      i: soundI,
+    },
+  },
   pair: {},
   audio: {
     intro: introAudio,

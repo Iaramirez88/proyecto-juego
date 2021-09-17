@@ -1,6 +1,7 @@
 /**@namespace useAuth */
 
 import { useRequestApi } from "../hooks/useRequesApi";
+import { useGetLocation } from "./useGetLocation";
 import { useLocalStorage } from "./useLocalStorage";
 
 /**
@@ -13,6 +14,7 @@ import { useLocalStorage } from "./useLocalStorage";
  */
 const useAuth = (dispatch) => {
   const api = useRequestApi("auth");
+  const getLocation = useGetLocation();
   const { setData, getData } = useLocalStorage("user");
 
   /**
@@ -26,7 +28,6 @@ const useAuth = (dispatch) => {
    */
   const signIn = async (data, onSuccess, onFailed) => {
     const request = await api.post("login", data);
-    console.log(request);
     if (request.code === 403 || request.code === 500) onFailed();
     if (request.code === 200) {
       const { response } = request;
@@ -46,17 +47,23 @@ const useAuth = (dispatch) => {
   const isLogged = async () => {
     const user = getData();
     if (!user) return;
+    const location = await getLocation();
+    console.log(location);
     const request = await api.get("logged", user.token);
-    if (request.code === 403 || request.code === 500) return;
+    if (request.code === 403 || request.code === 500) return false;
     if (request.code === 200) {
+      setData({
+        token: user.token,
+        id: request.response.id,
+        ip: location.ip,
+        country: location.country,
+        code: location.code,
+      });
       dispatch({
         type: "SET_USER",
         value: request.response,
       });
-      setData({
-        token: user.token,
-        id: request.response.id,
-      });
+      return true;
     }
   };
 
