@@ -19,8 +19,10 @@ import {
   vocalAUList,
 } from "./elements";
 import HeaderHome from "../../components/shared/HeaderHome";
+import { useSetScrollPosition } from "../../hooks/useDimesion";
 
 const Home = () => {
+  useSetScrollPosition();
   useEffect(() => {
     document.documentElement.style.backgroundImage = "none";
     document.body.style.backgroundImage = "none";

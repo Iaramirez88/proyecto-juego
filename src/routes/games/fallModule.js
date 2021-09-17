@@ -15,9 +15,12 @@ import { useTransitionGame } from "../../hooks/useTransitionGame";
 import { useResponseAudio } from "../../hooks/usePlaySounds";
 import FallInstructions from "../../components/games/FallModule/FallInstructions";
 import { autioTitleIntructions } from "../../utils/modulesInstructions";
+import { useSetScrollPosition } from "../../hooks/useDimesion";
 
 const FallModule = () => {
   useSetBackGround(background);
+  useSetScrollPosition();
+
   const { dispatch } = useContext(GameContext);
   const history = useHistory();
   let { id } = useParams();

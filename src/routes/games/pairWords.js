@@ -13,9 +13,12 @@ import "../../assets/styles/pair-module.css";
 import Header from "../../components/shared/Header";
 import TitleSound from "../../components/shared/TitleSound";
 import PairInstructions from "../../components/games/PairModule/PairInstructions";
+import { useSetScrollPosition } from "../../hooks/useDimesion";
 
 const PairWords = () => {
   useSetBackGround(background);
+  useSetScrollPosition();
+
   const { idLetter } = useParams();
   const { dispatch } = useContext(GameContext);
   const [state, setState] = useState({

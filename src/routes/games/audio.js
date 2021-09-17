@@ -16,9 +16,12 @@ import { getData } from "../../utils/mockData/modAudio";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
 import backGround from "../../assets/images/fondoModEscGranAlto.svg";
 import AudioInstructions from "../../components/games/AudioModule/AudioInstructions";
+import { useSetScrollPosition } from "../../hooks/useDimesion";
 
 export const AudioScreen = () => {
   useSetBackGround(backGround);
+  useSetScrollPosition();
+
   const { idLetter } = useParams();
 
   const [playResponseAudio] = useResponseAudio();

@@ -16,10 +16,12 @@ import { useSetBackGround } from "../../hooks/useSetBackGround";
 import backGround from "../../assets/images/background_tramas.svg";
 import TitleSound from "../../components/shared/TitleSound";
 import VocalIntructions from "../../components/games/VocalModule/VocalIntructions";
+import { useSetScrollPosition } from "../../hooks/useDimesion";
 
 const Games = () => {
   let history = useHistory();
   useSetBackGround(backGround);
+  useSetScrollPosition();
   const { idLetter } = useParams();
 
   const [position, setPosition] = useState(0);
@@ -38,6 +40,7 @@ const Games = () => {
   const [playing, setPlaying] = useState(false);
   const [state, setState] = useState(false);
   const [state2, setState2] = useState(false);
+
   const playSound = (sound) => {
     let snd = new Audio(sound);
     snd.play();
@@ -89,8 +92,6 @@ const Games = () => {
     };
   }, []);
 
-  if (!isLoading) return <div></div>;
-
   function on() {
     setTimeout(() => {
       setState(true);
@@ -98,9 +99,9 @@ const Games = () => {
     setTimeout(() => {
       setState(false);
     }, 3000);
-    playSound(current.word2.sound);
-  };
 
+    playSound(current.word2.sound);
+  }
   function un() {
     setTimeout(() => {
       setState2(true);
@@ -108,8 +109,12 @@ const Games = () => {
     setTimeout(() => {
       setState2(false);
     }, 3000);
+
     playSound(current.word1.sound);
-  };
+  }
+
+  if (!isLoading) return <div></div>;
+
   return (
     <div
       className="containerGame"
@@ -146,11 +151,13 @@ const Games = () => {
             divResponse={[boxResponse1, boxResponse2]}
             setStatusWord={setStatusWord}
             statusWord={statusWord}
-          ><button disabled={state} className="buttongame" onClick={() => on()} >
-              <img
-                src={iconSoundWhite}
-                alt="iconSound"
-              />
+          >
+            <button
+              onClick={() => on()}
+              disabled={state}
+              className="Buttongame"
+            >
+              <img src={iconSoundWhite} alt="iconSound" />
             </button>
             <h3>{current.word2.name}</h3>
           </DragComponent>
@@ -159,13 +166,14 @@ const Games = () => {
             divResponse={[boxResponse1, boxResponse2]}
             setStatusWord={setStatusWord}
             statusWord={statusWord}
-          ><button disabled={state2} className="buttongame" onClick={() => un()} >
-              <img
-                src={iconSoundWhite}
-                alt="iconSound"
-              />
+          >
+            <button
+              onClick={() => un()}
+              disabled={state2}
+              className="Buttongame"
+            >
+              <img src={iconSoundWhite} alt="iconSound" />
             </button>
-
             <h3>{current.word1.name}</h3>
           </DragComponent>
         </div>

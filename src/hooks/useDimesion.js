@@ -35,6 +35,14 @@ export const useDimesionClient = () => {
   return dimension;
 };
 
+export const useSetScrollPosition = () => {
+  useEffect(() => {
+    if (window.scrollY > 0) {
+      window.scroll(0, 0);
+    }
+  }, []);
+};
+
 const getDimesionClient = () => {
   return {
     width: document.body.clientWidth,

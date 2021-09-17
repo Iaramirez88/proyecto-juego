@@ -13,12 +13,14 @@ import DragComponent from "../../components/shared/DragComponent";
 import { useDragPosition } from "../../hooks/useDragPosition";
 import { GameContext } from "../../context/GameContext";
 import { mockWriteData } from "../../utils/mockData/modWrite";
-import { useDimesions } from "../../hooks/useDimesion";
+import { useDimesions, useSetScrollPosition } from "../../hooks/useDimesion";
 import { useResponseAudio } from "../../hooks/usePlaySounds";
 import WrittingInstructions from "../../components/games/WrittingModule/WrittingInstructions";
 
 const WrittingScreen = () => {
   useSetBackGround(backGround);
+  useSetScrollPosition();
+
   const { idLetter } = useParams();
 
   const [isInPosition] = useDragPosition();

@@ -11,17 +11,11 @@ import { GameContext } from "../../context/GameContext";
 const HomeGridComponent = ({ mainTitle, list, mainImage, moduleOpen }) => {
   const screen = useDimesions();
   const [getId] = useRamdonId();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const { setDataLocal } = useLocalStorage("module");
   const panelRef = useRef(null);
   const gridCardRef = useRef(null);
   const { dispatch } = useContext(GameContext);
-
-  useEffect(() => {
-    const panel = panelRef.current;
-    const { height } = gridCardRef.current.getBoundingClientRect();
-    panel.style.maxHeight = isOpen ? height + "px" : 0;
-  }, [isOpen]);
 
   useEffect(() => {
     if (screen.width > 992) setIsOpen(true);
@@ -34,6 +28,9 @@ const HomeGridComponent = ({ mainTitle, list, mainImage, moduleOpen }) => {
       type: "SET_ACCORDION",
       value: saveModule,
     });
+    const panel = panelRef.current;
+    const { height } = gridCardRef.current.getBoundingClientRect();
+    panel.style.maxHeight = isOpen ? height + "px" : 0;
     setIsOpen(!isOpen);
   };
 
