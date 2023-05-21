@@ -24,6 +24,8 @@ const FallModule = () => {
   const { dispatch } = useContext(GameContext);
   const history = useHistory();
   let { id } = useParams();
+  let enunciado = ""; 
+  let audio;
   const [playResponseAudio] = useResponseAudio();
   const instructions = autioTitleIntructions.fall;
   const [state, setState] = useState({
@@ -35,7 +37,6 @@ const FallModule = () => {
     position: 0,
   });
   const [transition, setTransition] = useTransitionGame(".containerGame");
-
   useEffect(() => {
     const init = () => {
       const response = getData(id);
@@ -88,6 +89,14 @@ const FallModule = () => {
 
   if (!state.isLoading) return <div></div>;
 
+  if(state.letter=="a"||state.letter=="e"||state.letter=="i"||state.letter=="o"||state.letter=="u"||state.letter=="A"||state.letter=="E"||state.letter=="I"||state.letter=="O"||state.letter=="U"){
+    enunciado = `Selecciona la misma vocal ${id}`;
+    audio = instructions.intro;
+  }else{
+    enunciado = `Selecciona la misma letra ${id}`;
+    audio = instructions.introL;
+  }
+  
   return (
     <div
       className="containerGame"
@@ -95,9 +104,9 @@ const FallModule = () => {
     >
       <Header></Header>
       <TitleSound
-        title="Selecciona la misma vocal"
+        title={enunciado}
         titleSound={instructions}
-        listAudio={[instructions.intro, instructions.letter[id]]}
+        listAudio={[audio , instructions.letter[id]]}
         ModalChild={FallInstructions}
         module="fall"
       />

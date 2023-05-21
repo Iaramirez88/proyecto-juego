@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { configVars } from "../../utils/config";
-import sha256 from "crypto-js/sha256";
+//import sha256 from "crypto-js/sha256";
 import { parseDate } from "../../utils/tools";
 
 const PayUFormButton = ({ allowSubmit, currency, price }) => {

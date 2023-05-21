@@ -106,6 +106,17 @@ export const AudioScreen = () => {
 
   if (!isLoading) return <div></div>;
 
+  let enunciado = ""; 
+  let audio;
+
+  if(idLetter=="a"||idLetter=="e"||idLetter=="i"||idLetter=="o"|idLetter=="u"||idLetter=="A"||idLetter=="E"||idLetter=="I"||idLetter=="O"||idLetter=="U"){
+    enunciado = `Selecciona las imágenes que empiezan con la vocal ${idLetter}`;
+    audio = instructions.intro;
+  }else{
+    enunciado = `Selecciona las imágenes que empiezan con la letra ${idLetter}`;
+    audio = instructions.introL;
+  }
+
   return (
     <div
       className="containerGame"
@@ -113,9 +124,9 @@ export const AudioScreen = () => {
     >
       <Header></Header>
       <TitleSound
-        title={`Selecciona las imágenes que empiezan con la vocal ${idLetter}`}
+        title={enunciado}
         titleSound={instructions}
-        listAudio={[instructions.intro, instructions.letter[idLetter]]}
+        listAudio={[audio, instructions.letter[idLetter]]}
         ModalChild={AudioInstructions}
         module="audio"
       />

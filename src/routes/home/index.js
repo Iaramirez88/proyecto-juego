@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import {
   caraOso,
-  // caraDino,
+  //caraDino,
   // caraHipo,
   // caraKoala,
-  // caraPato,
+  caraPato,
   // caravaca,
 } from "../../utils/imagesResources";
 import "../../assets/styles/home.css";
 import HomeGridComponent from "./ home";
 import {
   // vocalAU,
-  // letterM,
+ LetterM,
   // letterNR,
   // letterBf,
   // letterLL,
@@ -28,7 +28,6 @@ const Home = () => {
     document.body.style.backgroundImage = "none";
     document.body.style.backgroundColor = "white";
   }, []);
-
   return (
     <div>
       <HeaderHome />
@@ -39,6 +38,12 @@ const Home = () => {
           mainImage={caraOso}
           list={vocalAUList}
           moduleOpen="1"
+        />
+        <HomeGridComponent
+          mainTitle="Letras MPSTL"
+          mainImage={caraPato}
+          list={LetterM}
+          moduleOpen="2"
         />
       </div>
     </div>

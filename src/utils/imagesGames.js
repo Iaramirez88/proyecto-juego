@@ -33,11 +33,38 @@ import invierno from "../assets/images/games/i/invierno.svg";
 import imagen from "../assets/images/games/i/imagen.svg";
 import indigena from "../assets/images/games/i/indigena.svg";
 //o
-import oso from "../assets/images/games/oso.svg";
-import uva from "../assets/images/games/uva.svg";
-import utiles from "../assets/images/games/utiles.svg";
-import unicornio from "../assets/images/games/unicornio.svg";
-
+import oso from "../assets/images/games/o/oso.svg";
+import ocho from "../assets/images/games/o/ocho.svg";
+import ogro from "../assets/images/games/o/ogro.svg";
+import ojos from "../assets/images/games/o/ojos.svg";
+import ola from "../assets/images/games/o/ola.svg";
+import olla from "../assets/images/games/o/olla.svg";
+import oruga from "../assets/images/games/o/oruga.svg";
+import ostra from "../assets/images/games/o/ostra.svg";
+import oveja from "../assets/images/games/o/oveja.svg";
+import ovni from "../assets/images/games/o/ovni.svg";
+//u
+import uva from "../assets/images/games/u/uva.svg";
+import utiles from "../assets/images/games/u/utiles.svg";
+import unicornio from "../assets/images/games/u/unicornio.svg";
+import uniforme from "../assets/images/games/u/uniforme.svg";
+import unir from "../assets/images/games/u/unir.svg";
+import universo from "../assets/images/games/u/universo.svg";
+import unna from "../assets/images/games/u/unna.svg";
+import uno from "../assets/images/games/u/uno.svg";
+import urna from "../assets/images/games/u/urna.svg";
+import urraca from "../assets/images/games/u/urraca.svg"
+//m
+import mano from "../assets/images/games/m/mano.svg";
+import mapa from "../assets/images/games/m/mapa.svg";
+import mariposa from "../assets/images/games/m/mariposa.svg";
+import mesa from "../assets/images/games/m/mesa.svg";
+import mochila from "../assets/images/games/m/mochila.svg";
+import momia from "../assets/images/games/m/momia.svg";
+import mono from "../assets/images/games/m/mono.svg";
+import mora from "../assets/images/games/m/mora.svg";
+import moto from "../assets/images/games/m/moto.svg";
+import murcielago from "../assets/images/games/m/murcielago.svg"
 // Exporting games resources
 
 export {
@@ -75,7 +102,35 @@ export {
   imagen,
   //o
   oso,
+  ocho,
+  ogro,
+  ojos,
+  ola,
+  oruga,
+  ostra,
+  oveja,
+  ovni,
+  olla,
+  //u
   uva,
   utiles,
   unicornio,
+  uniforme,
+  unir,
+  universo,
+  unna,
+  uno,
+  urna,
+  urraca,
+  // m
+  mano,
+  mapa,
+  mariposa,
+  mesa,
+  mochila,
+  momia,
+  mono,
+  mora,
+  moto,
+  murcielago,
 };

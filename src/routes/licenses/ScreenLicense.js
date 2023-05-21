@@ -1,4 +1,4 @@
-import React from "react";
+{/*import React from "react";
 import HeaderHome from "../../components/shared/HeaderHome";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
 import TitleInfo from "../home/TitleInfo";
@@ -16,4 +16,4 @@ const ScreenLicense = () => {
   );
 };
 
-export default ScreenLicense;
+export default ScreenLicense;*/}

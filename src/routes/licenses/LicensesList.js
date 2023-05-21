@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+{/*}mport React, { useState } from "react";
 import { Col, FormControl, InputGroup, Row } from "react-bootstrap";
 import swal from "sweetalert";
 import LoadingComponent from "../../components/shared/LoadingComponent";
@@ -89,7 +89,7 @@ const LicensesList = () => {
         </Col>
         <Col className="llBoxRow" lg={4} md={4}>
           <div>
-            {/* <input name="email" className="llInputItem" placeholder="Correo" /> */}
+            {/* <input name="email" className="llInputItem" placeholder="Correo" /> 
             <InputGroup className="mb-3">
               <FormControl
                 placeholder="Correo"
@@ -126,4 +126,4 @@ const LicensesList = () => {
   );
 };
 
-export default LicensesList;
+export default LicensesList;*/}
