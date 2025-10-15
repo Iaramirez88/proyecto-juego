@@ -5,7 +5,6 @@ import { useDimesions } from "../../hooks/useDimesion";
 import game from "../../assets/images/juegoMenu.svg";
 import user from "../../assets/images/perfilMenu.svg";
 import licencia from "../../assets/images/licenciaSinFondo.svg";
-import iconBars from "../../assets/images/menuMovil.svg";
 
 const HeaderHome = () => {
   const { stateContext } = useContext(GameContext);
@@ -15,6 +14,17 @@ const HeaderHome = () => {
   const paths = url.split("/");
   const currentRoute = paths[1] || "";
   const secondRoute = paths[2] || "";
+
+  const [showMenu, setShowMenu] = React.useState(false);
+
+  // Estado para animar el icono de menú (barras/X)
+  const [menuIconActive, setMenuIconActive] = React.useState(false);
+
+  // Maneja el click en el icono de menú móvil
+  const handleMenuIconClick = () => {
+    setShowMenu((prev) => !prev);
+    setMenuIconActive((prev) => !prev);
+  };
 
   return (
     <div>
@@ -77,9 +87,72 @@ const HeaderHome = () => {
           </div>
         )}
         {screen.width < 768 && (
-          <img alt="barsMenu" src={iconBars} width="40px" height="auto" />
+          <div className="menuIconContainer">
+            {/* Icono animado de menú/hamburguesa/X */}
+            <div
+              onClick={handleMenuIconClick}
+              className="menuIcon"
+            >
+              <div
+                className={`menu-icon${menuIconActive ? " active" : ""}`}
+              >
+                <span className="menu-icon-line"
+                  style={{
+                    transform: menuIconActive
+                      ? "rotate(45deg) translateY(6px)"
+                      : "none",
+                  }}
+                />
+                <span className="menu-icon-line-middle"
+                  style={{
+                    opacity: menuIconActive ? 0 : 1,
+                  }}
+                />
+                <span className="menu-icon-line-bottom"
+                  style={{
+                    transform: menuIconActive
+                      ? "rotate(-45deg) translateY(-6px)"
+                      : "none",
+                  }}
+                />
+              </div>
+            </div>
+            {!stateContext.user && showMenu && (
+              <div className="menuDropdown"
+              >
+                <div
+                  style={{
+                    padding: "10px 20px",
+                    cursor: "pointer",
+                    borderBottom: "1px solid #eee"
+                  }}
+                  onClick={() => {
+                    setShowMenu(false);
+                    setMenuIconActive(false);
+                    history.replace({ pathname: "/sesion" });
+                  }}
+                >
+                  Iniciar Sesión
+                </div>
+                <div
+                  style={{
+                    padding: "10px 20px",
+                    cursor: "pointer"
+                  }}
+                  onClick={() => {
+                    setShowMenu(false);
+                    setMenuIconActive(false);
+                    history.replace({ pathname: "sesion/terminos" });
+                  }}
+                >
+                  Registrarse
+                </div>
+              </div>
+            )}
+          </div>
         )}
       </div>
+      
     </div>
   );
 };

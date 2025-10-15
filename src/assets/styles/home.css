@@ -271,6 +271,70 @@
   border-radius: 14px;
 }
 
+.menuIconContainer{
+  position: relative;
+}
+.menuIconContainer .menuIcon{
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+}
+.menu-icon{
+  width: 28px;
+  height: 28px;
+  position: relative;
+  transition: all 0.3s cubic-bezier(.4,2,.6,1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.menu-icon .menu-icon-line{
+   position: absolute;
+   height: 3.5px;
+   width: 100%;
+   background: #fff;
+   border-radius: 2px;
+   transition: all 0.3s cubic-bezier(.4,2,.6,1);
+   top: 6px;
+   left: 0;
+}
+.menu-icon .menu-icon-line-middle{
+   position: absolute;
+   height: 3px;
+   width: 100%;
+   background: #fff;
+   border-radius: 2px;
+   transition: all 0.3s cubic-bezier(.4,2,.6,1);
+   top: 13px;
+   left: 0;
+}
+.menu-icon .menu-icon-line-bottom{
+   position: absolute;
+   height: 3.5px;
+   width: 100%;
+   background: #fff;
+   border-radius: 2px;
+   transition: all 0.3s cubic-bezier(.4,2,.6,1);
+   top: 20px;
+   left: 0;
+}
+.menuDropdown{
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 80px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-radius: 4px;
+  z-index: 10;
+  min-width: 140px;
+  width: 100%;
+  padding: 8px 0;
+}
 @media screen and (max-width: 992px) {
   .listContainerItem {
     display: flex;
