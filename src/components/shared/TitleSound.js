@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useRef, useState } from "react";
 import { iconSound } from "../../utils/imagesResources";
 import finger from "../../assets/images/instructions/dedoTocas.svg";
@@ -6,7 +8,8 @@ import ModalComponent from "./ModalComponent";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useDimesions } from "../../hooks/useDimesion";
 
-export const TitleSound = ({
+
+const TitleSound = ({
   title,
   titleSound,
   listAudio,
@@ -29,7 +32,6 @@ export const TitleSound = ({
     snd.play();
     if (sounds.length > 1) {
       snd.addEventListener("ended", () => {
-        console.log(21313);
         let sndVocal = new Audio(sounds[1]);
         sndVocal.play();
       });
@@ -89,7 +91,7 @@ export const TitleSound = ({
       startInteraction(display);
       setLoading(true);
     }
-  }, [loading, display, setDataLocal, module]);
+  }, [loading, display, setDataLocal, module, dimension]);
 
   function on() {
     setTimeout(() => {

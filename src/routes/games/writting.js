@@ -101,30 +101,33 @@ const WrittingScreen = () => {
             data: {},
           });
 
-          if (numLetters > 0) {
-            current.spell[index].locked = true;
-            setState({
-              ...state,
-              numLetters,
-              current,
-            });
-          } else if (state.position + 1 < state.words.length) {
-            let position = state.position + 1;
-            let [options, numLetters] = createOptions(
-              state.words[position].name.toLowerCase(),
-              idLetter
-            );
-            setState({
-              ...state,
-              options,
-              current: setResponse(state.words[position]),
-              position,
-              numLetters,
-            });
-            setTransition(true);
-          } else {
-            history.push("/level-up", { gameUrl: `/escritura/${idLetter}` });
-          }
+          // Delay de 1 segundo antes de avanzar
+          setTimeout(() => {
+            if (numLetters > 0) {
+              current.spell[index].locked = true;
+              setState({
+                ...state,
+                numLetters,
+                current,
+              });
+            } else if (state.position + 1 < state.words.length) {
+              let position = state.position + 1;
+              let [options, numLetters] = createOptions(
+                state.words[position].name.toLowerCase(),
+                idLetter
+              );
+              setState({
+                ...state,
+                options,
+                current: setResponse(state.words[position]),
+                position,
+                numLetters,
+              });
+              setTransition(true);
+            } else {
+              history.push("/level-up", { gameUrl: `/escritura/${idLetter}` });
+            }
+          }, 1000);
         } else {
           dragItem.classList.add("wrLetterBad");
           setTimeout(function () {

@@ -49,11 +49,14 @@ export const AudioScreen = () => {
         type: "ADD_POINTS",
         value,
       });
-      setState({
-        ...state,
-        checked: state.checked + 1,
-        spring: isCorrect ? state.spring + 1 : 0,
-      });
+      // Delay de 1 segundo antes de avanzar
+      setTimeout(() => {
+        setState({
+          ...state,
+          checked: state.checked + 1,
+          spring: isCorrect ? state.spring + 1 : 0,
+        });
+      }, 1000);
     }
   };
 
@@ -68,7 +71,7 @@ export const AudioScreen = () => {
       spring: 0,
     });
     setIsLoading(true);
-  }, []);
+  }, [idLetter]);
 
   useEffect(() => {
     if (transition) {
@@ -99,10 +102,10 @@ export const AudioScreen = () => {
         setTransition(true);
         setState(status);
       } else {
-  history.push("/level-up", { gameUrl: `/escucha/${idLetter}` });
+        history.push("/level-up", { gameUrl: `/escucha/${idLetter}` });
       }
     }
-  }, [state, history]);
+  }, [state, history, idLetter]);
 
   if (!isLoading) return <div></div>;
 

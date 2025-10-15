@@ -65,31 +65,42 @@ const FallModule = () => {
       ...state,
       current,
     });
-    setTimeout(() => {
-      dispatch({
-        type: "ADD_POINTS",
-        value: isCorrect ? 1 : -1,
-      });
-
-      if (isCorrect) {
-        if (position + 1 >= state.words.length) {
-          history.replace({ pathname: "/level-up", state: { gameUrl: `/otoño/${id}` } });
-          return;
-        }
-        playResponseAudio(isCorrect);
-        setTransition(isCorrect);
-        setState({
-          ...state,
-          current: prepareData(state.words[position + 1]),
-          position: position + 1,
+        dispatch({
+          type: "ADD_POINTS",
+          value: isCorrect ? 1 : -1,
         });
-      }
-    }, 1500);
+
+        if (isCorrect) {
+          playResponseAudio(isCorrect);
+          if (position + 1 >= state.words.length) {
+            setTimeout(() => {
+              history.replace({ pathname: "/level-up", state: { gameUrl: `/otoño/${id}` } });
+            }, 1000); // Espera 1 segundo para mostrar la opción correcta y el audio
+            return;
+          }
+          setTimeout(() => {
+            setTransition(isCorrect);
+            setState({
+              ...state,
+              current: prepareData(state.words[position + 1]),
+              position: position + 1,
+            });
+          }, 1000); // Espera 1 segundo antes de pasar al siguiente
+        }
   };
 
   if (!state.isLoading) return <div></div>;
 
-  if(state.letter==="a"||state.letter==="e"||state.letter==="i"||state.letter==="o"||state.letter==="u"||state.letter==="A"||state.letter==="E"||state.letter==="I"||state.letter==="O"||state.letter==="U"){
+  if(state.letter==="a"||
+    state.letter==="e"||
+    state.letter==="i"||
+    state.letter==="o"||
+    state.letter==="u"||
+    state.letter==="A"||
+    state.letter==="E"||
+    state.letter==="I"||
+    state.letter==="O"||
+    state.letter==="U"){
     enunciado = `Selecciona la misma vocal ${id}`;
     audio = instructions.intro;
   }else{
@@ -174,9 +185,6 @@ const prepareData = (data) => {
   return data.map((item) => ({ ...item, isCorrect: null }));
 };
 
-const setPrincipalLetter = (letter) => {
-  const base = Math.floor(Math.random() + 0.5) > 0;
-  return base ? letter.toLowerCase() : letter.toUpperCase();
-};
+const setPrincipalLetter = (letter) => letter;
 
 export default FallModule;

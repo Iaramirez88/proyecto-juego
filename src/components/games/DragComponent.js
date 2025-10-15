@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useReducer } from "react";
+import React, { useContext, useEffect, useRef, useReducer, forwardRef, useImperativeHandle } from "react";
 import gsap from "gsap";
 import { goodAnswer, wrongAnswer } from "../../utils/sounds";
 import { GameContext } from "../../context/GameContext";
@@ -7,13 +7,31 @@ import {
   initialize,
 } from "../../reducer/components/games/dragComponentReducer";
 
-const DragComponent = ({
+const DragComponent = forwardRef(({
   children,
   divResponse,
   word,
   setStatusWord,
   statusWord,
-}) => {
+}, ref) => {
+  // Permitir reset externo
+  useImperativeHandle(ref, () => ({
+    resetDrag: () => {
+      dispatchDrag({
+        type: "RESET_DRAG",
+        data: {},
+      });
+      if (dragItemRef.current) {
+        dragItemRef.current.style.transform = "translate(0px, 0px)";
+      }
+      divResponse.forEach((element) => {
+        if (element.current) {
+          element.current.classList.remove("containerCorrect");
+          element.current.classList.remove("containerWrong");
+        }
+      });
+    }
+  }));
   const containerRef = useRef(null);
   const dragItemRef = useRef(null);
   const { dispatch } = useContext(GameContext);
@@ -242,20 +260,7 @@ const DragComponent = ({
     };
   }, [divResponse, word, state, statusWord, setStatusWord, dispatch]);
 
-  useEffect(() => {
-    let dragItem = dragItemRef.current;
-    if (statusWord.word1 && statusWord.word2) {
-      dispatchDrag({
-        type: "RESET_DRAG",
-        data: {},
-      });
-      dragItem.style.transform = "translate(" + 0 + "px, " + 0 + "px)";
-      divResponse.forEach((element) => {
-        element.current.classList.remove("containerCorrect");
-        element.current.classList.remove("containerWrong");
-      });
-    }
-  }, [statusWord, divResponse]);
+  // El reset ahora es controlado desde el componente padre tras el delay
 
   return (
     <div ref={containerRef} className="drag-container">
@@ -269,7 +274,7 @@ const DragComponent = ({
       </div>
     </div>
   );
-};
+});
 function isInResponse(containerResponse, dragItem) {
   let { top, right, left, bottom } = containerResponse.getBoundingClientRect();
   let positionResponse = dragItem.getBoundingClientRect();

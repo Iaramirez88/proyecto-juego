@@ -43,6 +43,12 @@ const PairWords = () => {
     if (list.length < 2) return;
     let isCorrect = compareWords(list[0].name, list[1].name);
 
+    playResponseAudio(isCorrect);
+    dispatch({
+      type: "ADD_POINTS",
+      value: isCorrect ? 3 : -1,
+    });
+    // Delay de 1 segundo antes de avanzar
     setTimeout(() => {
       if (isCorrect) {
         list[0].check = true;
@@ -56,14 +62,8 @@ const PairWords = () => {
           ? [...cards]
           : state.cards.map((item) => ({ ...item, show: false })),
       };
-      playResponseAudio(isCorrect);
       setState(cardState);
-    }, 1500);
-
-    dispatch({
-      type: "ADD_POINTS",
-      value: isCorrect ? 3 : -1,
-    });
+    }, 1000);
   };
 
   const selectCard = (index) => {
@@ -84,7 +84,7 @@ const PairWords = () => {
     if (correct === 0) { 
       history.push("/level-up", { gameUrl: `/pares/${idLetter}` });
     }
-  }, [state]);
+  }, [state, history, idLetter]);
 
   if (!state.loading) return <div></div>;
   return (

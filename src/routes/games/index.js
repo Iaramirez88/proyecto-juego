@@ -32,7 +32,7 @@ const Games = () => {
   const [transition, setTransition] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [list, setList] = useState([]);
-  const [current, setCurrent] = useState({});
+  // El render de la palabra actual depende solo de position y list
   const boxResponse1 = useRef(null);
   const boxResponse2 = useRef(null);
 
@@ -46,21 +46,25 @@ const Games = () => {
     snd.play();
   };
 
+  const dragRefs = useRef([]);
+
   useEffect(() => {
     if (statusWord.word1 && statusWord.word2) {
+      dragRefs.current.forEach(ref => {
+        if (ref && ref.resetDrag) ref.resetDrag();
+      });
       if (position + 1 < list.length) {
         setPosition(position + 1);
         setStatusWord({
           word1: false,
           word2: false,
         });
-        setCurrent(list[position + 1]);
         setTransition(true);
       } else {
-  history.push("/level-up", { gameUrl: `/vocabulario/${idLetter}` });
+        history.push("/level-up", { gameUrl: `/vocabulario/${idLetter}` });
       }
     }
-  }, [statusWord, position, history, list]);
+  }, [statusWord, position, history, list, idLetter]);
 
   useEffect(() => {
     if (transition) {
@@ -78,19 +82,20 @@ const Games = () => {
 
   useEffect(() => {
     playing ? audio.play() : audio.pause();
-  }, [playing]);
+  }, [playing, audio]);
 
   useEffect(() => {
     let data = getData(idLetter);
     setList(data);
-    setCurrent(data[0]);
+    setPosition(0);
+    setStatusWord({ word1: false, word2: false });
     setIsLoading(true);
 
     audio.addEventListener("ended", () => setPlaying(false));
     return () => {
       audio.removeEventListener("ended", () => setPlaying(false));
     };
-  }, []);
+  }, [audio, idLetter]);
 
   function on() {
     setTimeout(() => {
@@ -113,7 +118,9 @@ const Games = () => {
     playSound(current.word1.sound);
   }
 
-  if (!isLoading) return <div></div>;
+  if (!isLoading || !list[position]) return <div></div>;
+
+  const current = list[position];
 
   return (
     <div
@@ -147,6 +154,7 @@ const Games = () => {
         </div>
         <div className={`containerWords`}>
           <DragComponent
+            ref={el => dragRefs.current[0] = el}
             word={current.word2.name}
             divResponse={[boxResponse1, boxResponse2]}
             setStatusWord={setStatusWord}
@@ -162,6 +170,7 @@ const Games = () => {
             <h3>{current.word2.name}</h3>
           </DragComponent>
           <DragComponent
+            ref={el => dragRefs.current[1] = el}
             word={current.word1.name}
             divResponse={[boxResponse1, boxResponse2]}
             setStatusWord={setStatusWord}

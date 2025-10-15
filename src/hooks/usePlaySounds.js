@@ -12,12 +12,14 @@ export function usePlaySounds() {
 }
 
 export function useResponseAudio() {
-  const [playSound] = usePlaySounds();
+  // Reproduce el audio correcto de inmediato, sin delay y sin bug de índice
   const playResponseAudio = (type) => {
     const audio = type
-    ? goodAnswer[Math.floor(Math.random() * wrongAnswer.length)]
-    : wrongAnswer[Math.floor(Math.random() * wrongAnswer.length)];
-    playSound(audio);
+      ? goodAnswer[Math.floor(Math.random() * goodAnswer.length)]
+      : wrongAnswer[Math.floor(Math.random() * wrongAnswer.length)];
+    const snd = new Audio(audio);
+    snd.currentTime = 0;
+    snd.play();
   };
   return [playResponseAudio];
 }

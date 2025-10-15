@@ -58,7 +58,8 @@ const ComponentPortrait = ({ gameUrl }) => {
   const getNextGameUrl = () => {
     if (!gameUrl) return '/';
     // Extraer juego y letra
-    const match = gameUrl.match(/\/(\w+)[^/]*\/(\w+)/);
+    // const match = gameUrl.match(/\/(\w+)[^/]*\/(\w+)/);
+    const match = gameUrl.match(/\/([\wñÑáéíóúÁÉÍÓÚ]+)[^/]*\/([\wñÑáéíóúÁÉÍÓÚ]+)/);
     if (!match) return '/';
     const currentGame = match[1];
     const currentLetter = match[2];
@@ -67,7 +68,6 @@ const ComponentPortrait = ({ gameUrl }) => {
     // Siguiente juego
     return gameOrder[idx + 1].path + currentLetter;
   };
-
   const handleContinue = () => {
     const nextUrl = getNextGameUrl();
     history.push(nextUrl);
