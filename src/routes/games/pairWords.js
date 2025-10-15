@@ -81,8 +81,8 @@ const PairWords = () => {
     if (!state.loading) {
       setState(initialState(idLetter));
     }
-    if (correct === 0) {
-      history.push("/level-up");
+    if (correct === 0) { 
+      history.push("/level-up", { gameUrl: `/pares/${idLetter}` });
     }
   }, [state]);
 

@@ -175,28 +175,30 @@ const DragComponent = ({
             }, 2000);
           }
           return;
+        } else {
+          // Si no está sobre una zona válida, animar regreso a origen
+          gsap.fromTo(
+            dragItem,
+            { x: state.currentX, y: state.currentY },
+            {
+              x: 0,
+              y: 0,
+              duration: 1,
+              onComplete: function () {
+                dispatchDrag({
+                  type: "WRONG_ANSWER",
+                  data: {
+                    actualX: null,
+                    actualY: null,
+                  },
+                });
+                dragItem.style.transform = "translate(0px, 0px)";
+              },
+            }
+          );
         }
       }
-      // gsap.fromTo(
-      //   dragItem,
-      //   { x: state.currentX, y: state.currentY },
-      //   {
-      //     x: 0,
-      //     y: 0,
-      //     duration: 1,
-      //     onComplete: function () {
-      //       dispatchDrag({
-      //         type: "WRONG_ANSWER",
-      //         data: {
-      //           actualX: null,
-      //           actualY: null,
-      //         },
-      //       });
-      //     },
-      //   }
-      // );
     }
-
     function drag(e) {
       if (state.active && e.cancelable && !state.lockResponse) {
         e.preventDefault();
@@ -257,13 +259,17 @@ const DragComponent = ({
 
   return (
     <div ref={containerRef} className="drag-container">
-      <div ref={dragItemRef} className="boxWords item">
+      <div
+        ref={dragItemRef}
+        className="boxWords item"
+        style={{ userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none', msUserSelect: 'none', cursor: 'grab' }}
+        draggable={false}
+      >
         {children}
       </div>
     </div>
   );
 };
-
 function isInResponse(containerResponse, dragItem) {
   let { top, right, left, bottom } = containerResponse.getBoundingClientRect();
   let positionResponse = dragItem.getBoundingClientRect();

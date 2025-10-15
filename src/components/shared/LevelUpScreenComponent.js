@@ -11,7 +11,7 @@ import {
   ResvMuybien,
 } from "../../utils/sounds";
 
-const ComponentPortrait = () => {
+const ComponentPortrait = ({ gameUrl }) => {
   const [container, setContainer] = useState(initialHeight());
   const [isLandscape, setIsLandscape] = useState(getOrientation());
   const [sound, setAudio] = useState(null);
@@ -36,21 +36,54 @@ const ComponentPortrait = () => {
     const orientationChange = () => {
       setIsLandscape(getOrientation());
     };
-    let timer;
     let items = [resBien, RestExcelente, RestFelicitaciones, ResvMuybien];
     const aud = items[Math.floor(Math.random() * items.length)];
     setAudio(aud);
-    timer = setTimeout(() => {
-      history.push("/");
-    }, 5000);
-
     window.addEventListener("orientationchange", orientationChange);
-
     return () => {
       window.removeEventListener("orientationchange", orientationChange);
-      clearTimeout(timer);
     };
   }, []);
+  // Handlers para los botones
+  // Orden de juegos (sin 'Armar')
+  const gameOrder = [
+    { name: 'vocabulario', path: '/vocabulario/' },
+    { name: 'escucha', path: '/escucha/' },
+    { name: 'pares', path: '/pares/' },
+    { name: 'otoño', path: '/otoño/' },
+    { name: 'escritura', path: '/escritura/' }
+  ];
+
+  // Detectar juego y letra actual desde gameUrl
+  const getNextGameUrl = () => {
+    if (!gameUrl) return '/';
+    // Extraer juego y letra
+    const match = gameUrl.match(/\/(\w+)[^/]*\/(\w+)/);
+    if (!match) return '/';
+    const currentGame = match[1];
+    const currentLetter = match[2];
+    const idx = gameOrder.findIndex(g => g.name === currentGame);
+    if (idx === -1 || idx === gameOrder.length - 1) return '/';
+    // Siguiente juego
+    return gameOrder[idx + 1].path + currentLetter;
+  };
+
+  const handleContinue = () => {
+    const nextUrl = getNextGameUrl();
+    history.push(nextUrl);
+  };
+  const handleMenu = () => {
+    // Redirige al menú principal
+    history.push("/");
+  };
+  const handleRepeat = () => {
+    // Si existe la prop gameUrl, redirige a esa ruta; si no, recarga la página
+    if (typeof gameUrl === 'string' && gameUrl.length > 0) {
+      history.push(gameUrl);
+    } else {
+      window.location.reload();
+    }
+  };
 
   useEffect(() => {
     var tl = gsap.timeline();
@@ -76,6 +109,11 @@ const ComponentPortrait = () => {
             <p>¡Felicitaciones!</p>
             <p>Lo has logrado</p>
           </div>
+          <div style={{ marginTop: 32, display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}>
+            <button onClick={handleContinue} style={{ padding: '10px 24px', fontSize: 18, borderRadius: 8, background: '#4caf50', color: '#fff', border: 'none', cursor: 'pointer' }}>Continuar</button>
+            <button onClick={handleMenu} style={{ padding: '10px 24px', fontSize: 18, borderRadius: 8, background: '#2196f3', color: '#fff', border: 'none', cursor: 'pointer' }}>Volver al menú</button>
+            <button onClick={handleRepeat} style={{ padding: '10px 24px', fontSize: 18, borderRadius: 8, background: '#ff9800', color: '#fff', border: 'none', cursor: 'pointer' }}>Repetir juego</button>
+          </div>
         </div>
       </div>
       {sound && <audio src={sound} autoPlay />}
@@ -83,10 +121,10 @@ const ComponentPortrait = () => {
   );
 };
 
-const LevelUpScreenComponent = () => {
+const LevelUpScreenComponent = ({ gameUrl }) => {
   return (
     <div>
-      <ComponentPortrait />
+  <ComponentPortrait gameUrl={gameUrl} />
     </div>
   );
 };

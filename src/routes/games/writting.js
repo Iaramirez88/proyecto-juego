@@ -123,7 +123,7 @@ const WrittingScreen = () => {
             });
             setTransition(true);
           } else {
-            history.push("/level-up");
+            history.push("/level-up", { gameUrl: `/escritura/${idLetter}` });
           }
         } else {
           dragItem.classList.add("wrLetterBad");

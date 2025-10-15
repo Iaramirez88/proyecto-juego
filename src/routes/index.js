@@ -24,7 +24,12 @@ const Routes = () => {
         <Route path="/escucha/:idLetter" component={AudioScreen} />
         <Route path="/escritura/:idLetter" component={WrittingScreen} />
         <Route path="/vocabulario/:idLetter" component={Games} />
-        <Route path="/level-up" component={LevelUpScreenComponent} />
+        <Route
+          path="/level-up"
+          render={props => (
+            <LevelUpScreenComponent gameUrl={props.location.state?.gameUrl} {...props} />
+          )}
+        />
         <Route path="/pares/:idLetter" component={PairWords} />
         <Route path="/otoño/:id" component={FallModule} />
         <Route path="/armar/:id" component={Armar} />

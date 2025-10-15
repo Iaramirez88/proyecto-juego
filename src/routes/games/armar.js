@@ -77,7 +77,7 @@ function Armar() {
          {Object.entries(colum).map(([id, colum])=>{
             return(
                <Droppable droppableId={id}>
-                  {(providad , snapshop) =>{
+               history.push("/level-up", { gameUrl: `/armar/${id}` });
                      return(
                         <div {...providad.droppableProps} ref={providad.innerRef}>
                         {colum.items.map((items, index) => {

@@ -12,7 +12,7 @@ const Header = ({ onGoBack }) => {
       <header>
         <div className="headerBoxIcon">
           <img
-            onClick={onGoBack ? onGoBack : () => history.goBack()}
+            onClick={onGoBack ? onGoBack : () => history.push("/")}
             className="iconBack"
             alt="iconBack"
             src={iconBack}

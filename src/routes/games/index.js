@@ -57,7 +57,7 @@ const Games = () => {
         setCurrent(list[position + 1]);
         setTransition(true);
       } else {
-        history.push("/level-up");
+  history.push("/level-up", { gameUrl: `/vocabulario/${idLetter}` });
       }
     }
   }, [statusWord, position, history, list]);

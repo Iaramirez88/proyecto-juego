@@ -14,20 +14,20 @@ function getRandomInt(min, max) {
 var letra = "";
 
 function select(int) {
-    if(int ==1){
+    if(int ===1){
       letra ="a";
-    }if(int==2){
+    }if(int===2){
       letra="e";
-    }if(int==3){
+    }if(int===3){
       letra="i";
     }
-    if(int==4){
+    if(int===4){
       letra="o";
     }
-    if(int==5){
+    if(int===5){
       letra="u";
     }
-    if(int==6){
+    if(int===6){
       letra="m";
     }
     return letra;

@@ -99,7 +99,7 @@ export const AudioScreen = () => {
         setTransition(true);
         setState(status);
       } else {
-        history.push("/level-up");
+  history.push("/level-up", { gameUrl: `/escucha/${idLetter}` });
       }
     }
   }, [state, history]);
@@ -109,7 +109,7 @@ export const AudioScreen = () => {
   let enunciado = ""; 
   let audio;
 
-  if(idLetter=="a"||idLetter=="e"||idLetter=="i"||idLetter=="o"|idLetter=="u"||idLetter=="A"||idLetter=="E"||idLetter=="I"||idLetter=="O"||idLetter=="U"){
+  if(idLetter==="a"||idLetter==="e"||idLetter==="i"||idLetter==="o"||idLetter==="u"||idLetter==="A"||idLetter==="E"||idLetter==="I"||idLetter==="O"||idLetter==="U"){
     enunciado = `Selecciona las imágenes que empiezan con la vocal ${idLetter}`;
     audio = instructions.intro;
   }else{

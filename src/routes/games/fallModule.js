@@ -73,7 +73,7 @@ const FallModule = () => {
 
       if (isCorrect) {
         if (position + 1 >= state.words.length) {
-          history.replace({ pathname: "/level-up" });
+          history.replace({ pathname: "/level-up", state: { gameUrl: `/otoño/${id}` } });
           return;
         }
         playResponseAudio(isCorrect);
@@ -89,7 +89,7 @@ const FallModule = () => {
 
   if (!state.isLoading) return <div></div>;
 
-  if(state.letter=="a"||state.letter=="e"||state.letter=="i"||state.letter=="o"||state.letter=="u"||state.letter=="A"||state.letter=="E"||state.letter=="I"||state.letter=="O"||state.letter=="U"){
+  if(state.letter==="a"||state.letter==="e"||state.letter==="i"||state.letter==="o"||state.letter==="u"||state.letter==="A"||state.letter==="E"||state.letter==="I"||state.letter==="O"||state.letter==="U"){
     enunciado = `Selecciona la misma vocal ${id}`;
     audio = instructions.intro;
   }else{
