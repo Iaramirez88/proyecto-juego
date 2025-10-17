@@ -31,20 +31,22 @@ export const CardResponse = ({ isCorrect, typeClass, isVisible }) => {
 };
 
 export const BottonAudioComponent = ({ audio, styles }) => {
-  const [playSound,and,] = usePlaySounds();
-  const[state,setState]= useState(false);
-  function on(){
+  const [playSound, , stopSound] = usePlaySounds();
+  const [state, setState] = useState(false);
+  function on() {
+    // stop any current audio and play the new one
+    stopSound();
     setTimeout(() => {
       setState(true);
     }, 1);
     setTimeout(() => {
       setState(false);
     }, 3000);
-    playSound(audio);
-  };
+    playSound(audio, { onEnded: () => setState(false) });
+  }
   return (
     <button disabled={state} onClick={() => on()} className={`buttonAudio ${styles}`}>
-     <img src={iconSoundWhite} alt="iconSoundWhite" />
+      <img src={iconSoundWhite} alt="iconSoundWhite" />
     </button>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useReducer, forwardRef, useImperativeHandle } from "react";
 import gsap from "gsap";
 import { goodAnswer, wrongAnswer } from "../../utils/sounds";
+import { usePlaySounds } from "../../hooks/usePlaySounds";
 import { GameContext } from "../../context/GameContext";
 import {
   reducerDragComponent,
@@ -35,6 +36,7 @@ const DragComponent = forwardRef(({
   const containerRef = useRef(null);
   const dragItemRef = useRef(null);
   const { dispatch } = useContext(GameContext);
+  const [playSound, , stopSound] = usePlaySounds();
   const [state, dispatchDrag] = useReducer(reducerDragComponent, initialize());
 
   // const print = () => {
@@ -127,8 +129,7 @@ const DragComponent = forwardRef(({
           if (isInResponse(item.current, dragItem)) prev.push(item.current);
           return prev;
         }, []);
-        let snd;
-        let item;
+  let item;
         if (node.length > 0) {
           let positionX;
           let positionY;
@@ -152,11 +153,11 @@ const DragComponent = forwardRef(({
           });
           setTranslate(positionX, positionY, dragItem);
           let responseWord = node[0].dataset.word;
-          if (word.toLowerCase() === responseWord) {
+            if (word.toLowerCase() === responseWord) {
             node[0].classList.add("containerCorrect");
-            item = goodAnswer[Math.floor(Math.random() * goodAnswer.length)];
-            snd = new Audio(item);
-            snd.play();
+              item = goodAnswer[Math.floor(Math.random() * goodAnswer.length)];
+              stopSound();
+              playSound(item);
             if (!state.lockResponse) {
               dispatch({
                 type: "ADD_POINTS",
@@ -173,8 +174,8 @@ const DragComponent = forwardRef(({
           } else {
             node[0].classList.add("containerWrong");
             item = wrongAnswer[Math.floor(Math.random() * wrongAnswer.length)];
-            snd = new Audio(item);
-            snd.play();
+            stopSound();
+            playSound(item);
             if (!state.lockResponse) {
               dispatch({
                 type: "ADD_POINTS",
@@ -258,7 +259,7 @@ const DragComponent = forwardRef(({
       container.removeEventListener("mouseup", dragEnd);
       container.removeEventListener("mousemove", drag);
     };
-  }, [divResponse, word, state, statusWord, setStatusWord, dispatch]);
+  }, [divResponse, word, state, statusWord, setStatusWord, dispatch, playSound, stopSound]);
 
   // El reset ahora es controlado desde el componente padre tras el delay
 

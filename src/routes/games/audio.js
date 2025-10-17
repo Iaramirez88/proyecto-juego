@@ -51,11 +51,11 @@ export const AudioScreen = () => {
       });
       // Delay de 1 segundo antes de avanzar
       setTimeout(() => {
-        setState({
-          ...state,
-          checked: state.checked + 1,
-          spring: isCorrect ? state.spring + 1 : 0,
-        });
+        setState((prev) => ({
+          ...prev,
+          checked: (prev.checked || 0) + 1,
+          spring: isCorrect ? (prev.spring || 0) + 1 : 0,
+        }));
       }, 1000);
     }
   };
@@ -89,18 +89,22 @@ export const AudioScreen = () => {
 
   useEffect(() => {
     let status = { ...state };
-    if (status.spring === 2 || status.checked === 3) {
-      if (status.position + 1 < status.words.length) {
-        status = {
-          ...status,
-          checked: parseInt(0),
-          position: parseInt(status.position + 1),
-          current: status.words[status.position + 1],
+    // Obtener el tamaño del grupo actual a partir de words[position] (más robusto)
+    const itemsInCurrent = status.words && status.words[status.position] ? status.words[status.position].length : 0;
+    // Log para depuración (puedes quitar luego)
+    // console.log('Audio progression', { position: status.position, checked: status.checked, itemsInCurrent, wordsLen: status.words ? status.words.length : 0 });
+    if (status.spring === 2 || status.checked === 3 || (itemsInCurrent > 0 && status.checked >= itemsInCurrent)) {
+      if (status.position + 1 < (status.words ? status.words.length : 0)) {
+        const nextPos = parseInt(status.position + 1);
+        setTransition(true);
+        setState((prev) => ({
+          ...prev,
+          checked: 0,
+          position: nextPos,
+          current: prev.words ? prev.words[nextPos] : prev.current,
           spring: 0,
           verified: false,
-        };
-        setTransition(true);
-        setState(status);
+        }));
       } else {
         history.push("/level-up", { gameUrl: `/escucha/${idLetter}` });
       }

@@ -6,6 +6,7 @@ import finger from "../../assets/images/instructions/dedoTocas.svg";
 import gsap from "gsap/gsap-core";
 import ModalComponent from "./ModalComponent";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { usePlaySounds } from "../../hooks/usePlaySounds";
 import { useDimesions } from "../../hooks/useDimesion";
 
 
@@ -26,17 +27,22 @@ const TitleSound = ({
   const closeButton = useRef(null);
   const [state, setState] = useState(false);
 
+  const [playSound, , stopSound] = usePlaySounds();
+
   const setAudioPlay = (sounds) => {
     setShowInfo(false);
-    let snd = new Audio(sounds[0]);
-    snd.play();
-    if (sounds.length > 1) {
-      snd.addEventListener("ended", () => {
-        let sndVocal = new Audio(sounds[1]);
-        sndVocal.play();
-      });
+    stopSound();
+    if (!sounds || sounds.length === 0) return;
+    if (sounds.length === 1) {
+      playSound(sounds[0]);
       return;
     }
+    // reproducir secuencialmente: primero sounds[0] y al terminar sounds[1]
+    playSound(sounds[0], {
+      onEnded: () => {
+        playSound(sounds[1]);
+      },
+    });
   };
 
   const playInfo = () => {

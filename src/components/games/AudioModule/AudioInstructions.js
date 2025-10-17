@@ -4,21 +4,20 @@ import fondoAzul from "../../../assets/images/instructions/apoyoEmergenteAzul.sv
 import { iconSoundWhite } from "../../../utils/imagesResources";
 import finger from "../../../assets/images/instructions/dedoTocas.svg";
 import { useDimesions } from "../../../hooks/useDimesion";
+import { usePlaySounds } from "../../../hooks/usePlaySounds";
 import apoyo1 from "../../../assets/sounds/intructions/apoyo2ModEscucha.mp3";
 import apoyo2 from "../../../assets/sounds/intructions/apoyoEnunciado1modEscucha.mp3";
 
 const AudioInstructions = ({ display }) => {
   const dimension = useDimesions();
+  const [playSound, , stopSound] = usePlaySounds();
   useEffect(() => {
     let tl = gsap.timeline();
 
     const infoButton = () =>
       new Promise((resolve) => {
-        let audio = new Audio(apoyo1);
-        audio.play();
-        audio.addEventListener("ended", () => {
-          resolve();
-        });
+        stopSound();
+        playSound(apoyo1, { onEnded: () => resolve() });
 
         tl.to("#fingerAudio", {
           duration: 1.5,
@@ -42,11 +41,8 @@ const AudioInstructions = ({ display }) => {
 
     const infoCard = async () =>
       new Promise((resolve) => {
-        let audio = new Audio(apoyo2);
-        audio.play();
-        audio.addEventListener("ended", () => {
-          resolve();
-        });
+        stopSound();
+        playSound(apoyo2, { onEnded: () => resolve() });
         tl.to("#fingerAudio", {
           duration: 0.7,
           y: dimension.width < 485 ? 35 : 50,
@@ -78,7 +74,7 @@ const AudioInstructions = ({ display }) => {
     if (!display) {
       startInstructions();
     }
-  }, [display]);
+  }, [display, dimension.width, playSound, stopSound]);
   return (
     <div className="aiModalBox">
       {!display && (

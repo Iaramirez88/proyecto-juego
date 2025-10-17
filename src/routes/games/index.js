@@ -15,6 +15,7 @@ import "../../assets/styles/main.css";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
 import backGround from "../../assets/images/background_tramas.svg";
 import TitleSound from "../../components/shared/TitleSound";
+import { usePlaySounds } from "../../hooks/usePlaySounds";
 import VocalIntructions from "../../components/games/VocalModule/VocalIntructions";
 import { useSetScrollPosition } from "../../hooks/useDimesion";
 
@@ -36,15 +37,9 @@ const Games = () => {
   const boxResponse1 = useRef(null);
   const boxResponse2 = useRef(null);
 
-  const [audio] = useState(new Audio(titleSound));
-  const [playing, setPlaying] = useState(false);
+  const [playSound, , stopSound] = usePlaySounds();
   const [state, setState] = useState(false);
   const [state2, setState2] = useState(false);
-
-  const playSound = (sound) => {
-    let snd = new Audio(sound);
-    snd.play();
-  };
 
   const dragRefs = useRef([]);
 
@@ -81,21 +76,12 @@ const Games = () => {
   }, [transition]);
 
   useEffect(() => {
-    playing ? audio.play() : audio.pause();
-  }, [playing, audio]);
-
-  useEffect(() => {
     let data = getData(idLetter);
     setList(data);
     setPosition(0);
     setStatusWord({ word1: false, word2: false });
     setIsLoading(true);
-
-    audio.addEventListener("ended", () => setPlaying(false));
-    return () => {
-      audio.removeEventListener("ended", () => setPlaying(false));
-    };
-  }, [audio, idLetter]);
+  }, [idLetter]);
 
   function on() {
     setTimeout(() => {
@@ -105,6 +91,8 @@ const Games = () => {
       setState(false);
     }, 3000);
 
+    // stop any playing audio and play the requested sound
+    stopSound();
     playSound(current.word2.sound);
   }
   function un() {
@@ -115,6 +103,7 @@ const Games = () => {
       setState2(false);
     }, 3000);
 
+    stopSound();
     playSound(current.word1.sound);
   }
 
