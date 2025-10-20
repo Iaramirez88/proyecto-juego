@@ -28,6 +28,17 @@
   padding-bottom: 10px;
   color: white;
 }
+
+/* Hacer clicables las hojas/letras del módulo otoño: puntero y no seleccionables */
+.fmCardWord,
+.fmItem,
+.fmItem p {
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 .fmCardWord.greenLeef {
   background-image: url("../images/hojaPrincialVerde.svg");
 }

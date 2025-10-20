@@ -110,6 +110,18 @@
   position: relative;
 }
 
+/* Hacer clicables las opciones del juego de escucha: puntero y no seleccionables */
+.containerAudio,
+.containerAudio .cardAudio,
+.containerAudio .cardAudio img,
+.audioBox {
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .containerResponse {
   background: #7eb8f9;
   width: 15em;

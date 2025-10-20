@@ -13,6 +13,16 @@
   box-sizing: unset;
 }
 
+/* Hacer clicables las cartas: puntero y no seleccionables */
+.pwImageCard,
+.pwImageCard img {
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .coverImage {
   padding: 0;
   width: 12em;
