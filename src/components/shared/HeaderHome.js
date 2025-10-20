@@ -124,7 +124,8 @@ const HeaderHome = () => {
                   style={{
                     padding: "10px 20px",
                     cursor: "pointer",
-                    borderBottom: "1px solid #eee"
+                    borderBottom: "1px solid #eee",
+                    fontSize: "16px",
                   }}
                   onClick={() => {
                     setShowMenu(false);
@@ -137,7 +138,8 @@ const HeaderHome = () => {
                 <div
                   style={{
                     padding: "10px 20px",
-                    cursor: "pointer"
+                    cursor: "pointer",
+                    fontSize: "16px"
                   }}
                   onClick={() => {
                     setShowMenu(false);
