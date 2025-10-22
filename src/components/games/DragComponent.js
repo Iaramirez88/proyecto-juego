@@ -22,8 +22,9 @@ const DragComponent = forwardRef(({
         type: "RESET_DRAG",
         data: {},
       });
+      // NO aplicar estilos automáticamente - mantener DOM limpio
       if (dragItemRef.current) {
-        dragItemRef.current.style.transform = "translate(0px, 0px)";
+        dragItemRef.current.style.transform = "";
       }
       divResponse.forEach((element) => {
         if (element.current) {
@@ -46,24 +47,8 @@ const DragComponent = forwardRef(({
 
   // const [setTimer] = useSetTimer(print, 2000);
 
-  useEffect(() => {
-    let dragitem = dragItemRef.current;
-    if (state.positionInitial) {
-      const tl = gsap.timeline();
-      tl.fromTo(
-        dragitem,
-        { x: state.actualX, y: state.actualY },
-        {
-          x: 0,
-          y: 0,
-          duration: 1,
-          onComplete: function () {
-            dispatchDrag({ type: "INITIAL_POSITION" });
-          },
-        }
-      );
-    }
-  }, [state]);
+  // Eliminado useEffect que aplicaba estilos automáticamente
+  // para mantener DOM limpio como en juego de escritura
 
   useEffect(() => {
     let container = containerRef.current;
@@ -214,7 +199,7 @@ const DragComponent = forwardRef(({
                     actualY: null,
                   },
                 });
-                dragItem.style.transform = "translate(0px, 0px)";
+                // Dejar que GSAP maneje la posición final sin override manual
               },
             }
           );
