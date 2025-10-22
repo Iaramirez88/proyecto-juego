@@ -17,13 +17,15 @@ const DragComponent = ({ children, styles, dragEndState, response }) => {
     let dragItem = dragItemRef.current;
     let container = containerRef.current;
 
+    // Solo eventos de inicio en el container
     container.addEventListener("touchstart", dragStart, false);
-    container.addEventListener("touchend", dragEnd, false);
-    container.addEventListener("touchmove", drag, false);
-
     container.addEventListener("mousedown", dragStart, false);
-    container.addEventListener("mouseup", dragEnd, false);
-    container.addEventListener("mousemove", drag, false);
+    
+    // Eventos de movimiento y fin en document para capturar fuera del elemento
+    document.addEventListener("touchend", dragEnd, false);
+    document.addEventListener("touchmove", drag, false);
+    document.addEventListener("mouseup", dragEnd, false);
+    document.addEventListener("mousemove", drag, false);
 
     function dragStart(e) {
       if (!state.lockResponse) {
@@ -94,13 +96,15 @@ const DragComponent = ({ children, styles, dragEndState, response }) => {
     }
 
     return () => {
+      // Limpiar eventos del container
       container.removeEventListener("touchstart", dragStart);
-      container.removeEventListener("touchend", dragEnd);
-      container.removeEventListener("touchmove", drag);
-
       container.removeEventListener("mousedown", dragStart);
-      container.removeEventListener("mouseup", dragEnd);
-      container.removeEventListener("mousemove", drag);
+      
+      // Limpiar eventos del document
+      document.removeEventListener("touchend", dragEnd);
+      document.removeEventListener("touchmove", drag);
+      document.removeEventListener("mouseup", dragEnd);
+      document.removeEventListener("mousemove", drag);
     };
   }, [state, dragEndState]);
 

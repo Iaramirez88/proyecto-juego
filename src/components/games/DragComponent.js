@@ -47,21 +47,40 @@ const DragComponent = forwardRef(({
 
   // const [setTimer] = useSetTimer(print, 2000);
 
-  // Eliminado useEffect que aplicaba estilos automáticamente
-  // para mantener DOM limpio como en juego de escritura
+  // useEffect para manejar animaciones de retorno tras respuesta incorrecta
+  useEffect(() => {
+    let dragitem = dragItemRef.current;
+    if (state.positionInitial && dragitem) {
+      const tl = gsap.timeline();
+      tl.fromTo(
+        dragitem,
+        { x: state.actualX, y: state.actualY },
+        {
+          x: 0,
+          y: 0,
+          duration: 0.3, // Rápida pero visible
+          onComplete: function () {
+            dispatchDrag({ type: "INITIAL_POSITION" });
+          },
+        }
+      );
+    }
+  }, [state.positionInitial, state.actualX, state.actualY]);
 
   useEffect(() => {
     let container = containerRef.current;
     let dragItem = dragItemRef.current;
     let currentNode;
 
+    // Solo eventos de inicio en el container
     container.addEventListener("touchstart", dragStart, false);
-    container.addEventListener("touchend", dragEnd, false);
-    container.addEventListener("touchmove", drag, false);
-
     container.addEventListener("mousedown", dragStart, false);
-    container.addEventListener("mouseup", dragEnd, false);
-    container.addEventListener("mousemove", drag, false);
+    
+    // Eventos de movimiento y fin en document para capturar fuera del elemento
+    document.addEventListener("touchend", dragEnd, false);
+    document.addEventListener("touchmove", drag, false);
+    document.addEventListener("mouseup", dragEnd, false);
+    document.addEventListener("mousemove", drag, false);
 
     function dragStart(e) {
       // Matar inmediatamente cualquier animación GSAP para permitir re-grab
@@ -239,13 +258,15 @@ const DragComponent = forwardRef(({
     }
 
     return () => {
+      // Limpiar eventos del container
       container.removeEventListener("touchstart", dragStart);
-      container.removeEventListener("touchend", dragEnd);
-      container.removeEventListener("touchmove", drag);
-
       container.removeEventListener("mousedown", dragStart);
-      container.removeEventListener("mouseup", dragEnd);
-      container.removeEventListener("mousemove", drag);
+      
+      // Limpiar eventos del document
+      document.removeEventListener("touchend", dragEnd);
+      document.removeEventListener("touchmove", drag);
+      document.removeEventListener("mouseup", dragEnd);
+      document.removeEventListener("mousemove", drag);
     };
   }, [divResponse, word, state, statusWord, setStatusWord, dispatch, playSound, stopSound]);
 

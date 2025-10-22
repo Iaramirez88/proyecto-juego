@@ -111,19 +111,46 @@ const ComponentPortrait = ({ gameUrl }) => {
       <div className={` container-sup `}>
         <div
           className="container-second"
-          style={{ height: `${container.height2}px` }}
+          style={{ 
+            height: `${container.height2}px`,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '20px'
+          }}
         >
-          <img className="logo" src={logoFondoAzul} alt="logoKoala" />
-          <div className="text-box">
-            <p>¡Felicitaciones!</p>
-            <p>Lo has logrado</p>
+          {/* Sección superior: Logo y texto */}
+          <div className="logo-text-container">
+            <img className="logo" src={logoFondoAzul} alt="logoKoala" />
+            <div className="text-box" style={{ minWidth: 'auto' }}>
+              <p>¡Felicitaciones!</p>
+              <p>Lo has logrado</p>
+            </div>
           </div>
-          <div style={{ marginTop: 32, display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}>
-            <button onClick={handleContinue} style={{ padding: '10px 24px', fontSize: 18, borderRadius: 8, background: '#4caf50', color: '#fff', border: 'none', cursor: 'pointer' }}>Continuar</button>
-            <button onClick={handleMenu} style={{ padding: '10px 24px', fontSize: 18, borderRadius: 8, background: '#2196f3', color: '#fff', border: 'none', cursor: 'pointer' }}>Volver al menú</button>
-            <button onClick={handleRepeat} style={{ padding: '10px 24px', fontSize: 18, borderRadius: 8, background: '#ff9800', color: '#fff', border: 'none', cursor: 'pointer' }}>Repetir juego</button>
-          </div>
+          <div className="button-container" >
+          <button 
+            onClick={handleContinue} 
+            className="button-continue"
+          >
+            Continuar
+          </button>
+          <button 
+            onClick={handleMenu} 
+            className="button-volver"
+          >
+            Volver al menú
+          </button>
+          <button 
+            onClick={handleRepeat} 
+            className="button-repetir"
+          >
+            Repetir juego
+          </button>
         </div>
+        </div>
+        
+        
       </div>
       {sound && <audio src={sound} autoPlay />}
     </div>

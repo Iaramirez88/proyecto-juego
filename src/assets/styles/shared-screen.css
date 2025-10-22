@@ -63,7 +63,65 @@
   width: 100%;
   display: none;
 }
+.logo-text-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
 
+.button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  max-width: 50%;
+  margin: 20px auto 0 auto;
+  padding: 0 20px;
+}
+.button-continue {
+  padding: 12px 32px;
+  font-size: 18px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  min-height: 48px;
+}
+.button-volver {
+   padding: 12px 32px;
+   font-size: 18px;
+   border-radius: 8px;
+   background: #2196f3;
+   color: #fff;
+   border: none;
+   cursor: pointer;
+   width: 100%;
+   min-height: 48px;
+}
+.button-repetir {
+   padding: 12px 32px;
+   font-size: 18px;
+   border-radius: 8px;
+   background: #ff9800;
+   color: #fff;
+   border: none;
+   cursor: pointer;
+   width: 100%;
+   min-height: 48px;
+}
+@media (max-width: 992px) {
+  .button-container {
+    flex-direction: column;
+    max-width: 100%;
+  }
+          }
 @media screen and (max-width: 780px) {
   .logo {
     max-width: 300px;
