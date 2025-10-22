@@ -83,6 +83,20 @@ const Games = () => {
     setIsLoading(true);
   }, [idLetter]);
 
+  // Asegurar que elementos estén desbloqueados cuando cambie la posición
+  useEffect(() => {
+    // Pequeño delay para asegurar que los componentes estén montados
+    const timeoutId = setTimeout(() => {
+      dragRefs.current.forEach(ref => {
+        if (ref && ref.resetDrag) {
+          ref.resetDrag();
+        }
+      });
+    }, 100);
+    
+    return () => clearTimeout(timeoutId);
+  }, [position]);
+
   function on() {
     setTimeout(() => {
       setState(true);

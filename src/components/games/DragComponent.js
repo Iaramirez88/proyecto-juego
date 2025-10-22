@@ -79,6 +79,9 @@ const DragComponent = forwardRef(({
     container.addEventListener("mousemove", drag, false);
 
     function dragStart(e) {
+      // Matar inmediatamente cualquier animación GSAP para permitir re-grab
+      gsap.killTweensOf(dragItem);
+      
       if (!state.lockResponse) {
         dragItem.classList.add("active");
         dragItem.onselectstart = function () {
@@ -191,7 +194,7 @@ const DragComponent = forwardRef(({
                 },
               });
               node[0].classList.remove("containerWrong");
-            }, 2000);
+            }, 600);
           }
           return;
         } else {
@@ -202,7 +205,7 @@ const DragComponent = forwardRef(({
             {
               x: 0,
               y: 0,
-              duration: 1,
+              duration: 0.02, // Súper rápida para permitir re-grab inmediato
               onComplete: function () {
                 dispatchDrag({
                   type: "WRONG_ANSWER",

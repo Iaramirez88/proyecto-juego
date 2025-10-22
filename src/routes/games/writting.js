@@ -101,7 +101,7 @@ const WrittingScreen = () => {
             data: {},
           });
 
-          // Delay de 1 segundo antes de avanzar
+          // Delay acelerado antes de avanzar
           setTimeout(() => {
             if (numLetters > 0) {
               current.spell[index].locked = true;
@@ -137,7 +137,7 @@ const WrittingScreen = () => {
               {
                 x: 0,
                 y: 0,
-                duration: 1,
+                duration: 0.3,
                 onComplete: function () {
                   dragItem.classList.remove("wrLetterBad");
                   dispatchDrag({
@@ -154,7 +154,7 @@ const WrittingScreen = () => {
                 },
               }
             );
-          }, 2000);
+          }, 800);
         }
         return;
       }
@@ -165,7 +165,7 @@ const WrittingScreen = () => {
           {
             x: 0,
             y: 0,
-            duration: 1,
+            duration: 0.3,
             onComplete: function () {
               dispatchDrag({
                 type: "WRONG_ANSWER",
@@ -177,7 +177,7 @@ const WrittingScreen = () => {
             },
           }
         );
-      }, 2000);
+      }, 300);
     }
   };
 
