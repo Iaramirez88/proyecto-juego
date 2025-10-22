@@ -86,14 +86,23 @@ const ComponentPortrait = ({ gameUrl }) => {
   };
 
   useEffect(() => {
-    var tl = gsap.timeline();
+    const containerElement = document.querySelector(".container-second");
+    const logoElement = document.querySelector(".logo");
+    
+    if (containerElement || logoElement) {
+      var tl = gsap.timeline();
 
-    tl.from(".container-second", {
-      y: container.height2,
-      duration: 1,
-      opacity: 0,
-    });
-    tl.from(".logo", { duration: 1, opacity: 0, scale: 0.5 });
+      if (containerElement) {
+        tl.from(".container-second", {
+          y: container.height2,
+          duration: 1,
+          opacity: 0,
+        });
+      }
+      if (logoElement) {
+        tl.from(".logo", { duration: 1, opacity: 0, scale: 0.5 });
+      }
+    }
   }, [container]);
 
   return (

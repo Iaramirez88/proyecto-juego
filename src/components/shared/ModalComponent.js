@@ -17,25 +17,28 @@ const ModalComponent = ({ children, showModal, closeButton, playInfo }) => {
 
       if (showFinger) {
         setTimeout(() => {
-          let tl = gsap.timeline();
-          tl.to("#fingerModal", {
-            x: -30,
-            duration: 1.5,
-          })
-            .fromTo(
-              "#fingerModal",
-              {
+          const fingerElement = document.getElementById("fingerModal");
+          if (fingerElement) {
+            let tl = gsap.timeline();
+            tl.to("#fingerModal", {
+              x: -30,
+              duration: 1.5,
+            })
+              .fromTo(
+                "#fingerModal",
+                {
+                  scale: 1,
+                },
+                {
+                  duration: 1,
+                  scale: 0.8,
+                }
+              )
+              .to("#fingerModal", {
+                duration: 0.7,
                 scale: 1,
-              },
-              {
-                duration: 1,
-                scale: 0.8,
-              }
-            )
-            .to("#fingerModal", {
-              duration: 0.7,
-              scale: 1,
-            });
+              });
+          }
         }, 1000);
       }
     }
