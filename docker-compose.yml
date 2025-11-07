@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: koala-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: koala_user
+      POSTGRES_PASSWORD: koala_password
+      POSTGRES_DB: koala_educativo
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - koala-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U koala_user -d koala_educativo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Adminer (Database Management Tool)
+  adminer:
+    image: adminer:latest
+    container_name: koala-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+    networks:
+      - koala-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Backend API (opcional, para desarrollo con Docker)
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: koala-backend
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - DATABASE_URL=postgresql://koala_user:koala_password@postgres:5432/koala_educativo?schema=public
+      - JWT_SECRET=dev-jwt-secret-key-12345
+      - JWT_EXPIRES_IN=24h
+      - PORT=3001
+      - NODE_ENV=development
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
+      - RATE_LIMIT_WINDOW_MS=900000
+      - RATE_LIMIT_MAX_REQUESTS=100
+      - SESSION_SECRET=dev-session-secret-key-12345
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - koala-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: npm run dev
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  koala-network:
+    driver: bridge

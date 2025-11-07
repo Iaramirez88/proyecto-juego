@@ -1,0 +1,37 @@
+<!-- Generator: Adobe Illustrator 24.1.2, SVG Export Plug-In  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="74px"
+	 height="50.2px" viewBox="0 0 74 50.2" style="overflow:visible;enable-background:new 0 0 74 50.2;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#DA9305;}
+	.st1{fill:#FAAB00;}
+	.st2{fill:url(#Trazado_18_2_);}
+	.st3{fill:url(#Trazado_18_3_);}
+</style>
+<defs>
+</defs>
+<g>
+	<g id="Boton_verde_3_" transform="translate(-0.395 -0.455)">
+		<g transform="matrix(-1, 0, 0, -1, 82.51, 50)">
+			<path id="RectÃ¡ngulo_31-2_3_" class="st0" d="M58.62,49.54h-27c-12.98,0-23.5-10.52-23.5-23.5l0,0c0-12.98,10.52-23.5,23.5-23.5
+				h27c12.98,0,23.5,10.52,23.5,23.5l0,0C82.12,39.02,71.59,49.54,58.62,49.54z"/>
+		</g>
+	</g>
+	<g id="Boton_verde_2_" transform="translate(-0.395 -0.455)">
+		<g transform="matrix(-1, 0, 0, -1, 82.51, 50)">
+			<path id="RectÃ¡ngulo_31-2_2_" class="st1" d="M58.62,46.35h-27c-12.98,0-23.5-10.52-23.5-23.5l0,0c0-12.98,10.52-23.5,23.5-23.5
+				h27c12.98,0,23.5,10.52,23.5,23.5l0,0C82.12,35.82,71.59,46.35,58.62,46.35z"/>
+		</g>
+	</g>
+	<g id="Grupo_7_1_" transform="translate(26.701 6.722)">
+		
+			<linearGradient id="Trazado_18_2_" gradientUnits="userSpaceOnUse" x1="-22.483" y1="227.4165" x2="-22.483" y2="226.0045" gradientTransform="matrix(9.529096e-16 -15.5622 -33.451 -2.048283e-15 7594.4077 -332.8555)">
+			<stop  offset="0" style="stop-color:#FFFFFF"/>
+			<stop  offset="0.432" style="stop-color:#F6F6F6"/>
+			<stop  offset="1" style="stop-color:#E5E5E5"/>
+		</linearGradient>
+		<path id="Trazado_18_1_" class="st2" d="M7.8,7.06l-18.58,12.49c-1.24,0.83-1.98,2.23-1.98,3.72c0,2.48,2.01,4.49,4.49,4.49
+			c0.89,0,1.76-0.27,2.5-0.76L7.8,17.87c1.51-1.02,3.49-1.02,5,0L26.37,27c2.06,1.38,4.84,0.83,6.22-1.22
+			c0.5-0.74,0.76-1.61,0.76-2.5c0-1.49-0.74-2.89-1.98-3.72L12.8,7.06C11.29,6.05,9.31,6.05,7.8,7.06z"/>
+	</g>
+</g>
+</svg>
