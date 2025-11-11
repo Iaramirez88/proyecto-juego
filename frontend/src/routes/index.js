@@ -14,6 +14,7 @@ import FallModule from "./games/fallModule";
 import Armar from "./games/armar"
 import ScreenPayment from "./payment/ScreenPayment";
 import ScreenLicense from "./licenses/ScreenLicense";
+import KidsDashboard from "./dashboard/KidsDashboard";
 
 /** */
 const Routes = () => {
@@ -33,6 +34,7 @@ const Routes = () => {
         <Route path="/pares/:idLetter" component={PairWords} />
         <Route path="/otoño/:id" component={FallModule} />
         <Route path="/armar/:id" component={Armar} />
+        <Route path="/dashboard" component={KidsDashboard} />
         {/*<Route path="/sesion" component={SignInModule} />*/}
        {/*<Route
           path="/mi-cuenta/registrar-pago/:id/:idplan"

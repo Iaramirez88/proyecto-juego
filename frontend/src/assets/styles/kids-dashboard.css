@@ -1,0 +1,575 @@
+/* === KIDS DASHBOARD STYLES === */
+
+.kids-dashboard {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  padding-bottom: 2rem;
+}
+
+/* === LOADING STATE === */
+.kids-dashboard.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-koala {
+  text-align: center;
+  color: white;
+}
+
+.koala-spinner {
+  font-size: 4rem;
+  animation: bounce 1.5s infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-20px); }
+  60% { transform: translateY(-10px); }
+}
+
+/* === HERO SECTION === */
+.dashboard-hero {
+  background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  border-radius: 0 0 30px 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.hero-text {
+  text-align: center;
+}
+
+.welcome-title {
+  font-size: 2.5rem;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-subtitle {
+  font-size: 1.2rem;
+  color: #fff;
+  opacity: 0.9;
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+/* === KOALA AVATAR === */
+.koala-avatar {
+  position: relative;
+  text-align: center;
+}
+
+.koala-container {
+  width: 120px;
+  height: 120px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #ffeaa7, #fab1a0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  animation: pulse 2s infinite;
+}
+
+.koala-face {
+  font-size: 3rem;
+  margin-bottom: 0.2rem;
+}
+
+.koala-level {
+  font-size: 0.8rem;
+  color: #2d3436;
+  font-weight: bold;
+}
+
+.koala-message {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.koala-effects {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 200px;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  font-size: 1.2rem;
+  animation: float 3s infinite ease-in-out;
+}
+
+.particle:nth-child(1) { top: 10px; left: 20px; animation-delay: 0s; }
+.particle:nth-child(2) { top: 30px; right: 20px; animation-delay: 1s; }
+.particle:nth-child(3) { bottom: 10px; left: 50%; animation-delay: 2s; }
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* === PROGRESS STARS === */
+.progress-stars-container {
+  text-align: center;
+}
+
+.stars-counter {
+  font-size: 1.5rem;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.current-stars {
+  font-size: 2rem;
+  color: #ffeaa7;
+}
+
+.stars-progress-bar {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.progress-track {
+  width: 300px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  margin: 0 auto 0.5rem;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ffeaa7, #fdcb6e);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.stars-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.2rem;
+}
+
+.progress-star {
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.progress-star.earned {
+  animation: starGlow 2s infinite alternate;
+}
+
+@keyframes starGlow {
+  0% { filter: brightness(1); }
+  100% { filter: brightness(1.3); }
+}
+
+.level-indicator {
+  margin-top: 1rem;
+}
+
+.level-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.motivation-text {
+  font-size: 0.9rem;
+  color: #fff;
+  opacity: 0.9;
+}
+
+/* === STATS BALLOONS === */
+.stats-balloons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  padding: 0 1rem;
+}
+
+.stats-balloon {
+  position: relative;
+}
+
+.balloon-container {
+  width: 120px;
+  height: 140px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  animation: balloonFloat 4s infinite ease-in-out;
+  position: relative;
+}
+
+.balloon-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.balloon-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+.balloon-label {
+  font-size: 0.8rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.balloon-string {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 20px;
+  background: #2d3436;
+}
+
+@keyframes balloonFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+/* === GAMES SECTION === */
+.games-section {
+  padding: 0 2rem;
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2rem;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* === GAME CARDS === */
+.game-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.game-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.game-card.perfect {
+  background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+  animation: perfectGlow 2s infinite alternate;
+}
+
+.game-card.good {
+  background: linear-gradient(135deg, #a8e6cf 0%, #81c784 100%);
+}
+
+.game-card.new {
+  background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
+}
+
+@keyframes perfectGlow {
+  0% { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); }
+  100% { box-shadow: 0 8px 30px rgba(253, 203, 110, 0.4); }
+}
+
+.game-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.game-name {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #2d3436;
+  margin-bottom: 1rem;
+}
+
+.game-stars {
+  display: flex;
+  justify-content: center;
+  gap: 0.2rem;
+  margin-bottom: 1rem;
+}
+
+.star {
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.star.filled {
+  animation: starTwinkle 2s infinite;
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.progress-bar .progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00b894, #00cec9);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.status-badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.status-badge.new {
+  background: #fd79a8;
+}
+
+.status-badge.progress {
+  background: #fdcb6e;
+}
+
+.status-badge.completed {
+  background: #00b894;
+}
+
+.last-score {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #636e72;
+}
+
+.completion-effects {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.sparkle {
+  font-size: 1rem;
+  animation: sparkleRotate 3s infinite linear;
+}
+
+@keyframes sparkleRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* === ACHIEVEMENTS SECTION === */
+.achievements-section {
+  padding: 0 2rem;
+  margin-bottom: 3rem;
+}
+
+.achievements-grid {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.achievement-badge {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.achievement-badge.earned {
+  background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+  box-shadow: 0 8px 20px rgba(253, 203, 110, 0.4);
+  animation: achievementPulse 2s infinite;
+}
+
+.achievement-badge.locked {
+  background: #ddd;
+  opacity: 0.6;
+}
+
+.achievement-icon {
+  font-size: 2rem;
+  margin-bottom: 0.3rem;
+}
+
+.achievement-name {
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #2d3436;
+  line-height: 1.1;
+}
+
+@keyframes achievementPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* === MOTIVATION SECTION === */
+.motivation-section {
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.motivation-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.motivation-koala {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.motivation-text {
+  font-size: 1.2rem;
+  color: #2d3436;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media screen and (max-width: 768px) {
+  .hero-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .welcome-title {
+    font-size: 2rem;
+  }
+
+  .stats-balloons {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .games-grid {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+
+  .achievements-grid {
+    gap: 1rem;
+  }
+
+  .achievement-badge {
+    width: 80px;
+    height: 80px;
+  }
+
+  .achievement-icon {
+    font-size: 1.5rem;
+  }
+
+  .achievement-name {
+    font-size: 0.6rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .games-section,
+  .achievements-section,
+  .motivation-section {
+    padding: 0 1rem;
+  }
+
+  .welcome-title {
+    font-size: 1.8rem;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+  }
+
+  .balloon-container {
+    width: 100px;
+    height: 120px;
+  }
+}
