@@ -158,12 +158,28 @@
 }
 
 /* Filas responsivas */
-.pwRow.device-mobile,
-.pwRow.device-tablet,
+.pwRow.device-mobile {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0.6em;
+  padding: 0 1em;
+}
+
+.pwRow.device-tablet {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 1em;
+  padding: 0 1em;
+}
+
 .pwRow.device-desktop {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
+  gap: 0.8em;
+  padding: 0 1em;
 }
 
 /* Contenedores de cartas */
