@@ -17,6 +17,9 @@ import { useDimesions, useSetScrollPosition } from "../../hooks/useDimesion";
 import { useResponseAudio } from "../../hooks/usePlaySounds";
 import WrittingInstructions from "../../components/games/WrittingModule/WrittingInstructions";
 
+// Importación para progreso automático - Sistema Local
+import { useLocalGameProgress } from "../../hooks/useLocalGameProgress";
+
 const WrittingScreen = () => {
   useSetBackGround(backGround);
   useSetScrollPosition();
@@ -30,6 +33,12 @@ const WrittingScreen = () => {
   const [playResponseAudio] = useResponseAudio();
   const [transition, setTransition] = useState(false);
   const [state, setState] = useState(initialState(idLetter));
+
+  // Hook para progreso automático - Sistema Local
+  const {
+    updateScore,
+    markAsCompleted
+  } = useLocalGameProgress('writing-game', idLetter);
 
   useEffect(() => {
     if (transition) {
@@ -111,6 +120,22 @@ const WrittingScreen = () => {
                 current,
               });
             } else if (state.position + 1 < state.words.length) {
+              // Palabra completada - guardar progreso incremental
+              const wordsCompleted = state.position + 1;
+              const progressScore = wordsCompleted * 80; // 80 puntos por palabra completada
+              
+              try {
+                updateScore(progressScore, {
+                  wordsCompleted,
+                  totalWords: state.words.length,
+                  currentPosition: state.position + 1,
+                  level: idLetter
+                });
+                console.log(`✏️ Escritura - Palabra ${wordsCompleted} completada! Score:`, progressScore);
+              } catch (error) {
+                console.log('Error guardando progreso incremental escritura:', error);
+              }
+
               let position = state.position + 1;
               let [options, numLetters] = createOptions(
                 state.words[position].name.toLowerCase(),
@@ -125,6 +150,22 @@ const WrittingScreen = () => {
               });
               setTransition(true);
             } else {
+              // Juego completado - guardar progreso final
+              const finalScore = state.words.length * 80; // Score final
+              
+              try {
+                markAsCompleted(finalScore, {
+                  wordsCompleted: state.words.length,
+                  totalWords: state.words.length,
+                  level: idLetter,
+                  completed: true,
+                  gameType: 'writing'
+                });
+                console.log('🎉 Escritura completada! Score final:', finalScore);
+              } catch (error) {
+                console.log('Error guardando progreso final escritura:', error);
+              }
+
               history.push("/level-up", { gameUrl: `/escritura/${idLetter}` });
             }
           }, 1000);

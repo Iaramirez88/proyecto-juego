@@ -1,10 +1,53 @@
 /* === KIDS DASHBOARD STYLES === */
-
+.greeting{
+  display: flex;
+    justify-content: space-between;
+    background: #2fb5de;
+    color: #fff;
+    padding: 0 1em;
+    height: 80px;
+}
+.greeting-text{
+  font-size: 2em;
+  font-family: Coopbl;
+  align-items: center;
+  display: flex;
+}
+.greeting-subtext{
+  align-items: center;
+    display: flex;
+}
+.section-progress-resume{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+.progress-summary{
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+}
+.admin-access-btn{
+  background: #006db2;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+  width: auto;
+  font-size: 2em;
+  margin: 0 10px;
+  font-family: "GhoticB";
+}
 .kids-dashboard {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   font-family: 'Comic Sans MS', cursive, sans-serif;
   padding-bottom: 2rem;
+  background: #fff;
 }
 
 /* === LOADING STATE === */
@@ -280,36 +323,55 @@
 /* === GAMES SECTION === */
 .games-section {
   padding: 0 2rem;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
 }
-
+.box-section-title{
+    margin-top: 0em;
+    margin-block-end: 1em;
+    width: 8em;
+    background: #faac00;
+    color: white;
+    text-align: center;
+    border-radius: 1em;
+    box-shadow: 0px 3px 6px 2px #e5860a;
+    width: 300px;
+}
 .section-title {
   text-align: center;
   font-size: 2rem;
   color: #fff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  margin-bottom: 2rem;
+  
 }
 
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem;
+  max-width: 1400px;
   margin: 0 auto;
+  padding: 1rem;
+  justify-items: center;
 }
 
-/* === GAME CARDS === */
+/* === GAME CARDS CON ESPACIOS MEJORADOS === */
 .game-card {
   background: #fff;
   border-radius: 20px;
-  padding: 1.5rem;
+  padding: 2rem 1.5rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
+  width: 100%;
+  max-width: 300px;
+  min-height: 250px;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .game-card:hover {
@@ -318,8 +380,9 @@
 }
 
 .game-card.perfect {
-  background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
-  animation: perfectGlow 2s infinite alternate;
+  background-color: #ffde57 !important;
+    border: solid 2px #e5860a;
+    border-radius: 1em;
 }
 
 .game-card.good {
@@ -330,6 +393,78 @@
   background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
 }
 
+/* === ESTILOS PARA JUEGOS DESACTIVADOS === */
+.game-card.disabled {
+  background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%) !important;
+  cursor: not-allowed !important;
+  opacity: 0.7;
+  filter: grayscale(70%);
+  position: relative;
+}
+
+.game-card.disabled:hover {
+  transform: none !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.game-card.disabled .game-name {
+  color: #666 !important;
+}
+
+.game-card.disabled .icon-emoji {
+  opacity: 0.6;
+}
+
+.game-card.disabled .icon-svg {
+  opacity: 0.4;
+  filter: grayscale(100%) brightness(0.5);
+}
+
+.disabled-content {
+  padding: 1rem 0;
+}
+
+.disabled-message {
+  text-align: center;
+  color: #666;
+}
+
+.disabled-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+.disabled-text {
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.disabled-subtitle {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+/* Overlay de bloqueo visual adicional */
+.game-card.disabled::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255, 255, 255, 0.1) 10px,
+    rgba(255, 255, 255, 0.1) 20px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
 @keyframes perfectGlow {
   0% { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); }
   100% { box-shadow: 0 8px 30px rgba(253, 203, 110, 0.4); }
@@ -338,6 +473,20 @@
 .game-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-svg {
+  width: 50px;
+  height: 50px;
+  /*filter: brightness(0) invert(1);  Hace los SVG blancos para que se vean en las cartas de colores */
+  transition: all 0.3s ease;
+}
+
+.icon-emoji {
+  font-size: 3rem;
 }
 
 .game-name {
@@ -350,6 +499,7 @@
 .game-stars {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 0.2rem;
   margin-bottom: 1rem;
 }
@@ -361,6 +511,30 @@
 
 .star.filled {
   animation: starTwinkle 2s infinite;
+}
+
+/* 🎯 Contador de estrellas adicionales */
+.star-count {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #000000;
+  margin-left: 0.3rem;
+  padding: 0.2rem 0.5rem;
+  background: rgba(253, 203, 110, 0.2);
+  border-radius: 12px;
+  border: 2px solid #fdcb6e;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
 }
 
 @keyframes starTwinkle {
@@ -513,7 +687,7 @@
   line-height: 1.5;
 }
 
-/* === RESPONSIVE DESIGN === */
+/* === RESPONSIVE DESIGN CON ESPACIOS MEJORADOS === */
 @media screen and (max-width: 768px) {
   .hero-content {
     flex-direction: column;
@@ -527,16 +701,22 @@
   .stats-balloons {
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
   .games-grid {
     grid-template-columns: 1fr;
-    padding: 0;
+    gap: 2rem;
+    padding: 1rem;
+  }
+  
+  .game-card {
+    margin: 1.5rem auto;
+    max-width: 320px;
   }
 
   .achievements-grid {
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
   .achievement-badge {
@@ -553,6 +733,43 @@
   }
 }
 
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .games-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+    padding: 1.5rem;
+  }
+  
+  .game-card {
+    margin: 1rem;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .games-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    padding: 2rem;
+  }
+  
+  .game-card {
+    margin: 0.5rem;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .games-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3.5rem;
+    max-width: 1600px;
+  }
+  
+  .game-card {
+    margin: 2rem;
+    max-width: 320px;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .games-section,
   .achievements-section,
@@ -562,6 +779,16 @@
 
   .welcome-title {
     font-size: 1.8rem;
+  }
+  
+  .games-grid {
+    gap: 1.5rem;
+    padding: 0.5rem;
+  }
+  
+  .game-card {
+    margin: 1rem auto;
+    padding: 1.5rem;
   }
 
   .section-title {

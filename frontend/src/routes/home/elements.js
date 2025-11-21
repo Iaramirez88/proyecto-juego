@@ -11,6 +11,19 @@ import {
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
+// Función para verificar si un juego está activo según la configuración del admin
+function isGameActive(gameKey) {
+  try {
+    const config = JSON.parse(localStorage.getItem('adminGameConfig') || '{}');
+    // Por defecto todos los juegos están activos si no hay configuración
+    return config[gameKey] !== undefined ? config[gameKey] : true;
+  } catch (error) {
+    console.error('Error reading admin config:', error);
+    return true; // Por defecto activo si hay error
+  }
+}
+
 var letra = "";
 
 function select(int) {
@@ -44,7 +57,7 @@ export const vocalAUList = [
           title: "Vocabulario",
           img: iconoVocabulario,
           link: "vocabulario",
-          active: 1,
+          active: isGameActive('vocabulary-game') ? 1 : 0,
           letter: "a",
         },
         {
@@ -52,7 +65,7 @@ export const vocalAUList = [
           title: "Escucha",
           img: iconoEscucha,
           link: "escucha",
-          active: 1,
+          active: isGameActive('audio-game') ? 1 : 0,
           letter: "a",
         },
         {
@@ -60,7 +73,7 @@ export const vocalAUList = [
           title: "Pares",
           img: iconopares,
           link: "pares",
-          active: 1,
+          active: isGameActive('pair-words') ? 1 : 0,
           letter: "a",
         },
       ],
@@ -71,14 +84,14 @@ export const vocalAUList = [
           img: iconoOtono,
           link: "otoño",
           letter: "a",
-          active: 1,
+          active: isGameActive('fall-module') ? 1 : 0,
         },
         {
           id: getUId(),
           title: "Escritura",
           img: iconoEscritura,
           link: "escritura",
-          active: 1,
+          active: isGameActive('writing-game') ? 1 : 0,
           letter: "a",
         },
         {
@@ -86,7 +99,7 @@ export const vocalAUList = [
           title: "Armar",
           img: iconoArmar,
           link: "armar",
-          active: 1,
+          active: 1, // Este juego no está en el admin, siempre activo
           letter: "a",
         },
       ],
@@ -104,7 +117,7 @@ export const vocalAUList = [
           img: iconoVocabulario,
           link: "vocabulario",
           letter: "e",
-          active: 1,
+          active: isGameActive('vocabulary-game') ? 1 : 0,
         },
         {
           id: getUId(),
@@ -112,7 +125,7 @@ export const vocalAUList = [
           img: iconoEscucha,
           link: "escucha",
           letter: "e",
-          active: 1,
+          active: isGameActive('audio-game') ? 1 : 0,
         },
         {
           id: getUId(),
@@ -120,7 +133,7 @@ export const vocalAUList = [
           img: iconopares,
           link: "pares",
           letter: "e",
-          active: 1,
+          active: isGameActive('pair-words') ? 1 : 0,
         },
       ],
       [
@@ -130,7 +143,7 @@ export const vocalAUList = [
           img: iconoOtono,
           link: "otoño",
           letter: "e",
-          active: 1,
+          active: isGameActive('fall-module') ? 1 : 0,
         },
         {
           id: getUId(),
@@ -138,7 +151,7 @@ export const vocalAUList = [
           img: iconoEscritura,
           link: "escritura",
           letter: "e",
-          active: 1,
+          active: isGameActive('writing-game') ? 1 : 0,
         },
         // NP-no se visualice armar
         // { id: getUId(), title: "Armar", img: iconoArmar },
@@ -157,7 +170,7 @@ export const vocalAUList = [
           img: iconoVocabulario,
           link: "vocabulario",
           letter: "i",
-          active: 1,
+          active: isGameActive('vocabulary-game') ? 1 : 0,
         },
         {
           id: getUId(),
@@ -165,7 +178,7 @@ export const vocalAUList = [
           img: iconoEscucha,
           link: "escucha",
           letter: "i",
-          active: 1,
+          active: isGameActive('audio-game') ? 1 : 0,
         },
         {
           id: getUId(),
@@ -173,7 +186,7 @@ export const vocalAUList = [
           img: iconopares,
           link: "pares",
           letter: "i",
-          active: 1,
+          active: isGameActive('pair-words') ? 1 : 0,
         },
       ],
       [
@@ -183,7 +196,7 @@ export const vocalAUList = [
           img: iconoOtono,
           link: "otoño",
           letter: "i",
-          active: 1,
+          active: isGameActive('fall-module') ? 1 : 0,
         },
         {
           id: getUId(),
@@ -191,7 +204,7 @@ export const vocalAUList = [
           img: iconoEscritura,
           link: "escritura",
           letter: "i",
-          active: 1,
+          active: isGameActive('writing-game') ? 1 : 0,
         },
                 // NP-no se visualice armar
         // { id: getUId(), title: "Armar", img: iconoArmar },
@@ -204,13 +217,13 @@ export const vocalAUList = [
     active: 1,
     list: [
      [
-      { id: getUId(), title: "Vocabulario", img: iconoVocabulario, link: "vocabulario", letter: "o", active: 1},
-       { id: getUId(), title: "Escucha", img: iconoEscucha,link:"escucha", letter: "o", active: 1},
-       { id: getUId(), title: "Pares", img: iconopares,link:"pares", letter: "o", active: 1},
+      { id: getUId(), title: "Vocabulario", img: iconoVocabulario, link: "vocabulario", letter: "o", active: isGameActive('vocabulary-game') ? 1 : 0},
+       { id: getUId(), title: "Escucha", img: iconoEscucha,link:"escucha", letter: "o", active: isGameActive('audio-game') ? 1 : 0},
+       { id: getUId(), title: "Pares", img: iconopares,link:"pares", letter: "o", active: isGameActive('pair-words') ? 1 : 0},
        ],
        [
-         { id: getUId(), title: "Otoño", img: iconoOtono,link:"otoño", letter: "o", active: 1 },
-        { id: getUId(), title: "Escritura", img: iconoEscritura,link:"escritura", letter: "o", active: 1 },
+         { id: getUId(), title: "Otoño", img: iconoOtono,link:"otoño", letter: "o", active: isGameActive('fall-module') ? 1 : 0 },
+        { id: getUId(), title: "Escritura", img: iconoEscritura,link:"escritura", letter: "o", active: isGameActive('writing-game') ? 1 : 0 },
                 // NP-no se visualice armar
         // { id: getUId(), title: "Armar", img: iconoArmar },
        ],
@@ -222,13 +235,13 @@ export const vocalAUList = [
      active:1,
     list: [
       [
-        { id: getUId(), title: "Vocabulario", img: iconoVocabulario,link: "vocabulario", letter:"u", active:1 },
-         { id: getUId(), title: "Escucha", img: iconoEscucha,link:"escucha", letter:"u", active:1 },
-         { id: getUId(), title: "Pares", img: iconopares,link:"pares", letter:"u",active:1 },
+        { id: getUId(), title: "Vocabulario", img: iconoVocabulario,link: "vocabulario", letter:"u", active: isGameActive('vocabulary-game') ? 1 : 0 },
+         { id: getUId(), title: "Escucha", img: iconoEscucha,link:"escucha", letter:"u", active: isGameActive('audio-game') ? 1 : 0 },
+         { id: getUId(), title: "Pares", img: iconopares,link:"pares", letter:"u",active: isGameActive('pair-words') ? 1 : 0 },
        ],
        [
-         { id: getUId(), title: "Otoño", img: iconoOtono,link:"otoño", letter:"u",active:1 },
-         { id: getUId(), title: "Escritura", img: iconoEscritura,link:"escritura", letter:"u",active:1 },
+         { id: getUId(), title: "Otoño", img: iconoOtono,link:"otoño", letter:"u",active: isGameActive('fall-module') ? 1 : 0 },
+         { id: getUId(), title: "Escritura", img: iconoEscritura,link:"escritura", letter:"u",active: isGameActive('writing-game') ? 1 : 0 },
                  // NP-no se visualice armar
         //  { id: getUId(), title: "Armar", img: iconoArmar },
        ],

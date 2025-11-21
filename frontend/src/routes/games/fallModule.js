@@ -6,9 +6,6 @@ import Header from "../../components/shared/Header";
 import TitleSound from "../../components/shared/TitleSound";
 import { GameContext } from "../../context/GameContext";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
-import instruction from "../../assets/sounds/intructions/enunciadoOtonnoVocal.mp3";
-import vocalA from "../../assets/sounds/intructions/vocalAa.mp3";
-import vocalE from "../../assets/sounds/intructions/e.mp3";
 import { getData } from "../../utils/mockData/modFall";
 import "../../assets/styles/fall-module.css";
 import { useTransitionGame } from "../../hooks/useTransitionGame";
@@ -16,6 +13,9 @@ import { useResponseAudio } from "../../hooks/usePlaySounds";
 import FallInstructions from "../../components/games/FallModule/FallInstructions";
 import { autioTitleIntructions } from "../../utils/modulesInstructions";
 import { useSetScrollPosition } from "../../hooks/useDimesion";
+
+// Importación para progreso automático - SISTEMA LOCAL
+import { useLocalGameProgress } from "../../hooks/useLocalGameProgress";
 
 const FallModule = () => {
   useSetBackGround(background);
@@ -37,6 +37,13 @@ const FallModule = () => {
     position: 0,
   });
   const [transition, setTransition] = useTransitionGame(".containerGame");
+
+  // Hook para progreso automático - Sistema Local
+  const {
+    updateScore,
+    markAsCompleted
+  } = useLocalGameProgress('fall-module', id);
+
   useEffect(() => {
     const init = () => {
       const response = getData(id);
@@ -51,7 +58,8 @@ const FallModule = () => {
     };
 
     init();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   const selectItem = (index) => {
     const { position } = state;
@@ -65,28 +73,69 @@ const FallModule = () => {
       ...state,
       current,
     });
-        dispatch({
-          type: "ADD_POINTS",
-          value: isCorrect ? 1 : -1,
-        });
+    dispatch({
+      type: "ADD_POINTS",
+      value: isCorrect ? 1 : -1,
+    });
 
-        if (isCorrect) {
-          playResponseAudio(isCorrect);
-          if (position + 1 >= state.words.length) {
-            setTimeout(() => {
-              history.replace({ pathname: "/level-up", state: { gameUrl: `/otoño/${id}` } });
-            }, 1000); // Espera 1 segundo para mostrar la opción correcta y el audio
-            return;
-          }
-          setTimeout(() => {
-            setTransition(isCorrect);
-            setState({
-              ...state,
-              current: prepareData(state.words[position + 1]),
-              position: position + 1,
-            });
-          }, 1000); // Espera 1 segundo antes de pasar al siguiente
+    if (isCorrect) {
+      playResponseAudio(isCorrect);
+
+      // Guardar progreso incremental para cada respuesta correcta con sistema local
+      const progressScore = 50; // Puntos base por respuesta correcta
+      const timeBonus = 5; // Bonus fijo
+      const totalScore = progressScore + timeBonus;
+      const currentProgress = (position + 1) * 55; // Score acumulado
+
+      try {
+        // Actualizar score con sistema local
+        updateScore(currentProgress, {
+          currentQuestion: position + 1,
+          totalQuestions: state.words.length,
+          correctAnswers: position + 1,
+          level: id,
+          letter: state.letter
+        });
+        
+        console.log('Respuesta correcta! Score:', totalScore);
+      } catch (error) {
+        console.log('Progress save failed, but continuing game:', error);
+      }
+
+      if (position + 1 >= state.words.length) {
+        // Juego completado - guardar progreso final
+        const finalScore = (state.words.length * 50) + (5 * state.words.length);
+        
+        try {
+          // Marcar juego como completado con sistema local
+          markAsCompleted(finalScore, {
+            totalQuestions: state.words.length,
+            correctAnswers: state.words.length,
+            finalScore: finalScore,
+            level: id,
+            letter: state.letter,
+            completed: true
+          });
+          
+          console.log('Juego Fall Module completado! Score final:', finalScore);
+        } catch (error) {
+          console.log('Progress save failed, but continuing to next level:', error);
         }
+
+        setTimeout(() => {
+          history.replace({ pathname: "/level-up", state: { gameUrl: `/otoño/${id}` } });
+        }, 1000);
+        return;
+      }
+      setTimeout(() => {
+        setTransition(isCorrect);
+        setState({
+          ...state,
+          current: prepareData(state.words[position + 1]),
+          position: position + 1,
+        });
+      }, 1000);
+    }
   };
 
   if (!state.isLoading) return <div></div>;

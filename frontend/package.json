@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "axios": "^1.13.2",
     "bootstrap": "5.0.2",
     "crypto-js": "^4.1.1",
     "gsap": "^3.6.1",
@@ -37,10 +38,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serve": "serve",
-    "dev-serve": "npm run-script build && npm run serve build/",
-    "doc": "jsdoc -c jsdoc.json",
-    "doc:windows": "jsdoc -c jsdoc.json && start ./docs/index.html",
-    "doc:linux": "jsdoc -c jsdoc.json && xdg-open ./docs/index.html"
+    "dev-serve": "npm run-script build && npm run serve build/"
   },
   "eslintConfig": {
     "extends": [
@@ -62,7 +60,6 @@
   },
   "devDependencies": {
     "dotenv": "^10.0.0",
-    "jsdoc": "^3.6.7",
     "open": "^8.2.1",
     "serve": "^11.3.2"
   }

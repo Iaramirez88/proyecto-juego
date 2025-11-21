@@ -11,13 +11,16 @@ export const useDeviceDetection = () => {
   );
 
   const getDeviceType = (width) => {
+    let type;
     if (width < 768) {
-      return 'mobile';
+      type = 'mobile';
     } else if (width >= 768 && width < 1024) {
-      return 'tablet';
+      type = 'tablet';
     } else {
-      return 'desktop';
+      type = 'desktop';
     }
+    console.log('📱 Dispositivo detectado - Ancho:', width, 'Tipo:', type);
+    return type;
   };
 
   useEffect(() => {
@@ -56,27 +59,37 @@ export const useDevicePairConfig = () => {
   const { deviceType } = useDeviceDetection();
 
   const getConfigForDevice = () => {
+    let config;
     switch (deviceType) {
       case 'mobile':
-        return {
-          pairsPerRow: 2,
-          maxCards: 12,
-          cardSize: 'small'
+        config = {
+          pairsPerRow: 4, // 4 cartas por fila
+          totalPairs: 4, // 4 pares = 8 cartas totales
+          cardSize: 'small',
+          deviceType: 'mobile'
         };
+        break;
       case 'tablet':
-        return {
-          pairsPerRow: 4,
-          maxCards: 16,
-          cardSize: 'medium'
+        config = {
+          pairsPerRow: 4, // 4 cartas por fila
+          totalPairs: 6, // 6 pares = 12 cartas totales
+          cardSize: 'medium',
+          deviceType: 'tablet'
         };
+        break;
       case 'desktop':
       default:
-        return {
-          pairsPerRow: 6,
-          maxCards: 20,
-          cardSize: 'large'
+        config = {
+          pairsPerRow: 4, // 4 cartas por fila
+          totalPairs: 8, // 8 pares = 16 cartas totales
+          cardSize: 'large',
+          deviceType: 'desktop'
         };
+        break;
     }
+    
+    console.log('🔧 useDevicePairConfig - Dispositivo:', deviceType, 'Config:', config);
+    return config;
   };
 
   return {

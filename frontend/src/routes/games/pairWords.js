@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import { useHistory, useParams } from "react-router";
 
 import background from "../../assets/images/fondoModPares.svg";
@@ -10,6 +10,7 @@ import { useResponseAudio } from "../../hooks/usePlaySounds";
 
 import cover from "../../assets/images/cuadroMorado.svg";
 import "../../assets/styles/pair-module.css";
+import "../../assets/styles/pair-module-responsive-v2.css";
 import Header from "../../components/shared/Header";
 import TitleSound from "../../components/shared/TitleSound";
 import PairInstructions from "../../components/games/PairModule/PairInstructions";
@@ -19,30 +20,71 @@ import { useSetScrollPosition } from "../../hooks/useDimesion";
 import { useDeviceDetection, useDevicePairConfig } from "../../hooks/useDeviceDetection";
 import gameConfigService from "../../services/gameConfigService";
 
+// Importación para progreso automático - SISTEMA LOCAL
+import { useLocalGameProgress } from "../../hooks/useLocalGameProgress";
+
 const PairWords = () => {
   useSetBackGround(background);
   useSetScrollPosition();
 
   const { idLetter } = useParams();
   const { dispatch } = useContext(GameContext);
-  const [state, setState] = useState({
-    open: 0,
-    cards: [],
-    correct: 4,
-    loading: false,
+  
+  // Detectar dispositivo
+  const deviceDetection = useDeviceDetection();
+  const [gameConfig, setGameConfig] = useState(null);
+  
+  // 🔒 Configuración FIJA - se establece UNA SOLA VEZ cuando screenWidth > 0
+  const [fixedConfig, setFixedConfig] = useState(null);
+  
+  // Calcular config basada en ancho de pantalla
+  const getConfigFromWidth = (width) => {
+    if (width < 768) {
+      return {
+        pairsPerRow: 2,
+        totalPairs: 4, // 4 pares = 8 cartas
+        cardSize: 'small',
+        deviceType: 'mobile'
+      };
+    } else if (width >= 768 && width < 1024) {
+      return {
+        pairsPerRow: 6,
+        totalPairs: 6, // 6 pares = 12 cartas
+        cardSize: 'medium',
+        deviceType: 'tablet'
+      };
+    } else {
+      return {
+        pairsPerRow: 6,
+        totalPairs: 8, // 8 pares = 16 cartas
+        cardSize: 'large',
+        deviceType: 'desktop'
+      };
+    }
+  };
+  
+  // Establecer config fija cuando el ancho es válido
+  useEffect(() => {
+    // Solo establecer si no existe Y el ancho es válido
+    if (!fixedConfig && deviceDetection.screenWidth > 0) {
+      const config = getConfigFromWidth(deviceDetection.screenWidth);
+      console.log('🔒 FIJANDO configuración - Ancho:', deviceDetection.screenWidth, 'Config:', config);
+      setFixedConfig(config);
+    }
+  }, [deviceDetection.screenWidth, fixedConfig]);
+  
+  // Estado del juego
+  const [state, setState] = useState(() => {
+    return { loading: true, cards: [], correct: 0, open: 0 };
   });
   const history = useHistory();
   const [playResponseAudio] = useResponseAudio();
-
-  // Estados para sistema responsivo
-  const deviceType = useDeviceDetection();
-  const fallbackDeviceConfig = useDevicePairConfig(deviceType);
-  const [gameConfig, setGameConfig] = useState(null);
   
-  // Obtener configuración específica del dispositivo desde el backend o usar fallback
-  const deviceConfig = gameConfig 
-    ? gameConfigService.getDeviceConfig(gameConfig, deviceType)
-    : fallbackDeviceConfig;
+  // Hook para progreso automático - SISTEMA LOCAL
+  const {
+    updateScore,
+    markAsCompleted
+  } = useLocalGameProgress('pair-words', idLetter);
 
   const compareWords = (word1, word2) => {
     return word1.toLowerCase() === word2.toLowerCase();
@@ -62,21 +104,57 @@ const PairWords = () => {
       type: "ADD_POINTS",
       value: isCorrect ? 3 : -1,
     });
+
+    // Guardar progreso automáticamente cuando se encuentra un par correcto
+    if (isCorrect) {
+      const pairScore = 100; // Puntos por par encontrado
+      const timeBonus = 10; // Bonus fijo por ahora
+      const totalScore = pairScore + timeBonus;
+      const totalPairs = fixedConfig.totalPairs;
+      
+      // 🎯 CORREGIR: Calcular pares encontrados correctamente
+      // Si correct inicia en 8 y baja a 7, significa que encontramos 1 par (8-7=1)
+      const pairsFound = totalPairs - (state.correct - 1);
+      
+      try {
+        // Actualizar score con el nuevo sistema local
+        updateScore(pairsFound * 100, {
+          pairsFound,
+          totalPairs: totalPairs,
+          currentScore: pairsFound * 100,
+          level: idLetter
+        });
+        
+        console.log('Par correcto encontrado! Score:', totalScore, 'Pares encontrados:', pairsFound);
+      } catch (error) {
+        console.log('Progress save failed, but continuing game:', error);
+      }
+    }
+
     // Delay de 1 segundo antes de avanzar
     setTimeout(() => {
       if (isCorrect) {
         list[0].check = true;
         list[1].check = true;
       }
+      const newCorrectCount = isCorrect ? state.correct - 1 : state.correct;
+      
+      console.log('📊 Actualizando estado - Pares restantes:', newCorrectCount);
+      
       const cardState = {
         ...state,
         open: 0,
-        correct: isCorrect ? state.correct - 1 : state.correct,
+        correct: newCorrectCount,
         cards: isCorrect
           ? [...cards]
           : state.cards.map((item) => ({ ...item, show: false })),
       };
       setState(cardState);
+      
+      // Verificar si el juego terminó
+      if (newCorrectCount === 0) {
+        console.log('🎉 ¡JUEGO COMPLETADO! Todos los pares encontrados');
+      }
     }, 1000);
   };
 
@@ -90,18 +168,16 @@ const PairWords = () => {
     }
   };
 
-  // Cargar configuración del juego desde el backend
+  // Cargar configuración del juego con fallback local
   useEffect(() => {
     const loadGameConfig = async () => {
       try {
-        // IDs temporales - en producción vendrían del contexto de usuario/auth
-        const gameId = "8402a754-3558-4950-80df-0a7ece78129e"; // ID del juego de pares
-        const institutionId = "ee459320-c366-4bb2-bd4a-249bf8bd64f5"; // ID de institución
-        
-        const config = await gameConfigService.getGameConfig(gameId, institutionId);
+        // Usar configuración local directamente para evitar errores 401
+        const config = gameConfigService.getLocalConfig('pair-words');
         setGameConfig(config);
+        console.log('🎮 Configuración de pares cargada:', config);
       } catch (error) {
-        console.warn('No se pudo cargar configuración del backend, usando configuración por defecto');
+        console.warn('Error cargando configuración, usando fallback:', error);
         setGameConfig(gameConfigService.getDefaultConfig());
       }
     };
@@ -109,17 +185,61 @@ const PairWords = () => {
     loadGameConfig();
   }, []);
 
+  // 🎮 Inicializar juego cuando fixedConfig esté listo
   useEffect(() => {
-    const { correct } = state;
-    if (!state.loading) {
-      setState(initialState(idLetter));
+    if (fixedConfig) {
+      console.log('🎮 Inicializando juego con config FIJA:', fixedConfig);
+      setState(initialState(idLetter, fixedConfig));
     }
-    if (correct === 0) { 
-      history.push("/level-up", { gameUrl: `/pares/${idLetter}` });
-    }
-  }, [state, history, idLetter]);
+  }, [fixedConfig, idLetter]);
 
-  if (!state.loading) return <div></div>;
+  // Detectar cuando se completa el juego
+  useEffect(() => {
+    if (!fixedConfig) return; // Esperar a que config esté lista
+    
+    console.log('🔍 Estado actual - correct:', state.correct, 'loading:', state.loading);
+    
+    // Solo verificar si el juego ya está cargado (!loading) y correct es 0
+    if (!state.loading && state.correct === 0) { 
+      console.log('🎉 ¡Todos los pares encontrados! Mostrando modal...');
+      
+      const totalPairs = fixedConfig.totalPairs;
+      const finalScore = totalPairs * 100; // pares × 100 puntos
+      const timeBonus = 10; // Bonus fijo
+      const totalScore = finalScore + timeBonus;
+      
+      try {
+        // Marcar juego como completado con sistema local
+        markAsCompleted(totalScore, {
+          pairsFound: totalPairs,
+          totalPairs: totalPairs,
+          finalScore: totalScore,
+          level: idLetter,
+          completed: true,
+          timeSpent: 60 // tiempo fijo de ejemplo
+        });
+        
+        console.log('✅ Juego completado! Score final:', totalScore);
+      } catch (error) {
+        console.log('⚠️ Progress save failed, but continuing to next level:', error);
+      }
+
+      // Navegar a la pantalla de nivel completado
+      setTimeout(() => {
+        console.log('🚀 Navegando a modal de felicitaciones...');
+        history.push("/level-up", { gameUrl: `/pares/${idLetter}` });
+      }, 500);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps  
+  }, [state.correct, state.loading, fixedConfig]); // Agregar fixedConfig como dependencia
+
+  if (state.loading || !fixedConfig) {
+    return (
+      <div className="containerGame">
+        <div>⏳ Cargando juego...</div>
+      </div>
+    );
+  }
   return (
     <div className="containerGame">
       <Header></Header>
@@ -135,7 +255,7 @@ const PairWords = () => {
           <Board 
             cards={state.cards} 
             selectCard={selectCard} 
-            deviceConfig={deviceConfig}
+            deviceConfig={fixedConfig}
           />
         </div>
       </div>
@@ -207,16 +327,23 @@ const CardItem = ({ image, name, show, selectCard, check, deviceType }) => {
   );
 };
 
-function initialState(letter) {
+function initialState(letter, deviceConfig) {
+  const totalPairs = deviceConfig?.totalPairs || 4;
+  console.log('🎯 initialState - Generando', totalPairs, 'pares para letra', letter, 'dispositivo:', deviceConfig?.deviceType);
+  
+  // Generar la cantidad correcta de pares según el dispositivo
+  const selectedCards = getModuleData(letter, totalPairs);
+  console.log('🃏 Cartas generadas:', selectedCards.length, 'total');
+  
   return {
     open: 0,
-    cards: getModuleData(letter).map((item) => ({
+    cards: selectedCards.map((item) => ({
       ...item,
       check: false,
       show: false,
     })),
-    correct: 4,
-    loading: true,
+    correct: totalPairs,
+    loading: false, // Cambiar a false para que el juego esté listo
   };
 }
 

@@ -19,6 +19,9 @@ import { usePlaySounds } from "../../hooks/usePlaySounds";
 import VocalIntructions from "../../components/games/VocalModule/VocalIntructions";
 import { useSetScrollPosition } from "../../hooks/useDimesion";
 
+// Importación para progreso automático - Sistema Local
+import { useLocalGameProgress } from "../../hooks/useLocalGameProgress";
+
 const Games = () => {
   let history = useHistory();
   useSetBackGround(backGround);
@@ -43,11 +46,34 @@ const Games = () => {
 
   const dragRefs = useRef([]);
 
+  // Hook para progreso automático - Sistema Local
+  const {
+    updateScore,
+    markAsCompleted
+  } = useLocalGameProgress('vocabulary-game', idLetter);
+
   useEffect(() => {
     if (statusWord.word1 && statusWord.word2) {
+      // Par de palabras completado - guardar progreso incremental
+      const wordsCompleted = position + 1;
+      const progressScore = wordsCompleted * 100; // 100 puntos por par de palabras
+      
+      try {
+        updateScore(progressScore, {
+          wordsCompleted,
+          totalWords: list.length,
+          currentLevel: position + 1,
+          level: idLetter
+        });
+        console.log(`📚 Vocabulario - Par ${wordsCompleted} completado! Score:`, progressScore);
+      } catch (error) {
+        console.log('Error guardando progreso incremental:', error);
+      }
+
       dragRefs.current.forEach(ref => {
         if (ref && ref.resetDrag) ref.resetDrag();
       });
+      
       if (position + 1 < list.length) {
         setPosition(position + 1);
         setStatusWord({
@@ -56,10 +82,26 @@ const Games = () => {
         });
         setTransition(true);
       } else {
+        // Juego completado - guardar progreso final
+        const finalScore = list.length * 100; // Score final
+        
+        try {
+          markAsCompleted(finalScore, {
+            wordsCompleted: list.length,
+            totalWords: list.length,
+            level: idLetter,
+            completed: true,
+            gameType: 'vocabulary'
+          });
+          console.log('🎉 Vocabulario completado! Score final:', finalScore);
+        } catch (error) {
+          console.log('Error guardando progreso final:', error);
+        }
+
         history.push("/level-up", { gameUrl: `/vocabulario/${idLetter}` });
       }
     }
-  }, [statusWord, position, history, list, idLetter]);
+  }, [statusWord, position, history, list, idLetter, updateScore, markAsCompleted]);
 
   useEffect(() => {
     if (transition) {

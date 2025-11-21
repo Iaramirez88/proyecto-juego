@@ -15,6 +15,7 @@ import Armar from "./games/armar"
 import ScreenPayment from "./payment/ScreenPayment";
 import ScreenLicense from "./licenses/ScreenLicense";
 import KidsDashboard from "./dashboard/KidsDashboard";
+import AdminRoute from "./admin/AdminRoute";
 
 /** */
 const Routes = () => {
@@ -35,6 +36,7 @@ const Routes = () => {
         <Route path="/otoño/:id" component={FallModule} />
         <Route path="/armar/:id" component={Armar} />
         <Route path="/dashboard" component={KidsDashboard} />
+        <Route path="/admin" component={AdminRoute} />
         {/*<Route path="/sesion" component={SignInModule} />*/}
        {/*<Route
           path="/mi-cuenta/registrar-pago/:id/:idplan"

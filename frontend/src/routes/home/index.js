@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   caraOso,
   //caraDino,
@@ -23,13 +23,31 @@ import { useSetScrollPosition } from "../../hooks/useDimesion";
 
 const Home = () => {
   useSetScrollPosition();
+  const [refreshKey, setRefreshKey] = useState(0);
+
   useEffect(() => {
     document.documentElement.style.backgroundImage = "none";
     document.body.style.backgroundImage = "none";
     document.body.style.backgroundColor = "white";
+    
+    // 🎯 Escuchar cambios de configuración del admin
+    const handleConfigChange = () => {
+      console.log('🏠 Home: Configuración cambió, refrescando...');
+      setRefreshKey(prev => prev + 1); // Forzar re-render
+    };
+    
+    // Escuchar eventos de cambio de configuración
+    window.addEventListener('adminConfigChanged', handleConfigChange);
+    window.addEventListener('forceConfigReload', handleConfigChange);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('adminConfigChanged', handleConfigChange);
+      window.removeEventListener('forceConfigReload', handleConfigChange);
+    };
   }, []);
   return (
-    <div>
+    <div key={refreshKey}>
       <HeaderHome />
       <div style={{ padding: "0 3em" }}>
         <h1 className="mainTitle">Abecedario</h1>

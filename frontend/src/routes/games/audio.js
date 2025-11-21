@@ -18,6 +18,9 @@ import backGround from "../../assets/images/fondoModEscGranAlto.svg";
 import AudioInstructions from "../../components/games/AudioModule/AudioInstructions";
 import { useSetScrollPosition } from "../../hooks/useDimesion";
 
+// Importación para progreso automático - Sistema Local
+import { useLocalGameProgress } from "../../hooks/useLocalGameProgress";
+
 export const AudioScreen = () => {
   useSetBackGround(backGround);
   useSetScrollPosition();
@@ -31,6 +34,12 @@ export const AudioScreen = () => {
   const { dispatch } = useContext(GameContext);
   const history = useHistory();
   const instructions = autioTitleIntructions.audio;
+
+  // Hook para progreso automático - Sistema Local
+  const {
+    updateScore,
+    markAsCompleted
+  } = useLocalGameProgress('audio-game', idLetter);
 
   const checkWord = (e, cardState, setCardState) => {
     let word = e.target.alt || e.target.dataset.word;
@@ -91,10 +100,27 @@ export const AudioScreen = () => {
     let status = { ...state };
     // Obtener el tamaño del grupo actual a partir de words[position] (más robusto)
     const itemsInCurrent = status.words && status.words[status.position] ? status.words[status.position].length : 0;
-    // Log para depuración (puedes quitar luego)
-    // console.log('Audio progression', { position: status.position, checked: status.checked, itemsInCurrent, wordsLen: status.words ? status.words.length : 0 });
+    
     if (status.spring === 2 || status.checked === 3 || (itemsInCurrent > 0 && status.checked >= itemsInCurrent)) {
-      if (status.position + 1 < (status.words ? status.words.length : 0)) {
+      // Grupo actual completado - guardar progreso incremental
+      const groupsCompleted = status.position + 1;
+      const totalGroups = status.words ? status.words.length : 0;
+      const progressScore = groupsCompleted * 75; // 75 puntos por grupo completado
+      
+      try {
+        updateScore(progressScore, {
+          groupsCompleted,
+          totalGroups,
+          currentGroup: status.position + 1,
+          level: idLetter,
+          correctAnswers: status.spring || status.checked
+        });
+        console.log(`🔊 Audio - Grupo ${groupsCompleted} completado! Score:`, progressScore);
+      } catch (error) {
+        console.log('Error guardando progreso incremental audio:', error);
+      }
+
+      if (status.position + 1 < totalGroups) {
         const nextPos = parseInt(status.position + 1);
         setTransition(true);
         setState((prev) => ({
@@ -106,10 +132,26 @@ export const AudioScreen = () => {
           verified: false,
         }));
       } else {
+        // Juego completado - guardar progreso final
+        const finalScore = totalGroups * 75; // Score final basado en grupos
+        
+        try {
+          markAsCompleted(finalScore, {
+            groupsCompleted: totalGroups,
+            totalGroups,
+            level: idLetter,
+            completed: true,
+            gameType: 'audio-recognition'
+          });
+          console.log('🎉 Audio completado! Score final:', finalScore);
+        } catch (error) {
+          console.log('Error guardando progreso final audio:', error);
+        }
+
         history.push("/level-up", { gameUrl: `/escucha/${idLetter}` });
       }
     }
-  }, [state, history, idLetter]);
+  }, [state, history, idLetter, updateScore, markAsCompleted]);
 
   if (!isLoading) return <div></div>;
 

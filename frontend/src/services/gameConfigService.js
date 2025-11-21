@@ -1,10 +1,10 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 
 /**
  * Servicio para interactuar con la API de configuraciones de juegos
  */
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = 'http://localhost:3001/api';
 
 class GameConfigService {
   /**
@@ -33,6 +33,13 @@ class GameConfigService {
    */
   async getGameConfig(gameId, institutionId) {
     try {
+      // Intentar obtener del backend solo si hay token de autenticación
+      const token = this.getAuthToken();
+      if (!token) {
+        console.log('🔧 Sin token de autenticación, usando configuración local para:', gameId);
+        return this.getLocalConfig(gameId);
+      }
+
       const response = await fetch(
         `${API_BASE_URL}/games/${gameId}/config/${institutionId}`,
         {
@@ -42,16 +49,39 @@ class GameConfigService {
       );
 
       if (!response.ok) {
-        throw new Error(`Error ${response.status}: ${response.statusText}`);
+        console.log(`⚠️ Error en backend (${response.status}), usando configuración local para:`, gameId);
+        return this.getLocalConfig(gameId);
       }
 
       const data = await response.json();
       return data.data.config;
     } catch (error) {
       console.error('Error obteniendo configuración del juego:', error);
-      // Devolver configuración por defecto en caso de error
-      return this.getDefaultConfig();
+      // Devolver configuración local en caso de error
+      return this.getLocalConfig(gameId);
     }
+  }
+
+  /**
+   * Configuración local por defecto para juegos
+   * @param {string} gameId - ID del juego
+   * @returns {Object} - Configuración del juego
+   */
+  getLocalConfig(gameId) {
+    const localConfigs = {
+      'pair-words': {
+        mobile: { gridCols: 2, gridRows: 4, cardSize: 'small' },
+        tablet: { gridCols: 4, gridRows: 2, cardSize: 'medium' },
+        desktop: { gridCols: 4, gridRows: 2, cardSize: 'large' }
+      },
+      'fall-module': {
+        mobile: { itemsPerRow: 2, itemSize: 'small', fallSpeed: 'slow' },
+        tablet: { itemsPerRow: 3, itemSize: 'medium', fallSpeed: 'normal' },
+        desktop: { itemsPerRow: 4, itemSize: 'large', fallSpeed: 'normal' }
+      }
+    };
+
+    return localConfigs[gameId] || this.getDefaultConfig();
   }
 
   /**
@@ -154,11 +184,11 @@ export const gameConfigService = new GameConfigService();
 
 // Hook personalizado para usar el servicio de configuración de juegos
 export const useGameConfig = (gameId, institutionId) => {
-  const [config, setConfig] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState(null);
+  const [config, setConfig] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const loadConfig = async () => {
       if (!gameId || !institutionId) return;
       
