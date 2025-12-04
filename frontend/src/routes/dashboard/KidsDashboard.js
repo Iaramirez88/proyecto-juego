@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSetBackGround } from '../../hooks/useSetBackGround';
 import localProgressService from '../../services/localProgressService';
 import GameCard from '../../components/dashboard/GameCard';
 import '../../assets/styles/kids-dashboard.css';
@@ -15,6 +16,9 @@ import {
 
 const KidsDashboard = () => {
   const history = useHistory();
+  
+  // Establecer fondo amarillo
+  useSetBackGround(null, '#FFE082');
   
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);

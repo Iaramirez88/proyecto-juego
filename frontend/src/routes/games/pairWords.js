@@ -23,6 +23,10 @@ import gameConfigService from "../../services/gameConfigService";
 // Importación para progreso automático - SISTEMA LOCAL
 import { useLocalGameProgress } from "../../hooks/useLocalGameProgress";
 
+// 🎮 Importaciones para Gamificación
+import GamificationFeedback from "../../components/games/GamificationFeedback";
+import { useGamificationFeedback } from "../../hooks/useGamificationFeedback";
+
 const PairWords = () => {
   useSetBackGround(background);
   useSetScrollPosition();
@@ -86,6 +90,20 @@ const PairWords = () => {
     markAsCompleted
   } = useLocalGameProgress('pair-words', idLetter);
 
+  // 🎮 Hook para gamificación
+  const {
+    showFeedback,
+    performance,
+    customMessage,
+    triggerFeedback,
+    showSimpleFeedback,
+    hideFeedback
+  } = useGamificationFeedback();
+
+  // 📊 Estados para tracking de accuracy
+  const [correctAttempts, setCorrectAttempts] = useState(0);
+  const [incorrectAttempts, setIncorrectAttempts] = useState(0);
+
   const compareWords = (word1, word2) => {
     return word1.toLowerCase() === word2.toLowerCase();
   };
@@ -98,6 +116,13 @@ const PairWords = () => {
     }, []);
     if (list.length < 2) return;
     let isCorrect = compareWords(list[0].name, list[1].name);
+
+    // 📊 Actualizar contadores de accuracy
+    if (isCorrect) {
+      setCorrectAttempts(prev => prev + 1);
+    } else {
+      setIncorrectAttempts(prev => prev + 1);
+    }
 
     playResponseAudio(isCorrect);
     dispatch({
@@ -208,6 +233,16 @@ const PairWords = () => {
       const timeBonus = 10; // Bonus fijo
       const totalScore = finalScore + timeBonus;
       
+      // 📊 Calcular accuracy y estrellas
+      const totalAttempts = correctAttempts + incorrectAttempts;
+      const accuracy = totalAttempts > 0 ? (correctAttempts / totalAttempts) * 100 : 100;
+      
+      // Determinar estrellas basadas en accuracy
+      let stars = 0;
+      if (accuracy >= 90) stars = 3;
+      else if (accuracy >= 70) stars = 2;
+      else if (accuracy >= 50) stars = 1;
+      
       try {
         // Marcar juego como completado con sistema local
         markAsCompleted(totalScore, {
@@ -216,19 +251,30 @@ const PairWords = () => {
           finalScore: totalScore,
           level: idLetter,
           completed: true,
-          timeSpent: 60 // tiempo fijo de ejemplo
+          timeSpent: 60, // tiempo fijo de ejemplo
+          accuracy: Math.round(accuracy),
+          stars,
+          correctAttempts,
+          incorrectAttempts
         });
         
-        console.log('✅ Juego completado! Score final:', totalScore);
+        console.log('✅ Juego completado! Score:', totalScore, 'Accuracy:', accuracy.toFixed(1) + '%', 'Estrellas:', stars);
       } catch (error) {
         console.log('⚠️ Progress save failed, but continuing to next level:', error);
       }
+
+      // 🎮 Mostrar feedback gamificado con estrellas
+      const motivationalMessage = stars >= 3 ? '¡Perfecto! ¡Excelente trabajo! 🎉👏' :
+                                   stars >= 2 ? '¡Muy bien! ¡Sigue así! 😊⭐' :
+                                   stars >= 1 ? '¡Buen intento! ¡Puedes mejorar! 💪' :
+                                   '¡No te rindas! ¡Inténtalo de nuevo! 🎓';
+      triggerFeedback(accuracy, motivationalMessage);
 
       // Navegar a la pantalla de nivel completado
       setTimeout(() => {
         console.log('🚀 Navegando a modal de felicitaciones...');
         history.push("/level-up", { gameUrl: `/pares/${idLetter}` });
-      }, 500);
+      }, 3500);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps  
   }, [state.correct, state.loading, fixedConfig]); // Agregar fixedConfig como dependencia
@@ -259,6 +305,14 @@ const PairWords = () => {
           />
         </div>
       </div>
+
+      {/* 🎮 Componente de Gamificación */}
+      <GamificationFeedback
+        show={showFeedback}
+        performance={performance}
+        customMessage={customMessage}
+        onComplete={hideFeedback}
+      />
     </div>
   );
 };

@@ -22,6 +22,10 @@ import { useSetScrollPosition } from "../../hooks/useDimesion";
 // Importación para progreso automático - Sistema Local
 import { useLocalGameProgress } from "../../hooks/useLocalGameProgress";
 
+// 🎮 Importaciones para Gamificación
+import GamificationFeedback from "../../components/games/GamificationFeedback";
+import { useGamificationFeedback } from "../../hooks/useGamificationFeedback";
+
 const Games = () => {
   let history = useHistory();
   useSetBackGround(backGround);
@@ -52,8 +56,29 @@ const Games = () => {
     markAsCompleted
   } = useLocalGameProgress('vocabulary-game', idLetter);
 
+  // 🎮 Hook para gamificación
+  const {
+    showFeedback,
+    performance,
+    customMessage,
+    showSimpleFeedback,
+    hideFeedback,
+    getStarCount
+  } = useGamificationFeedback();
+
+  // 🎮 Contador de pares completados con éxito
+  const [completedPairs, setCompletedPairs] = useState(0);
+  // 🎮 Flag para evitar procesamiento múltiple
+  const [isProcessing, setIsProcessing] = useState(false);
+  // 📊 Tracking de desempeño
+  const [correctAttempts, setCorrectAttempts] = useState(0);
+  const [incorrectAttempts, setIncorrectAttempts] = useState(0);
+
   useEffect(() => {
-    if (statusWord.word1 && statusWord.word2) {
+    // Verificar que ambas palabras estén completas y no estemos procesando
+    if (statusWord.word1 && statusWord.word2 && !isProcessing) {
+      setIsProcessing(true); // Bloquear procesamiento múltiple
+      
       // Par de palabras completado - guardar progreso incremental
       const wordsCompleted = position + 1;
       const progressScore = wordsCompleted * 100; // 100 puntos por par de palabras
@@ -69,21 +94,53 @@ const Games = () => {
       } catch (error) {
         console.log('Error guardando progreso incremental:', error);
       }
-
-      dragRefs.current.forEach(ref => {
-        if (ref && ref.resetDrag) ref.resetDrag();
-      });
       
       if (position + 1 < list.length) {
-        setPosition(position + 1);
-        setStatusWord({
-          word1: false,
-          word2: false,
-        });
-        setTransition(true);
+        // Avanzar a siguiente par directamente (sin estrellas intermedias)
+        setTimeout(() => {
+          // Resetear los drags
+          dragRefs.current.forEach(ref => {
+            if (ref && ref.resetDrag) ref.resetDrag();
+          });
+          
+          // Avanzar a la siguiente posición
+          setPosition(position + 1);
+          setStatusWord({
+            word1: false,
+            word2: false,
+          });
+          setTransition(true);
+          setCompletedPairs(prev => prev + 1);
+          setIsProcessing(false); // Desbloquear para el siguiente par
+        }, 500); // Pequeña pausa antes de avanzar
       } else {
-        // Juego completado - guardar progreso final
-        const finalScore = list.length * 100; // Score final
+        // 🎮 Juego completado - Calcular desempeño y mostrar feedback
+        const finalPairs = list.length;
+        
+        // Cada par tiene 2 palabras, y cada palabra correcta cuenta como 1 acierto
+        const mandatoryCorrect = finalPairs * 2; // Los pares correctos que deben completarse
+        const totalCorrect = correctAttempts + mandatoryCorrect;
+        const totalAttempts = totalCorrect + incorrectAttempts;
+        const accuracy = totalAttempts > 0 ? (totalCorrect / totalAttempts) * 100 : 100;
+        
+        // Calcular estrellas según accuracy
+        let stars = 0;
+        let performanceMsg = '';
+        if (accuracy >= 90) {
+          stars = 3;
+          performanceMsg = '¡Excelente! ¡Perfecto! 🌟🌟🌟';
+        } else if (accuracy >= 70) {
+          stars = 2;
+          performanceMsg = '¡Muy bien! ¡Sigue así! 🌟🌟';
+        } else if (accuracy >= 50) {
+          stars = 1;
+          performanceMsg = '¡Buen intento! ¡Puedes mejorar! 🌟';
+        } else {
+          stars = 0;
+          performanceMsg = '¡Sigue practicando! 💪';
+        }
+        
+        const finalScore = list.length * 100;
         
         try {
           markAsCompleted(finalScore, {
@@ -91,17 +148,33 @@ const Games = () => {
             totalWords: list.length,
             level: idLetter,
             completed: true,
-            gameType: 'vocabulary'
+            gameType: 'vocabulary',
+            correctAttempts: totalCorrect,
+            incorrectAttempts,
+            accuracy: Math.round(accuracy),
+            stars
           });
-          console.log('🎉 Vocabulario completado! Score final:', finalScore);
+          console.log('🎉 Vocabulario completado!', {
+            score: finalScore,
+            accuracy: `${Math.round(accuracy)}%`,
+            stars,
+            correctas: totalCorrect,
+            incorrectas: incorrectAttempts
+          });
         } catch (error) {
           console.log('Error guardando progreso final:', error);
         }
 
-        history.push("/level-up", { gameUrl: `/vocabulario/${idLetter}` });
+        // Mostrar feedback con mensaje según desempeño
+        showSimpleFeedback(accuracy, 100, performanceMsg);
+
+        // Redirigir después del feedback
+        setTimeout(() => {
+          history.push("/level-up", { gameUrl: `/vocabulario/${idLetter}` });
+        }, 3500);
       }
     }
-  }, [statusWord, position, history, list, idLetter, updateScore, markAsCompleted]);
+  }, [statusWord, position, history, list, idLetter, updateScore, markAsCompleted, showSimpleFeedback, isProcessing]);
 
   useEffect(() => {
     if (transition) {
@@ -123,6 +196,8 @@ const Games = () => {
     setPosition(0);
     setStatusWord({ word1: false, word2: false });
     setIsLoading(true);
+    setCompletedPairs(0); // 🎮 Resetear contador al cambiar de nivel
+    setIsProcessing(false); // 🎮 Resetear flag de procesamiento
   }, [idLetter]);
 
   // Asegurar que elementos estén desbloqueados cuando cambie la posición
@@ -204,6 +279,8 @@ const Games = () => {
             divResponse={[boxResponse1, boxResponse2]}
             setStatusWord={setStatusWord}
             statusWord={statusWord}
+            onCorrectAttempt={() => setCorrectAttempts(prev => prev + 1)}
+            onIncorrectAttempt={() => setIncorrectAttempts(prev => prev + 1)}
           >
             <button
               onClick={() => on()}
@@ -220,6 +297,8 @@ const Games = () => {
             divResponse={[boxResponse1, boxResponse2]}
             setStatusWord={setStatusWord}
             statusWord={statusWord}
+            onCorrectAttempt={() => setCorrectAttempts(prev => prev + 1)}
+            onIncorrectAttempt={() => setIncorrectAttempts(prev => prev + 1)}
           >
             <button
               onClick={() => un()}
@@ -248,6 +327,16 @@ const Games = () => {
           />
         </div>
       </div>
+
+      {/* 🎮 Componente de Gamificación */}
+      
+      {/* Feedback completo al finalizar el juego (con estrellas integradas) */}
+      <GamificationFeedback
+        show={showFeedback}
+        performance={performance}
+        customMessage={customMessage}
+        onComplete={hideFeedback}
+      />
     </div>
   );
 };

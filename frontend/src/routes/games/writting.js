@@ -20,6 +20,10 @@ import WrittingInstructions from "../../components/games/WrittingModule/Writting
 // Importación para progreso automático - Sistema Local
 import { useLocalGameProgress } from "../../hooks/useLocalGameProgress";
 
+// 🎮 Importaciones para Gamificación
+import GamificationFeedback from "../../components/games/GamificationFeedback";
+import { useGamificationFeedback } from "../../hooks/useGamificationFeedback";
+
 const WrittingScreen = () => {
   useSetBackGround(backGround);
   useSetScrollPosition();
@@ -39,6 +43,20 @@ const WrittingScreen = () => {
     updateScore,
     markAsCompleted
   } = useLocalGameProgress('writing-game', idLetter);
+
+  // 🎮 Hook para gamificación
+  const {
+    showFeedback,
+    performance,
+    customMessage,
+    triggerFeedback,
+    showSimpleFeedback,
+    hideFeedback
+  } = useGamificationFeedback();
+
+  // 📊 Estados para tracking de accuracy
+  const [correctAttempts, setCorrectAttempts] = useState(0);
+  const [incorrectAttempts, setIncorrectAttempts] = useState(0);
 
   useEffect(() => {
     if (transition) {
@@ -97,6 +115,9 @@ const WrittingScreen = () => {
         playResponseAudio(response === option);
 
         if (response === option) {
+          // 📊 Actualizar contador de intentos correctos
+          setCorrectAttempts(prev => prev + 1);
+          
           let numLetters = state.numLetters - 1;
           let index = node.dataset.position;
           let current = { ...state.current };
@@ -153,23 +174,49 @@ const WrittingScreen = () => {
               // Juego completado - guardar progreso final
               const finalScore = state.words.length * 80; // Score final
               
+              // 📊 Calcular accuracy y estrellas
+              const totalAttempts = correctAttempts + incorrectAttempts;
+              const accuracy = totalAttempts > 0 ? (correctAttempts / totalAttempts) * 100 : 100;
+              
+              // Determinar estrellas basadas en accuracy
+              let stars = 0;
+              if (accuracy >= 90) stars = 3;
+              else if (accuracy >= 70) stars = 2;
+              else if (accuracy >= 50) stars = 1;
+              
               try {
                 markAsCompleted(finalScore, {
                   wordsCompleted: state.words.length,
                   totalWords: state.words.length,
                   level: idLetter,
                   completed: true,
-                  gameType: 'writing'
+                  gameType: 'writing',
+                  accuracy: Math.round(accuracy),
+                  stars,
+                  correctAttempts,
+                  incorrectAttempts
                 });
-                console.log('🎉 Escritura completada! Score final:', finalScore);
+                console.log('✏️ Escritura completada! Score:', finalScore, 'Accuracy:', accuracy.toFixed(1) + '%', 'Estrellas:', stars);
               } catch (error) {
                 console.log('Error guardando progreso final escritura:', error);
               }
 
-              history.push("/level-up", { gameUrl: `/escritura/${idLetter}` });
+              // 🎮 Mostrar feedback gamificado con estrellas
+              const motivationalMessage = stars >= 3 ? '¡Perfecto! ¡Excelente trabajo! 🎉👏' :
+                                           stars >= 2 ? '¡Muy bien! ¡Sigue así! 😊⭐' :
+                                           stars >= 1 ? '¡Buen intento! ¡Puedes mejorar! 💪' :
+                                           '¡No te rindas! ¡Inténtalo de nuevo! 🎓';
+              triggerFeedback(accuracy, motivationalMessage);
+
+              setTimeout(() => {
+                history.push("/level-up", { gameUrl: `/escritura/${idLetter}` });
+              }, 3500);
             }
           }, 1000);
         } else {
+          // 📊 Actualizar contador de intentos incorrectos
+          setIncorrectAttempts(prev => prev + 1);
+          
           dragItem.classList.add("wrLetterBad");
           setTimeout(function () {
             gsap.fromTo(
@@ -288,6 +335,14 @@ const WrittingScreen = () => {
           </div>
         </div>
       </div>
+
+      {/* 🎮 Componente de Gamificación */}
+      <GamificationFeedback
+        show={showFeedback}
+        performance={performance}
+        customMessage={customMessage}
+        onComplete={hideFeedback}
+      />
     </div>
   );
 };

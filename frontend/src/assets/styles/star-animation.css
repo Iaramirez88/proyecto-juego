@@ -1,0 +1,324 @@
+/* Estilos para las animaciones de estrellas */
+
+.star-animation-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+}
+
+.star-animation-container.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.stars-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 40px;
+  border-radius: 20px;
+  backdrop-filter: blur(5px);
+}
+
+.star-item {
+  opacity: 0;
+  transform: scale(0) rotate(0deg);
+  animation: starAppear 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  position: relative;
+}
+
+.star-emoji {
+  font-size: 120px;
+  display: inline-block;
+  animation: starRotate 2s linear infinite, starPulse 1s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+}
+
+@keyframes starRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes starPulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+.sparkles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: 150px;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  font-size: 30px;
+  animation: sparkleFloat 1.5s ease-in-out infinite;
+}
+
+.sparkle-1 {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  animation-delay: 0s;
+}
+
+.sparkle-2 {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  animation-delay: 0.4s;
+}
+
+.sparkle-3 {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  animation-delay: 0.2s;
+}
+
+.sparkle-4 {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  animation-delay: 0.6s;
+}
+
+@keyframes sparkleFloat {
+  0%, 100% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(0, -10px) scale(1);
+  }
+}
+
+@keyframes starAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(180deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+/* Mensaje cuando no hay estrellas */
+.no-stars-message {
+  text-align: center;
+  margin-top: 20px;
+  animation: fadeIn 0.5s ease;
+}
+
+.emoji-sad {
+  font-size: 80px;
+  display: block;
+  margin-bottom: 10px;
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+.no-stars-message p {
+  font-size: 24px;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 15px 30px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+/* Animación de carita */
+.face-animation {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9997;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.face-animation.show {
+  opacity: 1;
+  visibility: visible;
+  animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: translateX(-50%) scale(0);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.2);
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+.face-emoji {
+  font-size: 100px;
+  margin-bottom: 15px;
+  animation: wiggle 0.5s ease infinite alternate;
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(5deg);
+  }
+}
+
+.face-message {
+  font-size: 28px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 15px 40px;
+  border-radius: 25px;
+  display: inline-block;
+  margin: 0;
+}
+
+/* Efectos de partículas (opcional) */
+.particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ffd700;
+  border-radius: 50%;
+  opacity: 0;
+  animation: particle-fall 1s ease-out forwards;
+}
+
+@keyframes particle-fall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100px) rotate(360deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stars-wrapper {
+    gap: 10px;
+  }
+
+  .star-item {
+    width: 80px;
+    height: 80px;
+  }
+
+  .face-emoji {
+    font-size: 70px;
+  }
+
+  .face-message {
+    font-size: 20px;
+    padding: 12px 30px;
+  }
+
+  .emoji-sad {
+    font-size: 60px;
+  }
+
+  .no-stars-message p {
+    font-size: 18px;
+    padding: 12px 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stars-wrapper {
+    gap: 5px;
+  }
+
+  .star-item {
+    width: 60px;
+    height: 60px;
+  }
+
+  .face-emoji {
+    font-size: 50px;
+  }
+
+  .face-message {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+}
+
+/* Animación de confeti (efecto adicional) */
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: #f0f;
+  position: absolute;
+  animation: confetti-fall 3s linear forwards;
+}
+
+@keyframes confetti-fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

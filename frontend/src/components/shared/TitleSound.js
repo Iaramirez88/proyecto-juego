@@ -26,21 +26,35 @@ const TitleSound = ({
   const [loading, setLoading] = useState(false);
   const closeButton = useRef(null);
   const [state, setState] = useState(false);
+  const isPlayingRef = useRef(false); // Track si está reproduciendo audio
 
   const [playSound, , stopSound] = usePlaySounds();
 
   const setAudioPlay = (sounds) => {
     setShowInfo(false);
-    stopSound();
+    stopSound(); // Detener cualquier audio previo
     if (!sounds || sounds.length === 0) return;
+    
+    isPlayingRef.current = true; // Marcar que está reproduciendo
+    
     if (sounds.length === 1) {
-      playSound(sounds[0]);
+      playSound(sounds[0], {
+        onEnded: () => {
+          isPlayingRef.current = false;
+        }
+      });
       return;
     }
     // reproducir secuencialmente: primero sounds[0] y al terminar sounds[1]
     playSound(sounds[0], {
       onEnded: () => {
-        playSound(sounds[1]);
+        if (isPlayingRef.current) { // Solo continuar si no se ha detenido
+          playSound(sounds[1], {
+            onEnded: () => {
+              isPlayingRef.current = false;
+            }
+          });
+        }
       },
     });
   };
@@ -48,6 +62,16 @@ const TitleSound = ({
   const playInfo = () => {
     setRunInfo(false);
   };
+
+  // 🔧 Cleanup: Detener audio cuando el componente se desmonta
+  useEffect(() => {
+    return () => {
+      if (isPlayingRef.current) {
+        stopSound();
+        isPlayingRef.current = false;
+      }
+    };
+  }, [stopSound]);
 
   useEffect(() => {
     const showInfoTitle = () => {

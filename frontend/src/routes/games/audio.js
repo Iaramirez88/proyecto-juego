@@ -21,6 +21,10 @@ import { useSetScrollPosition } from "../../hooks/useDimesion";
 // Importación para progreso automático - Sistema Local
 import { useLocalGameProgress } from "../../hooks/useLocalGameProgress";
 
+// 🎮 Importaciones para Gamificación
+import GamificationFeedback from "../../components/games/GamificationFeedback";
+import { useGamificationFeedback } from "../../hooks/useGamificationFeedback";
+
 export const AudioScreen = () => {
   useSetBackGround(backGround);
   useSetScrollPosition();
@@ -41,6 +45,20 @@ export const AudioScreen = () => {
     markAsCompleted
   } = useLocalGameProgress('audio-game', idLetter);
 
+  // 🎮 Hook para gamificación
+  const {
+    showFeedback,
+    performance,
+    customMessage,
+    triggerFeedback,
+    showSimpleFeedback,
+    hideFeedback
+  } = useGamificationFeedback();
+
+  // 📊 Estados para tracking de accuracy
+  const [correctAttempts, setCorrectAttempts] = useState(0);
+  const [incorrectAttempts, setIncorrectAttempts] = useState(0);
+
   const checkWord = (e, cardState, setCardState) => {
     let word = e.target.alt || e.target.dataset.word;
     let isCorrect = word[0] === state.response;
@@ -54,6 +72,14 @@ export const AudioScreen = () => {
     if (!cardState.visited) {
       playResponseAudio(isCorrect);
       setCardState(cardObject);
+      
+      // 📊 Actualizar contadores de accuracy
+      if (isCorrect) {
+        setCorrectAttempts(prev => prev + 1);
+      } else {
+        setIncorrectAttempts(prev => prev + 1);
+      }
+      
       dispatch({
         type: "ADD_POINTS",
         value,
@@ -135,20 +161,44 @@ export const AudioScreen = () => {
         // Juego completado - guardar progreso final
         const finalScore = totalGroups * 75; // Score final basado en grupos
         
+        // 📊 Calcular accuracy y estrellas
+        const totalAttempts = correctAttempts + incorrectAttempts;
+        const accuracy = totalAttempts > 0 ? (correctAttempts / totalAttempts) * 100 : 100;
+        
+        // Determinar estrellas basadas en accuracy
+        let stars = 0;
+        if (accuracy >= 90) stars = 3;
+        else if (accuracy >= 70) stars = 2;
+        else if (accuracy >= 50) stars = 1;
+        
         try {
           markAsCompleted(finalScore, {
             groupsCompleted: totalGroups,
             totalGroups,
             level: idLetter,
             completed: true,
-            gameType: 'audio-recognition'
+            gameType: 'audio-recognition',
+            accuracy: Math.round(accuracy),
+            stars,
+            correctAttempts,
+            incorrectAttempts
           });
-          console.log('🎉 Audio completado! Score final:', finalScore);
+          console.log('🎉 Audio completado! Score:', finalScore, 'Accuracy:', accuracy.toFixed(1) + '%', 'Estrellas:', stars);
         } catch (error) {
           console.log('Error guardando progreso final audio:', error);
         }
 
-        history.push("/level-up", { gameUrl: `/escucha/${idLetter}` });
+        // 🎮 Mostrar feedback gamificado con estrellas
+        const motivationalMessage = stars >= 3 ? '¡Perfecto! ¡Excelente trabajo! 🎉👏' :
+                                     stars >= 2 ? '¡Muy bien! ¡Sigue así! 😊⭐' :
+                                     stars >= 1 ? '¡Buen intento! ¡Puedes mejorar! 💪' :
+                                     '¡No te rindas! ¡Inténtalo de nuevo! 🎓';
+        triggerFeedback(accuracy, motivationalMessage);
+
+        // Redirigir después del feedback
+        setTimeout(() => {
+          history.push("/level-up", { gameUrl: `/escucha/${idLetter}` });
+        }, 3500);
       }
     }
   }, [state, history, idLetter, updateScore, markAsCompleted]);
@@ -200,6 +250,14 @@ export const AudioScreen = () => {
             ))}
         </div>
       </div>
+
+      {/* 🎮 Componente de Gamificación */}
+      <GamificationFeedback
+        show={showFeedback}
+        performance={performance}
+        customMessage={customMessage}
+        onComplete={hideFeedback}
+      />
     </div>
   );
 };

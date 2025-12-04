@@ -55,6 +55,15 @@ export function usePlaySounds() {
 export function useResponseAudio() {
   // Reproduce el audio correcto de inmediato, sin delay y sin bug de índice
   const playResponseAudio = (type) => {
+    // 🔧 Detener cualquier audio del tutorial que esté sonando
+    if (currentAudio) {
+      try {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      } catch (e) {}
+      currentAudio = null;
+    }
+    
     const audio = type
       ? goodAnswer[Math.floor(Math.random() * goodAnswer.length)]
       : wrongAnswer[Math.floor(Math.random() * wrongAnswer.length)];

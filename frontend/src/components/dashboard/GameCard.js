@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import LevelDetails from './LevelDetails';
 
 const GameCard = ({ game, onClick }) => {
+  const [showDetails, setShowDetails] = useState(false);
   // 🔍 Log para depurar qué datos recibe el componente
   console.log(`🎮 GameCard "${game.name}" recibe:`, {
     id: game.id,
@@ -54,18 +56,36 @@ const GameCard = ({ game, onClick }) => {
     return 'new';
   };
 
+  const hasLevels = game.levels && Object.keys(game.levels).length > 0;
+
+  const handleCardClick = (e) => {
+    // Si se hizo click en el botón de detalles, no ejecutar onClick
+    if (e.target.closest('.details-toggle')) {
+      return;
+    }
+    if (game.isAvailable && onClick) {
+      onClick();
+    }
+  };
+
+  const toggleDetails = (e) => {
+    e.stopPropagation();
+    setShowDetails(!showDetails);
+  };
+
   return (
-    <div 
-      className={`game-card ${getCardStatus()}`}
-      style={{ 
-        backgroundColor: game.isAvailable ? game.color : '#cccccc',
-        opacity: game.isAvailable ? 1 : 0.6,
-        cursor: game.isAvailable ? 'pointer' : 'not-allowed',
-        filter: game.isAvailable ? 'none' : 'grayscale(60%)',
-        position: 'relative'
-      }}
-      onClick={game.isAvailable ? onClick : () => alert('🔒 Juego no disponible temporalmente')}
-    >
+    <>
+      <div 
+        className={`game-card ${getCardStatus()}`}
+        style={{ 
+          backgroundColor: game.isAvailable ? game.color : '#cccccc',
+          opacity: game.isAvailable ? 1 : 0.6,
+          cursor: game.isAvailable ? 'pointer' : 'not-allowed',
+          filter: game.isAvailable ? 'none' : 'grayscale(60%)',
+          position: 'relative'
+        }}
+        onClick={handleCardClick}
+      >
       {/* Icono del juego */}
       <div className="game-icon">
         {game.isAvailable ? (
@@ -104,19 +124,6 @@ const GameCard = ({ game, onClick }) => {
             ></div>
           </div>
 
-          {/* Estado del juego */}
-          <div className="game-status">
-            {game.stars === 0 && (
-              <span className="status-badge new">¡Nuevo!</span>
-            )}
-            {game.stars > 0 && game.stars < game.maxStars && (
-              <span className="status-badge progress">¡Sigue así!</span>
-            )}
-            {game.stars === game.maxStars && (
-              <span className="status-badge completed">¡Perfecto!</span>
-            )}
-          </div>
-
           {/* Última puntuación si existe */}
           {game.lastScore > 0 && (
             <div className="last-score">
@@ -124,13 +131,64 @@ const GameCard = ({ game, onClick }) => {
               <span className="score-value">{game.lastScore}</span>
             </div>
           )}
-
-          {/* Efectos visuales para juegos completados */}
-          {game.stars === game.maxStars && (
-            <div className="completion-effects">
-              <span className="sparkle">✨</span>
-              <span className="sparkle">🌟</span>
+          
+          {/* 📊 Mostrar accuracy si está disponible */}
+          {game.accuracy !== undefined && game.accuracy !== null && (
+            <div className="accuracy-display">
+              <span className="accuracy-icon">✓</span>
+              <span className="accuracy-value">{Math.round(game.accuracy)}%</span>
+              <span className="accuracy-label">Aciertos</span>
             </div>
+          )}
+
+          {/* Botón para ver detalles de niveles */}
+          {hasLevels && (
+            <button 
+              className="details-toggle"
+              onClick={toggleDetails}
+              style={{
+                background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.2) 100%)',
+                backdropFilter: 'blur(5px)',
+                border: '2px solid rgba(255, 255, 255, 0.9)',
+                borderRadius: '12px',
+                padding: '0.7rem 1.2rem',
+                marginTop: '0.8rem',
+                cursor: 'pointer',
+                fontSize: '0.9rem',
+                color: 'white',
+                fontWeight: 'bold',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.6rem',
+                width: '100%',
+                textShadow: '1px 1px 3px rgba(0, 0, 0, 0.5)',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.4) 100%)';
+                e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.3)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.2) 100%)';
+                e.currentTarget.style.transform = 'scale(1) translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+              }}
+            >
+              <span style={{ fontSize: '1.2rem' }}>🔍</span>
+              <span>Ver detalles</span>
+              <span style={{
+                background: 'rgba(255, 255, 255, 0.25)',
+                padding: '0.2rem 0.6rem',
+                borderRadius: '15px',
+                fontSize: '0.8rem',
+                fontWeight: 'bold'
+              }}>{Object.keys(game.levels).length}</span>
+            </button>
           )}
         </>
       ) : (
@@ -173,7 +231,85 @@ const GameCard = ({ game, onClick }) => {
           </div>
         </div>
       )}
-    </div>
+      </div>
+
+      {/* Modal popup con detalles de niveles */}
+      {showDetails && hasLevels && game.isAvailable && (
+        <div 
+          className="modal-overlay"
+          onClick={toggleDetails}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            backdropFilter: 'blur(5px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+            padding: '1rem',
+            animation: 'fadeIn 0.3s ease'
+          }}
+        >
+          <div 
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: 'white',
+              borderRadius: '20px',
+              maxWidth: '900px',
+              width: '100%',
+              maxHeight: '90vh',
+              overflow: 'auto',
+              position: 'relative',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+              animation: 'slideUp 0.3s ease'
+            }}
+          >
+            {/* Botón cerrar */}
+            <button
+              onClick={toggleDetails}
+              style={{
+                position: 'sticky',
+                top: '1rem',
+                right: '1rem',
+                float: 'right',
+                background: game.color || '#666',
+                border: 'none',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                fontSize: '1.5rem',
+                color: 'white',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+                transition: 'all 0.2s',
+                zIndex: 10
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.1) rotate(90deg)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1) rotate(0deg)';
+              }}
+            >
+              ✕
+            </button>
+            
+            <LevelDetails 
+              levels={game.levels} 
+              gameName={game.name}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

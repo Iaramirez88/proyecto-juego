@@ -14,6 +14,8 @@ const DragComponent = forwardRef(({
   word,
   setStatusWord,
   statusWord,
+  onCorrectAttempt, // 📊 Callback para respuesta correcta
+  onIncorrectAttempt, // 📊 Callback para respuesta incorrecta
 }, ref) => {
   // Permitir reset externo
   useImperativeHandle(ref, () => ({
@@ -177,6 +179,9 @@ const DragComponent = forwardRef(({
 
               let index = node[0].dataset.response;
               setStatusWord({ ...statusWord, [index]: true });
+              
+              // 📊 Registrar intento correcto
+              if (onCorrectAttempt) onCorrectAttempt();
             }
           } else {
             node[0].classList.add("containerWrong");
@@ -188,6 +193,9 @@ const DragComponent = forwardRef(({
                 type: "ADD_POINTS",
                 value: -1,
               });
+              
+              // 📊 Registrar intento incorrecto
+              if (onIncorrectAttempt) onIncorrectAttempt();
             }
             setTimeout(() => {
               dispatchDrag({

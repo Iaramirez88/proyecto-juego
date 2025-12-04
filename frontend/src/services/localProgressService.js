@@ -129,7 +129,10 @@ class LocalProgressService {
           attempts: 0,
           bestScore: 0,
           completed: false,
-          stars: 0
+          stars: 0,
+          bestAccuracy: 0,
+          correctAttempts: 0,
+          incorrectAttempts: 0
         };
       }
 
@@ -139,6 +142,29 @@ class LocalProgressService {
       if (gameData.score > levelProgress.bestScore) {
         levelProgress.bestScore = gameData.score;
       }
+      
+      // Actualizar tracking de accuracy
+      if (gameData.additionalData?.accuracy !== undefined) {
+        // Guardar el mejor accuracy histórico
+        if (gameData.additionalData.accuracy > (levelProgress.bestAccuracy || 0)) {
+          levelProgress.bestAccuracy = gameData.additionalData.accuracy;
+          // Guardar también los intentos de la mejor jugada
+          levelProgress.bestCorrectAttempts = gameData.additionalData.correctAttempts || 0;
+          levelProgress.bestIncorrectAttempts = gameData.additionalData.incorrectAttempts || 0;
+        }
+        // Siempre actualizar la última accuracy
+        levelProgress.lastAccuracy = gameData.additionalData.accuracy;
+        levelProgress.lastCorrectAttempts = gameData.additionalData.correctAttempts || 0;
+        levelProgress.lastIncorrectAttempts = gameData.additionalData.incorrectAttempts || 0;
+      }
+      
+      // Guardar correctAttempts e incorrectAttempts de la última jugada (no sumar)
+      if (gameData.additionalData?.correctAttempts !== undefined) {
+        levelProgress.correctAttempts = gameData.additionalData.correctAttempts;
+      }
+      if (gameData.additionalData?.incorrectAttempts !== undefined) {
+        levelProgress.incorrectAttempts = gameData.additionalData.incorrectAttempts;
+      }
 
       // Marcar como completado si es necesario
       if (gameData.completed || gameData.additionalData?.completed) {
@@ -146,8 +172,26 @@ class LocalProgressService {
         levelProgress.completed = true;
       }
 
-      // Calcular estrellas basado en puntuación (0-3 estrellas)
-      const stars = this.calculateStars(gameData.score, gameData.maxScore || 100);
+      // Calcular estrellas basado en accuracy o puntuación
+      let stars = 0;
+      
+      // Opción 1: Si ya vienen estrellas calculadas, usarlas
+      if (gameData.additionalData?.stars !== undefined) {
+        stars = gameData.additionalData.stars;
+      }
+      // Opción 2: Si hay accuracy, calcular estrellas desde accuracy
+      else if (gameData.additionalData?.accuracy !== undefined) {
+        const accuracy = gameData.additionalData.accuracy;
+        if (accuracy >= 90) stars = 3;
+        else if (accuracy >= 70) stars = 2;
+        else if (accuracy >= 50) stars = 1;
+        else stars = 0;
+      }
+      // Opción 3: Fallback al método anterior basado en score
+      else {
+        stars = this.calculateStars(gameData.score, gameData.maxScore || 100);
+      }
+      
       if (stars > levelProgress.stars) {
         levelProgress.stars = stars;
       }
@@ -496,6 +540,8 @@ class LocalProgressService {
         let totalStars = 0;
         let maxStars = 3; // Default para juegos sin niveles
         let totalScore = 0; // 🎯 Score total sumando todos los niveles
+        let bestAccuracy = 0; // 📊 Mejor accuracy entre todos los niveles
+        let avgAccuracy = 0; // 📊 Promedio de accuracy
         
         if (progress) {
           // Sumar estrellas de todos los niveles
@@ -505,6 +551,19 @@ class LocalProgressService {
           // 🎯 Sumar SCORES de todos los niveles
           const levelScores = Object.values(progress.levels || {})
             .reduce((sum, level) => sum + (level.bestScore || 0), 0);
+          
+          // 📊 Calcular mejor accuracy y promedio
+          const levels = Object.values(progress.levels || {});
+          if (levels.length > 0) {
+            const accuracies = levels
+              .map(level => level.bestAccuracy || level.lastAccuracy || 0)
+              .filter(acc => acc > 0);
+            
+            if (accuracies.length > 0) {
+              bestAccuracy = Math.max(...accuracies);
+              avgAccuracy = accuracies.reduce((sum, acc) => sum + acc, 0) / accuracies.length;
+            }
+          }
           
           // 🎯 Calcular maxStars basado en el número de niveles
           // Cada nivel tiene máximo 3 estrellas
@@ -517,7 +576,7 @@ class LocalProgressService {
           // 🎯 Usar el máximo entre la suma de scores de niveles o el bestScore general
           totalScore = Math.max(levelScores, progress.bestScore || 0);
           
-          console.log(`📊 Estrellas y Score para ${game.id}:`, {
+          console.log(`📊 Estrellas, Score y Accuracy para ${game.id}:`, {
             estrellasJuego: progress.stars,
             niveles: progress.levels,
             numeroDeNiveles: numberOfLevels,
@@ -525,12 +584,15 @@ class LocalProgressService {
             estrellasPorNivel: Object.entries(progress.levels || {}).map(([lvl, data]) => ({
               nivel: lvl,
               estrellas: data.stars,
-              score: data.bestScore
+              score: data.bestScore,
+              accuracy: data.bestAccuracy || data.lastAccuracy
             })),
             sumaDeNiveles: levelStars,
             sumaDeScores: levelScores,
             totalCalculado: totalStars,
-            scoreTotal: totalScore
+            scoreTotal: totalScore,
+            mejorAccuracy: bestAccuracy,
+            promedioAccuracy: avgAccuracy
           });
         }
         
@@ -539,6 +601,9 @@ class LocalProgressService {
           stars: totalStars,
           maxStars: maxStars, // 🎯 Usar maxStars calculado
           lastScore: totalScore, // 🎯 Usar score total de todos los niveles
+          accuracy: bestAccuracy > 0 ? bestAccuracy : null, // 📊 Mejor accuracy
+          avgAccuracy: avgAccuracy > 0 ? Math.round(avgAccuracy) : null, // 📊 Accuracy promedio
+          levels: progress?.levels || {}, // 📊 Pasar todos los niveles al dashboard
           isAvailable: isActive,
           attempts: progress?.attempts || 0,
           completed: progress?.completed || false
