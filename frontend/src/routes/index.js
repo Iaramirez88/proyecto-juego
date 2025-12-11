@@ -29,7 +29,11 @@ const Routes = () => {
         <Route
           path="/level-up"
           render={props => (
-            <LevelUpScreenComponent gameUrl={props.location.state?.gameUrl} {...props} />
+            <LevelUpScreenComponent 
+              gameUrl={props.location.state?.gameUrl} 
+              accuracy={props.location.state?.accuracy}
+              {...props} 
+            />
           )}
         />
         <Route path="/pares/:idLetter" component={PairWords} />

@@ -37,7 +37,7 @@ const HomeGridComponent = ({ mainTitle, list, mainImage, moduleOpen }) => {
   return (
     <div className="moduleContainer">
       <div className="letterTitle">
-        <div className="rowLetterTitle">
+        <div className="rowLetterTitle" onClick={() => openAccordion()} style={{cursor: 'pointer'}}>
           <img alt={mainTitle} width="40px" height="auto" src={mainImage} />
           <p>{mainTitle}</p>
         </div>

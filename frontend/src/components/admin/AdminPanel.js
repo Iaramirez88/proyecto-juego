@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import adminGameService from '../../services/adminGameService';
+import PairGameConfig from './PairGameConfig';
 import './AdminPanel.css';
 const AdminPanel = () => {
   const history = useHistory();
@@ -9,6 +10,7 @@ const AdminPanel = () => {
   const [error, setError] = useState(null);
   const [connectionStatus, setConnectionStatus] = useState('checking'); // checking, connected, disconnected
   const [stats, setStats] = useState({ total: 0, active: 0, inactive: 0 });
+  const [showPairConfig, setShowPairConfig] = useState(false);
 
 
   // Cargar juegos desde la API real
@@ -217,7 +219,9 @@ const AdminPanel = () => {
       )}
 
       <div className="games-grid">
-        {games.map(game => (
+        {games.map(game => {
+          console.log('🎮 Renderizando juego:', game.id, game.name, 'Mostrar config?', game.id === '1');
+          return (
           <div key={game.id} className={`game-card ${game.isActive ? 'active' : 'inactive'}`}>
             <div className="game-header">
               <div className="game-info">
@@ -250,8 +254,18 @@ const AdminPanel = () => {
             >
               {game.isActive ? '🔴 Desactivar' : '🟢 Activar'}
             </button>
+            
+            {/* Botón de configuración para juego de pares */}
+            {game.id === '1' && (
+              <button 
+                className="config-button"
+                onClick={() => setShowPairConfig(true)}
+              >
+                ⚙️ Configurar Pares
+              </button>
+            )}
           </div>
-        ))}
+        )})}
       </div>
 
       <div className="admin-summary">
@@ -297,6 +311,15 @@ const AdminPanel = () => {
           </div>
         </div>
       </div>
+      
+      {/* Modal de configuración de pares */}
+      {showPairConfig && (
+        <div className="modal-overlay" onClick={() => setShowPairConfig(false)}>
+          <div onClick={(e) => e.stopPropagation()}>
+            <PairGameConfig onClose={() => setShowPairConfig(false)} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

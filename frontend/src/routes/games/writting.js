@@ -58,6 +58,11 @@ const WrittingScreen = () => {
   const [correctAttempts, setCorrectAttempts] = useState(0);
   const [incorrectAttempts, setIncorrectAttempts] = useState(0);
 
+  // 🔄 Reiniciar puntos al iniciar el juego
+  useEffect(() => {
+    dispatch({ type: "RESET_POINTS" });
+  }, []);
+
   useEffect(() => {
     if (transition) {
       let tl = gsap.timeline();
@@ -209,7 +214,10 @@ const WrittingScreen = () => {
               triggerFeedback(accuracy, motivationalMessage);
 
               setTimeout(() => {
-                history.push("/level-up", { gameUrl: `/escritura/${idLetter}` });
+                history.push("/level-up", { 
+                  gameUrl: `/escritura/${idLetter}`,
+                  accuracy: Math.round(accuracy)
+                });
               }, 3500);
             }
           }, 1000);

@@ -11,11 +11,12 @@ import {
   ResvMuybien,
 } from "../../utils/sounds";
 
-const ComponentPortrait = ({ gameUrl }) => {
+const ComponentPortrait = ({ gameUrl, accuracy }) => {
   const [container, setContainer] = useState(initialHeight());
   const [isLandscape, setIsLandscape] = useState(getOrientation());
   const [sound, setAudio] = useState(null);
   const history = useHistory();
+  const isPerfectScore = accuracy === 100;
 
   useEffect(() => {
     const updateScreenHeight = () => {
@@ -33,12 +34,16 @@ const ComponentPortrait = ({ gameUrl }) => {
   }, [isLandscape]);
 
   useEffect(() => {
-    const orientationChange = () => {
-      setIsLandscape(getOrientation());
-    };
+    // Seleccionar audio aleatorio al montar el componente
     let items = [resBien, RestExcelente, RestFelicitaciones, ResvMuybien];
     const aud = items[Math.floor(Math.random() * items.length)];
     setAudio(aud);
+  }, []);
+
+  useEffect(() => {
+    const orientationChange = () => {
+      setIsLandscape(getOrientation());
+    };
     window.addEventListener("orientationchange", orientationChange);
     return () => {
       window.removeEventListener("orientationchange", orientationChange);
@@ -129,23 +134,43 @@ const ComponentPortrait = ({ gameUrl }) => {
             </div>
           </div>
           <div className="button-container" >
-          <button 
-            onClick={handleContinue} 
-            className="button-continue"
-          >
-            Continuar
-          </button>
+          {isPerfectScore && (
+            <button 
+              onClick={handleContinue} 
+              className="button-continue icon-button"
+              title="Continuar al siguiente nivel"
+            >
+              <span className="button-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="64" height="64">
+                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                </svg>
+              </span>
+              <span className="button-text">Continuar</span>
+            </button>
+          )}
           <button 
             onClick={handleMenu} 
-            className="button-volver"
+            className="button-volver icon-button"
+            title="Volver al menú principal"
           >
-            Volver al menú
+            <span className="button-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="64" height="64">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+              </svg>
+            </span>
+            <span className="button-text">Volver al menú</span>
           </button>
           <button 
             onClick={handleRepeat} 
-            className="button-repetir"
+            className="button-repetir icon-button"
+            title="Repetir este juego"
           >
-            Repetir juego
+            <span className="button-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="64" height="64">
+                <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+              </svg>
+            </span>
+            <span className="button-text">Repetir juego</span>
           </button>
         </div>
         </div>
@@ -157,10 +182,10 @@ const ComponentPortrait = ({ gameUrl }) => {
   );
 };
 
-const LevelUpScreenComponent = ({ gameUrl }) => {
+const LevelUpScreenComponent = ({ gameUrl, accuracy }) => {
   return (
     <div>
-  <ComponentPortrait gameUrl={gameUrl} />
+  <ComponentPortrait gameUrl={gameUrl} accuracy={accuracy} />
     </div>
   );
 };

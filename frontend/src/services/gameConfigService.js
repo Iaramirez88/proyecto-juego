@@ -68,8 +68,19 @@ class GameConfigService {
    * @returns {Object} - Configuración del juego
    */
   getLocalConfig(gameId) {
+    // Intentar cargar configuración guardada localmente
+    const savedConfig = localStorage.getItem(`game_config_${gameId}`);
+    if (savedConfig) {
+      try {
+        return JSON.parse(savedConfig);
+      } catch (error) {
+        console.error('Error parseando configuración guardada:', error);
+      }
+    }
+
     const localConfigs = {
       'pair-words': {
+        totalPairs: 4, // Mínimo 2 pares (4 cartas)
         mobile: { gridCols: 2, gridRows: 4, cardSize: 'small' },
         tablet: { gridCols: 4, gridRows: 2, cardSize: 'medium' },
         desktop: { gridCols: 4, gridRows: 2, cardSize: 'large' }
@@ -82,6 +93,22 @@ class GameConfigService {
     };
 
     return localConfigs[gameId] || this.getDefaultConfig();
+  }
+
+  /**
+   * Guarda configuración local para un juego
+   * @param {string} gameId - ID del juego
+   * @param {Object} config - Configuración a guardar
+   */
+  saveLocalConfig(gameId, config) {
+    try {
+      localStorage.setItem(`game_config_${gameId}`, JSON.stringify(config));
+      console.log(`✅ Configuración guardada para ${gameId}:`, config);
+      return true;
+    } catch (error) {
+      console.error('Error guardando configuración local:', error);
+      return false;
+    }
   }
 
   /**

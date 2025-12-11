@@ -63,6 +63,16 @@ html, body {
     padding: 0 1em;
     height: 80px;
 }
+@media screen and (max-width: 768px) {
+  .greeting{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    gap: 0.5em;
+    padding: 1em;
+  }
+}
 .greeting-text{
   font-size: 2em;
   font-family: Coopbl;
@@ -72,20 +82,28 @@ html, body {
 .greeting-subtext{
   align-items: center;
     display: flex;
+    font-size: 20px;
 }
 .section-progress-resume{
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  margin-bottom: 2rem;
+  margin-bottom: 0rem;
   margin-top: 2rem;
+}
+@media screen and (max-width: 992px) {
+  .section-progress-resume{
+    flex-direction: column;
+  }
 }
 .progress-summary{
   display: flex;
   justify-content: space-around;
   gap: 20px;
+  font-size: 20px;
 }
+
 .admin-access-btn{
   background: #006db2;
   color: #fff;

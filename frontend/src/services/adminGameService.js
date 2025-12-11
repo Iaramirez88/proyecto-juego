@@ -33,7 +33,9 @@ class AdminGameService {
    * Obtener token de autenticación desde localStorage
    */
   getAuthToken() {
-    return localStorage.getItem('authToken') || 'mock-admin-token';
+    const token = localStorage.getItem('authToken');
+    // Solo retornar token si existe y no es mock
+    return token && token !== 'mock-admin-token' ? token : null;
   }
 
   /**
@@ -41,16 +43,28 @@ class AdminGameService {
    */
   getHeaders() {
     const token = this.getAuthToken();
-    return {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+    const headers = {
+      'Content-Type': 'application/json'
     };
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
+    return headers;
   }
 
   /**
    * Obtener todos los juegos para administración
    */
   async getAllGames() {
+    // Si no hay token válido, usar datos locales directamente
+    const token = this.getAuthToken();
+    if (!token) {
+      console.log('🔧 Sin token de autenticación, usando datos locales');
+      return this.getMockGames();
+    }
+
     try {
       const response = await fetch(`${API_BASE_URL}/games`, {
         method: 'GET',
@@ -60,7 +74,7 @@ class AdminGameService {
       if (!response.ok) {
         // Si hay error de autenticación, usar datos mock
         if (response.status === 401 || response.status === 403) {
-          console.warn('⚠️ Sin autenticación, usando datos mock');
+          console.warn('⚠️ Sin autenticación válida, usando datos locales');
           return this.getMockGames();
         }
         throw new Error(`Error ${response.status}: ${response.statusText}`);
@@ -88,7 +102,7 @@ class AdminGameService {
       console.error('Error fetching games:', error);
       
       // Si falla la conexión, usar datos mock
-      console.warn('📦 Conexión falló, usando datos mock');
+      console.warn('📦 Conexión falló, usando datos locales');
       return this.getMockGames();
     }
   }
@@ -97,6 +111,13 @@ class AdminGameService {
    * Toggle del estado de un juego (activar/desactivar)
    */
   async toggleGame(gameId) {
+    // Si no hay token válido, usar toggle local directamente
+    const token = this.getAuthToken();
+    if (!token) {
+      console.log('🔧 Sin token, usando toggle local');
+      return this.toggleGameLocal(gameId);
+    }
+
     try {
       const response = await fetch(`${API_BASE_URL}/games/${gameId}/toggle`, {
         method: 'PUT',
@@ -106,7 +127,7 @@ class AdminGameService {
       if (!response.ok) {
         // Si hay error de autenticación o conexión, usar toggle local
         if (response.status === 401 || response.status === 403) {
-          console.warn('⚠️ Sin autenticación, usando toggle local');
+          console.warn('⚠️ Sin autenticación válida, usando toggle local');
           return this.toggleGameLocal(gameId);
         }
         throw new Error(`Error ${response.status}: ${response.statusText}`);

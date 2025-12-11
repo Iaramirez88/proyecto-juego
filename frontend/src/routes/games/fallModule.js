@@ -62,6 +62,11 @@ const FallModule = () => {
   const [correctAttempts, setCorrectAttempts] = useState(0);
   const [incorrectAttempts, setIncorrectAttempts] = useState(0);
 
+  // 🔄 Reiniciar puntos al iniciar el juego
+  useEffect(() => {
+    dispatch({ type: "RESET_POINTS" });
+  }, []);
+
   useEffect(() => {
     const init = () => {
       const response = getData(id);
@@ -171,7 +176,13 @@ const FallModule = () => {
         }, 1000);
 
         setTimeout(() => {
-          history.replace({ pathname: "/level-up", state: { gameUrl: `/otoño/${id}` } });
+          history.replace({ 
+            pathname: "/level-up", 
+            state: { 
+              gameUrl: `/otoño/${id}`,
+              accuracy: Math.round(accuracy)
+            } 
+          });
         }, 4500);
         return;
       }

@@ -181,13 +181,13 @@ const GamificationFeedback = ({
       setMessage(randomMessage);
       setIsVisible(true);
 
-      // Auto-ocultar después de 3 segundos
+      // Auto-ocultar después de 5 segundos (aumentado de 3 segundos)
       const timer = setTimeout(() => {
         setIsVisible(false);
         if (onComplete) {
           setTimeout(() => onComplete(), 500); // Esperar a que termine la transición
         }
-      }, 3000);
+      }, 5000); // ⏱️ Tiempo configurable: 5 segundos
 
       return () => clearTimeout(timer);
     } else {
@@ -230,11 +230,7 @@ const GamificationFeedback = ({
 
         <div className="message-container">
           <h2 className="motivational-message">{message}</h2>
-          {performance !== undefined && (
-            <div className="score-display">
-              <span className="score-number">{Math.round(performance)}%</span>
-            </div>
-          )}
+          {/* Porcentaje oculto para niños - se mantiene en BD para reportes de padres/docentes */}
         </div>
       </div>
     </div>

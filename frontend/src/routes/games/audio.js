@@ -59,6 +59,11 @@ export const AudioScreen = () => {
   const [correctAttempts, setCorrectAttempts] = useState(0);
   const [incorrectAttempts, setIncorrectAttempts] = useState(0);
 
+  // 🔄 Reiniciar puntos al iniciar el juego
+  useEffect(() => {
+    dispatch({ type: "RESET_POINTS" });
+  }, []);
+
   const checkWord = (e, cardState, setCardState) => {
     let word = e.target.alt || e.target.dataset.word;
     let isCorrect = word[0] === state.response;
@@ -197,7 +202,10 @@ export const AudioScreen = () => {
 
         // Redirigir después del feedback
         setTimeout(() => {
-          history.push("/level-up", { gameUrl: `/escucha/${idLetter}` });
+          history.push("/level-up", { 
+            gameUrl: `/escucha/${idLetter}`,
+            accuracy: Math.round(accuracy)
+          });
         }, 3500);
       }
     }

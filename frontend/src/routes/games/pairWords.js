@@ -43,24 +43,28 @@ const PairWords = () => {
   
   // Calcular config basada en ancho de pantalla
   const getConfigFromWidth = (width) => {
+    // Obtener configuración personalizada si existe
+    const savedConfig = gameConfigService.getLocalConfig('pair-words');
+    const totalPairs = savedConfig.totalPairs || 4; // Usar configuración guardada o 4 por defecto
+    
     if (width < 768) {
       return {
         pairsPerRow: 2,
-        totalPairs: 4, // 4 pares = 8 cartas
+        totalPairs: Math.max(2, Math.min(totalPairs, 6)), // En móvil máximo 6 pares
         cardSize: 'small',
         deviceType: 'mobile'
       };
     } else if (width >= 768 && width < 1024) {
       return {
-        pairsPerRow: 6,
-        totalPairs: 6, // 6 pares = 12 cartas
+        pairsPerRow: 4,
+        totalPairs: Math.max(2, Math.min(totalPairs, 8)), // En tablet máximo 8 pares
         cardSize: 'medium',
         deviceType: 'tablet'
       };
     } else {
       return {
-        pairsPerRow: 6,
-        totalPairs: 8, // 8 pares = 16 cartas
+        pairsPerRow: 4,
+        totalPairs: Math.max(2, totalPairs), // En desktop sin límite pero mínimo 2
         cardSize: 'large',
         deviceType: 'desktop'
       };
@@ -76,6 +80,26 @@ const PairWords = () => {
       setFixedConfig(config);
     }
   }, [deviceDetection.screenWidth, fixedConfig]);
+  
+  // Escuchar cambios en la configuración
+  useEffect(() => {
+    const handleConfigChange = (event) => {
+      console.log('🔄 Configuración de pares cambió:', event.detail);
+      // Recargar configuración
+      if (deviceDetection.screenWidth > 0) {
+        const newConfig = getConfigFromWidth(deviceDetection.screenWidth);
+        setFixedConfig(newConfig);
+        // Reiniciar el juego con la nueva configuración
+        setState({ loading: true, cards: [], correct: 0, open: 0 });
+      }
+    };
+    
+    window.addEventListener('pairGameConfigChanged', handleConfigChange);
+    
+    return () => {
+      window.removeEventListener('pairGameConfigChanged', handleConfigChange);
+    };
+  }, [deviceDetection.screenWidth]);
   
   // Estado del juego
   const [state, setState] = useState(() => {
@@ -103,6 +127,11 @@ const PairWords = () => {
   // 📊 Estados para tracking de accuracy
   const [correctAttempts, setCorrectAttempts] = useState(0);
   const [incorrectAttempts, setIncorrectAttempts] = useState(0);
+
+  // 🔄 Reiniciar puntos al iniciar el juego
+  useEffect(() => {
+    dispatch({ type: "RESET_POINTS" });
+  }, []);
 
   const compareWords = (word1, word2) => {
     return word1.toLowerCase() === word2.toLowerCase();
@@ -273,7 +302,10 @@ const PairWords = () => {
       // Navegar a la pantalla de nivel completado
       setTimeout(() => {
         console.log('🚀 Navegando a modal de felicitaciones...');
-        history.push("/level-up", { gameUrl: `/pares/${idLetter}` });
+        history.push("/level-up", { 
+          gameUrl: `/pares/${idLetter}`,
+          accuracy: Math.round(accuracy)
+        });
       }, 3500);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps  

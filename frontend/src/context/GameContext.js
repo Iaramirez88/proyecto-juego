@@ -32,6 +32,13 @@ const reducer = (state, action) => {
       };
     }
 
+    case "RESET_POINTS": {
+      return {
+        ...state,
+        points: 0,
+      };
+    }
+
     case "SET_ACCORDION": {
       return {
         ...state,

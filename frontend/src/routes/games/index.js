@@ -18,6 +18,8 @@ import TitleSound from "../../components/shared/TitleSound";
 import { usePlaySounds } from "../../hooks/usePlaySounds";
 import VocalIntructions from "../../components/games/VocalModule/VocalIntructions";
 import { useSetScrollPosition } from "../../hooks/useDimesion";
+import { useContext } from "react";
+import { GameContext } from "../../context/GameContext";
 
 // Importación para progreso automático - Sistema Local
 import { useLocalGameProgress } from "../../hooks/useLocalGameProgress";
@@ -31,6 +33,7 @@ const Games = () => {
   useSetBackGround(backGround);
   useSetScrollPosition();
   const { idLetter } = useParams();
+  const { dispatch } = useContext(GameContext);
 
   const [position, setPosition] = useState(0);
   const [statusWord, setStatusWord] = useState({
@@ -73,6 +76,11 @@ const Games = () => {
   // 📊 Tracking de desempeño
   const [correctAttempts, setCorrectAttempts] = useState(0);
   const [incorrectAttempts, setIncorrectAttempts] = useState(0);
+
+  // 🔄 Reiniciar puntos al iniciar el juego
+  useEffect(() => {
+    dispatch({ type: "RESET_POINTS" });
+  }, []);
 
   useEffect(() => {
     // Verificar que ambas palabras estén completas y no estemos procesando
@@ -170,7 +178,10 @@ const Games = () => {
 
         // Redirigir después del feedback
         setTimeout(() => {
-          history.push("/level-up", { gameUrl: `/vocabulario/${idLetter}` });
+          history.push("/level-up", { 
+            gameUrl: `/vocabulario/${idLetter}`,
+            accuracy: Math.round(accuracy)
+          });
         }, 3500);
       }
     }
