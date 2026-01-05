@@ -23,3 +23,9 @@ export const getData = (letter) => {
   const id = letter.toLowerCase();
   return selectData(id);
 };
+
+export const getReviewData = (letter, limit = 5) => {
+  const id = letter.toLowerCase();
+  const items = (listItem[id] || []).slice().sort(() => Math.random() - 0.5);
+  return items.slice(0, limit);
+};

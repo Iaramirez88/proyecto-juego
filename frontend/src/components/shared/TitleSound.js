@@ -16,9 +16,11 @@ const TitleSound = ({
   listAudio,
   ModalChild,
   module,
+  disableSound = false,
 }) => {
   const { getDataLocal, setDataLocal } = useLocalStorage("instructions");
-  const display = getDataLocal(module);
+  const rawDisplay = module ? getDataLocal(module) : null;
+  const display = rawDisplay && rawDisplay !== -1 ? rawDisplay : {};
   const dimension = useDimesions();
   const [showModal, setShowModal] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
@@ -31,6 +33,7 @@ const TitleSound = ({
   const [playSound, , stopSound] = usePlaySounds();
 
   const setAudioPlay = (sounds) => {
+    if (disableSound) return;
     setShowInfo(false);
     stopSound(); // Detener cualquier audio previo
     if (!sounds || sounds.length === 0) return;
@@ -104,6 +107,10 @@ const TitleSound = ({
         close.addEventListener("click", () => {
           setShowModal(false);
           setShowInfo(true);
+          // Primera vez: al cerrar el modal (gesto de usuario), reproducir el audio del título
+          if (!disableSound && !display.audio) {
+            setAudioPlay(listAudio);
+          }
           resolve();
         });
       });
@@ -124,10 +131,10 @@ const TitleSound = ({
   }, [loading, display, setDataLocal, module, dimension]);
 
   function on() {
-    setTimeout(() => {
-      setAudioPlay(listAudio);
-      setState(true);
-    }, 3);
+    if (disableSound) return;
+    // Disparar audio sin delay para mantener el gesto de usuario
+    setAudioPlay(listAudio);
+    setState(true);
     setTimeout(() => {
       setState(false);
     }, 6000);
@@ -143,7 +150,11 @@ const TitleSound = ({
           className={`fingerInstructions ${!showInfo ? "hidden" : ""}`}
           onClick={() => setAudioPlay(listAudio)}
         />
-        <button id="buttontitle" disabled={state} onClick={() => on()}>
+        <button
+          id="buttontitle"
+          disabled={state || disableSound}
+          onClick={() => on()}
+        >
           <img src={iconSound} alt="iconSound" />
         </button>
         {title}

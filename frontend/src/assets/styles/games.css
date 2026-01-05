@@ -159,6 +159,37 @@
   margin-bottom: 3em;
 }
 
+/* Vocabulario: pantalla de repaso previa */
+.vocabReviewGrid {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  margin-top: 1em;
+  margin-bottom: 3em;
+}
+
+.vocabReviewCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vocabReviewCard .cardImage {
+  cursor: pointer;
+}
+
+.vocabReviewCard .cardImage:focus {
+  outline: none;
+}
+
+.vocabRepeatGlyph {
+  color: white;
+  font-size: 2.2em;
+  line-height: 1;
+  display: inline-block;
+}
+
 .Buttongame{
    background-color: transparent;
    border: transparent;
@@ -427,6 +458,33 @@
 
   .containerGame {
     min-height: 600px;
+  }
+
+  /* En mobile, 2 tarjetas por fila con buen espaciado */
+  .vocabReviewGrid {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+    padding: 0 1em;
+  }
+
+  .vocabReviewCard {
+    flex: 0 0 calc(50% - 1em);
+  }
+
+  .vocabReviewCard .cardImage {
+    width: 10em;
+    height: 10em;
+    margin: auto;
+  }
+
+  .vocabReviewCard .cardImage img {
+    width: 9em;
+    height: 10em;
+  }
+
+  .vocabReviewCard .boxWords {
+    width: 14em;
   }
 
   .titleGame h2 {

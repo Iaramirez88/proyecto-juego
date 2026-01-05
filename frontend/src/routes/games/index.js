@@ -4,12 +4,13 @@ import gsap from "gsap";
 
 import { iconSoundWhite } from "../../utils/imagesResources";
 import titleSound from "../../assets/sounds/moduloVocabulario.mp3";
+import reviewTitleSound from "../../assets/sounds/repasemos_vocabulario.mp3";
 
 import DragComponent from "../../components/games/DragComponent";
 import ResponseComponent from "../../components/games/ResponseComponent";
 
 import Header from "../../components/shared/Header";
-import { getData } from "../../utils/mockData/modVocabulario";
+import { getData, getReviewData } from "../../utils/mockData/modVocabulario";
 import "../../assets/styles/games.css";
 import "../../assets/styles/main.css";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
@@ -20,6 +21,22 @@ import VocalIntructions from "../../components/games/VocalModule/VocalIntruction
 import { useSetScrollPosition } from "../../hooks/useDimesion";
 import { useContext } from "react";
 import { GameContext } from "../../context/GameContext";
+import {
+  enunciadoSigueAsi,
+  enunciadoExcelente,
+  enunciadoVasMuyBien,
+  enunciadoEsaNoEs,
+  enunciadoTuPuedes,
+  enunciadoConfioEnTi,
+  enunciadoIntentaloDeNuevo,
+  enunciadoTranquiloPuedesVolverAIntentarlo,
+  enunciadoEresUnCampeon,
+  enunciadoLoEstasHaciendoExcelente,
+  enunciadoMuyBienLoLograste,
+  enunciadoUnPasoALaVez,
+  enunciadoEsfuerzateUnPocoMas,
+  enunciadoAdelanteTuPuedes,
+} from "../../utils/sounds";
 
 // Importación para progreso automático - Sistema Local
 import { useLocalGameProgress } from "../../hooks/useLocalGameProgress";
@@ -43,11 +60,16 @@ const Games = () => {
   const [transition, setTransition] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [list, setList] = useState([]);
+
+  // Repaso previo (por ahora solo vocal 'a')
+  const [phase, setPhase] = useState("review"); // review | game
+  const [reviewItems, setReviewItems] = useState([]);
+  const [reviewPlayedMap, setReviewPlayedMap] = useState({});
   // El render de la palabra actual depende solo de position y list
   const boxResponse1 = useRef(null);
   const boxResponse2 = useRef(null);
 
-  const [playSound, , stopSound] = usePlaySounds();
+  const [playSound, getCurrentAudio, stopSound] = usePlaySounds();
   const [state, setState] = useState(false);
   const [state2, setState2] = useState(false);
 
@@ -77,10 +99,179 @@ const Games = () => {
   const [correctAttempts, setCorrectAttempts] = useState(0);
   const [incorrectAttempts, setIncorrectAttempts] = useState(0);
 
+  // 🎧 Enunciados (solo vocabulario A por ahora)
+  const midGoodPlayedRef = useRef(0);
+  const midBadPlayedRef = useRef(0);
+  const lastEnunciadoAtRef = useRef(0);
+  const pendingEnunciadoTimeoutRef = useRef(null);
+
+  const isVocabA = (idLetter || "").toLowerCase() === "a";
+
+  const pickRandom = (items) => items[Math.floor(Math.random() * items.length)];
+
+  const isAnyAudioPlaying = () => {
+    const aud = getCurrentAudio ? getCurrentAudio() : null;
+    if (!aud) return false;
+    try {
+      return !aud.paused;
+    } catch (e) {
+      return false;
+    }
+  };
+
+  const playEnunciado = (audioOrSequence) => {
+    if (!isVocabA) return;
+    if (phase !== "game") return;
+    if (isAnyAudioPlaying()) return;
+
+    // No cortar otros sonidos: solo reproducir si no hay audio activo
+    if (Array.isArray(audioOrSequence) && audioOrSequence.length === 2) {
+      stopSound();
+      playSound(audioOrSequence[0], {
+        onEnded: () => {
+          playSound(audioOrSequence[1]);
+        },
+      });
+      return;
+    }
+    stopSound();
+    playSound(audioOrSequence);
+  };
+
+  const tryPlayEnunciado = (audioOrSequence, onPlayed) => {
+    if (!isVocabA) return false;
+    if (phase !== "game") return false;
+
+    const playNow = () => {
+      if (isAnyAudioPlaying()) return false;
+      playEnunciado(audioOrSequence);
+      if (typeof onPlayed === "function") onPlayed();
+      return true;
+    };
+
+    if (playNow()) return true;
+
+    // Si hay otro audio sonando (palabra/feedback), reintentar una sola vez.
+    if (pendingEnunciadoTimeoutRef.current) return false;
+    pendingEnunciadoTimeoutRef.current = setTimeout(() => {
+      pendingEnunciadoTimeoutRef.current = null;
+      playNow();
+    }, 850);
+    return false;
+  };
+
+  const playFinalEnunciado = (audioOrSequence, onDone) => {
+    if (!isVocabA) {
+      if (typeof onDone === "function") onDone();
+      return;
+    }
+
+    // Final de actividad: forzar reproducción (puede cortar otros audios)
+    stopSound();
+
+    const done = () => {
+      if (typeof onDone === "function") onDone();
+    };
+
+    if (Array.isArray(audioOrSequence) && audioOrSequence.length === 2) {
+      playSound(audioOrSequence[0], {
+        onEnded: () => {
+          playSound(audioOrSequence[1], {
+            onEnded: done,
+            onError: done,
+          });
+        },
+        onError: () => {
+          playSound(audioOrSequence[1], {
+            onEnded: done,
+            onError: done,
+          });
+        },
+      });
+      return;
+    }
+
+    playSound(audioOrSequence, {
+      onEnded: done,
+      onError: done,
+    });
+  };
+
   // 🔄 Reiniciar puntos al iniciar el juego
   useEffect(() => {
     dispatch({ type: "RESET_POINTS" });
   }, []);
+
+  // Reset de enunciados al entrar/cambiar letra
+  useEffect(() => {
+    midGoodPlayedRef.current = 0;
+    midBadPlayedRef.current = 0;
+    lastEnunciadoAtRef.current = 0;
+    if (pendingEnunciadoTimeoutRef.current) {
+      clearTimeout(pendingEnunciadoTimeoutRef.current);
+      pendingEnunciadoTimeoutRef.current = null;
+    }
+  }, [idLetter]);
+
+  // Enunciados durante la actividad (limitados y aleatorios)
+  useEffect(() => {
+    if (!isVocabA) return;
+    if (phase !== "game") return;
+    if (!isLoading) return;
+
+    const now = Date.now();
+    const cooldownMs = 6500;
+    if (now - lastEnunciadoAtRef.current < cooldownMs) return;
+
+    // Si se equivocó: hasta 3 enunciados máximo
+    if (incorrectAttempts > 0) {
+      const canPlay = midBadPlayedRef.current < 3;
+      if (!canPlay) return;
+
+      // Asegurar que al menos 1 salga: el primer error lo dispara (si el cooldown lo permite)
+      const chance = incorrectAttempts === 1 && midBadPlayedRef.current === 0 ? 1 : 0.45;
+      if (Math.random() < chance) {
+        const midBad = [
+          enunciadoEsaNoEs,
+          enunciadoTuPuedes,
+          enunciadoConfioEnTi,
+          enunciadoIntentaloDeNuevo,
+        ];
+        const pick = pickRandom(midBad);
+        tryPlayEnunciado(pick, () => {
+          midBadPlayedRef.current += 1;
+          lastEnunciadoAtRef.current = Date.now();
+        });
+      }
+    }
+  }, [incorrectAttempts, isVocabA, phase, isLoading]);
+
+  useEffect(() => {
+    if (!isVocabA) return;
+    if (phase !== "game") return;
+    if (!isLoading) return;
+
+    const now = Date.now();
+    const cooldownMs = 9000;
+    if (now - lastEnunciadoAtRef.current < cooldownMs) return;
+
+    // Va bien: 1-2 enunciados máximo
+    const isDoingWell = incorrectAttempts <= 1;
+    if (!isDoingWell) return;
+    if (completedPairs <= 0) return;
+    if (midGoodPlayedRef.current >= 2) return;
+
+    // Asegurar que al menos 1 salga si va bien: tras el primer par completado
+    const chance = completedPairs === 1 && midGoodPlayedRef.current === 0 && incorrectAttempts === 0 ? 1 : 0.28;
+    if (Math.random() < chance) {
+      const midGood = [enunciadoSigueAsi, enunciadoExcelente, enunciadoVasMuyBien];
+      const pick = pickRandom(midGood);
+      tryPlayEnunciado(pick, () => {
+        midGoodPlayedRef.current += 1;
+        lastEnunciadoAtRef.current = Date.now();
+      });
+    }
+  }, [completedPairs, incorrectAttempts, isVocabA, phase, isLoading]);
 
   useEffect(() => {
     // Verificar que ambas palabras estén completas y no estemos procesando
@@ -149,6 +340,33 @@ const Games = () => {
         }
         
         const finalScore = list.length * 100;
+
+        // 🎧 Enunciado final (solo vocabulario A) según desempeño
+        let finalPick;
+        if (isVocabA) {
+          if (incorrectAttempts === 0) {
+            // TODO BIEN
+            finalPick = pickRandom([
+              enunciadoEresUnCampeon,
+              enunciadoLoEstasHaciendoExcelente,
+              enunciadoMuyBienLoLograste,
+            ]);
+          } else if (incorrectAttempts <= 5) {
+            // Se equivoca algunas veces
+            finalPick = pickRandom([
+              enunciadoUnPasoALaVez,
+              enunciadoEsfuerzateUnPocoMas,
+              enunciadoAdelanteTuPuedes,
+            ]);
+          } else {
+            // Cuando debe repetirlo
+            finalPick = pickRandom([
+              [enunciadoTuPuedes, enunciadoIntentaloDeNuevo],
+              enunciadoTranquiloPuedesVolverAIntentarlo,
+              enunciadoEsfuerzateUnPocoMas,
+            ]);
+          }
+        }
         
         try {
           markAsCompleted(finalScore, {
@@ -177,12 +395,28 @@ const Games = () => {
         showSimpleFeedback(accuracy, 100, performanceMsg);
 
         // Redirigir después del feedback
-        setTimeout(() => {
-          history.push("/level-up", { 
-            gameUrl: `/vocabulario/${idLetter}`,
-            accuracy: Math.round(accuracy)
-          });
-        }, 3500);
+        if (isVocabA && finalPick) {
+          let navigated = false;
+          const go = () => {
+            if (navigated) return;
+            navigated = true;
+            history.push("/level-up", {
+              gameUrl: `/vocabulario/${idLetter}`,
+              accuracy: Math.round(accuracy),
+            });
+          };
+
+          // Esperar a que termine el enunciado final (con fallback)
+          playFinalEnunciado(finalPick, go);
+          setTimeout(go, 6500);
+        } else {
+          setTimeout(() => {
+            history.push("/level-up", {
+              gameUrl: `/vocabulario/${idLetter}`,
+              accuracy: Math.round(accuracy),
+            });
+          }, 3500);
+        }
       }
     }
   }, [statusWord, position, history, list, idLetter, updateScore, markAsCompleted, showSimpleFeedback, isProcessing]);
@@ -209,7 +443,40 @@ const Games = () => {
     setIsLoading(true);
     setCompletedPairs(0); // 🎮 Resetear contador al cambiar de nivel
     setIsProcessing(false); // 🎮 Resetear flag de procesamiento
+
+    const lower = (idLetter || "").toLowerCase();
+    if (lower === "a") {
+      setReviewItems(getReviewData(idLetter, 5));
+      setReviewPlayedMap({});
+      setPhase("review");
+    } else {
+      setPhase("game");
+      setReviewItems([]);
+      setReviewPlayedMap({});
+    }
   }, [idLetter]);
+
+  const allReviewPlayed =
+    phase === "review" &&
+    reviewItems.length === 5 &&
+    reviewItems.every((item) => Boolean(reviewPlayedMap[item.id]));
+
+  useEffect(() => {
+    if (!allReviewPlayed) return;
+    const timeoutId = setTimeout(() => {
+      setPhase("game");
+    }, 600);
+    return () => clearTimeout(timeoutId);
+  }, [allReviewPlayed]);
+
+  const handleReviewPlay = (item) => {
+    stopSound();
+    playSound(item.sound);
+    setReviewPlayedMap((prev) => ({
+      ...prev,
+      [item.id]: true,
+    }));
+  };
 
   // Asegurar que elementos estén desbloqueados cuando cambie la posición
   useEffect(() => {
@@ -249,7 +516,7 @@ const Games = () => {
     playSound(current.word1.sound);
   }
 
-  if (!isLoading || !list[position]) return <div></div>;
+  if (!isLoading) return <div></div>;
 
   const current = list[position];
 
@@ -259,85 +526,149 @@ const Games = () => {
       style={transition ? { overflowX: "hidden" } : {}}
     >
       <Header></Header>
-      <TitleSound
-        title="Coloca la palabra al frente de cada imagen correspondiente"
-        titleSound={titleSound}
-        listAudio={[titleSound]}
-        ModalChild={VocalIntructions}
-        module="vocabulary"
-      />
-      <div className="containerBox">
-        <div className="containerOptions">
-          <div className="cardImage">
-            <img
-              className="imageCard"
-              src={current.word1.image}
-              alt={current.word1.name}
-            />
-          </div>
-          <ResponseComponent
-            reference={boxResponse1}
-            word={current.word1.name}
-            styles="containerResponse"
-            position="word1"
-            blocked={statusWord.word1}
+      {phase === "review" ? (
+        <>
+          <TitleSound
+            title="Repasa estas 5 palabras antes de jugar"
+            titleSound={reviewTitleSound}
+            listAudio={[reviewTitleSound]}
+            ModalChild={VocalIntructions}
+            module="vocabulary"
+            disableSound={false}
           />
-        </div>
-        <div className={`containerWords`}>
-          <DragComponent
-            ref={el => dragRefs.current[0] = el}
-            word={current.word2.name}
-            divResponse={[boxResponse1, boxResponse2]}
-            setStatusWord={setStatusWord}
-            statusWord={statusWord}
-            onCorrectAttempt={() => setCorrectAttempts(prev => prev + 1)}
-            onIncorrectAttempt={() => setIncorrectAttempts(prev => prev + 1)}
-          >
-            <button
-              onClick={() => on()}
-              disabled={state}
-              className="Buttongame"
-            >
-              <img src={iconSoundWhite} alt="iconSound" />
-            </button>
-            <h3>{current.word2.name}</h3>
-          </DragComponent>
-          <DragComponent
-            ref={el => dragRefs.current[1] = el}
-            word={current.word1.name}
-            divResponse={[boxResponse1, boxResponse2]}
-            setStatusWord={setStatusWord}
-            statusWord={statusWord}
-            onCorrectAttempt={() => setCorrectAttempts(prev => prev + 1)}
-            onIncorrectAttempt={() => setIncorrectAttempts(prev => prev + 1)}
-          >
-            <button
-              onClick={() => un()}
-              disabled={state2}
-              className="Buttongame"
-            >
-              <img src={iconSoundWhite} alt="iconSound" />
-            </button>
-            <h3>{current.word1.name}</h3>
-          </DragComponent>
-        </div>
-        <div className="containerOptions">
-          <div className="cardImage">
-            <img
-              className="imageCard"
-              src={current.word2.image}
-              alt={current.word2.name}
-            />
+          <div className="vocabReviewGrid">
+            {reviewItems.map((item) => (
+              <div key={item.id} className="vocabReviewCard">
+                <div
+                  className="cardImage"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => handleReviewPlay(item)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") handleReviewPlay(item);
+                  }}
+                  aria-label={`Reproducir ${item.name}`}
+                >
+                  <img className="imageCard" src={item.image} alt={item.name} />
+                </div>
+                <div className="boxWords">
+                  <button
+                    onClick={() => handleReviewPlay(item)}
+                    className="Buttongame"
+                    aria-label={
+                      reviewPlayedMap[item.id]
+                        ? `Repetir ${item.name}`
+                        : `Escuchar ${item.name}`
+                    }
+                    type="button"
+                  >
+                    {reviewPlayedMap[item.id] ? (
+                      <span className="vocabRepeatGlyph" aria-hidden="true">
+                        ↻
+                      </span>
+                    ) : (
+                      <img src={iconSoundWhite} alt="iconSound" />
+                    )}
+                  </button>
+                  <h3>{item.name}</h3>
+                </div>
+              </div>
+            ))}
           </div>
-          <ResponseComponent
-            reference={boxResponse2}
-            word={current.word2.name}
-            styles="containerResponse"
-            position="word2"
-            blocked={statusWord.word2}
-          />
-        </div>
-      </div>
+        </>
+      ) : (
+        <>
+          {!current ? (
+            <div></div>
+          ) : (
+            <>
+              <TitleSound
+                title="Coloca la palabra al frente de cada imagen correspondiente"
+                titleSound={titleSound}
+                listAudio={[titleSound]}
+                ModalChild={VocalIntructions}
+                module="vocabulary"
+              />
+              <div className="containerBox">
+                <div className="containerOptions">
+                  <div className="cardImage">
+                    <img
+                      className="imageCard"
+                      src={current.word1.image}
+                      alt={current.word1.name}
+                    />
+                  </div>
+                  <ResponseComponent
+                    reference={boxResponse1}
+                    word={current.word1.name}
+                    styles="containerResponse"
+                    position="word1"
+                    blocked={statusWord.word1}
+                  />
+                </div>
+                <div className={`containerWords`}>
+                  <DragComponent
+                    ref={(el) => (dragRefs.current[0] = el)}
+                    word={current.word2.name}
+                    divResponse={[boxResponse1, boxResponse2]}
+                    setStatusWord={setStatusWord}
+                    statusWord={statusWord}
+                    onCorrectAttempt={() => setCorrectAttempts((prev) => prev + 1)}
+                    onIncorrectAttempt={() =>
+                      setIncorrectAttempts((prev) => prev + 1)
+                    }
+                  >
+                    <button
+                      onClick={() => on()}
+                      disabled={state}
+                      className="Buttongame"
+                    >
+                      <img src={iconSoundWhite} alt="iconSound" />
+                    </button>
+                    <h3>{current.word2.name}</h3>
+                  </DragComponent>
+                  <DragComponent
+                    ref={(el) => (dragRefs.current[1] = el)}
+                    word={current.word1.name}
+                    divResponse={[boxResponse1, boxResponse2]}
+                    setStatusWord={setStatusWord}
+                    statusWord={statusWord}
+                    onCorrectAttempt={() => setCorrectAttempts((prev) => prev + 1)}
+                    onIncorrectAttempt={() =>
+                      setIncorrectAttempts((prev) => prev + 1)
+                    }
+                  >
+                    <button
+                      onClick={() => un()}
+                      disabled={state2}
+                      className="Buttongame"
+                    >
+                      <img src={iconSoundWhite} alt="iconSound" />
+                    </button>
+                    <h3>{current.word1.name}</h3>
+                  </DragComponent>
+                </div>
+                <div className="containerOptions">
+                  <div className="cardImage">
+                    <img
+                      className="imageCard"
+                      src={current.word2.image}
+                      alt={current.word2.name}
+                    />
+                  </div>
+                  <ResponseComponent
+                    reference={boxResponse2}
+                    word={current.word2.name}
+                    styles="containerResponse"
+                    position="word2"
+                    blocked={statusWord.word2}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+        </>
+      )}
 
       {/* 🎮 Componente de Gamificación */}
       

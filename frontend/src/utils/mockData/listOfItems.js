@@ -8,6 +8,8 @@ import {
   avion,
   alas,
   astronauta,
+  angel,
+  ardilla,
   //o
   oso,
   ocho,
@@ -19,6 +21,10 @@ import {
   oveja,
   ovni,
   olla,
+  oceano,
+  ojo,
+  oreja,
+  oro,
   //e
   enano,
   erizo,
@@ -30,6 +36,8 @@ import {
   espejo,
   estrella,
   esquiar,
+  escudo,
+  esfero,
   //i
   insectos,
   isla,
@@ -42,6 +50,8 @@ import {
   invierno,
   imagen,
   indigena,
+  iglesia,
+  impermeable,
   //u
   uva,
   utiles,
@@ -53,6 +63,7 @@ import {
   uno,
   urna,
   urraca,
+  ubicacion,
   //m
   mano,
   mapa,
@@ -76,6 +87,8 @@ import {
   anilloSound,
   alasSound,
   astronautaSound,
+  angelSound,
+  ardillaSound,
   //e
   elefanteSound,
   enanoSound,
@@ -87,6 +100,8 @@ import {
   espejoSound,
   esquiarSound,
   estrellaSound,
+  escudoSound,
+  esferoSound,
   //i
   insectosSound,
   islaSound,
@@ -98,6 +113,8 @@ import {
   inviernoSound,
   indigenaSound,
   imagenSound,
+  iglesiaSound,
+  impermeableSound,
   //o
   osoSound,
   ochoSound,
@@ -108,7 +125,11 @@ import {
   orugaSound,
   ovejaSound,
   ovniSound,
+  oceanoSound,
   ostraSound,
+  ojoSound,
+  orejaSound,
+  oroSound,
   //u
   utilesSound,
   uvaSound,
@@ -120,6 +141,7 @@ import {
   unoSound ,
   urnaSound ,
   urracaSound,
+  ubicacionSound,
    //m
    manoSound,
    mapaSound,
@@ -189,6 +211,18 @@ export const listItem = {
       image: alas,
       sound: alasSound,
     },
+    {
+      id: 60,
+      name: "Ángel",
+      image: angel,
+      sound: angelSound,
+    },
+    {
+      id: 61,
+      name: "Ardilla",
+      image: ardilla,
+      sound: ardillaSound,
+    },
   ],
   o: [
     {
@@ -250,6 +284,32 @@ export const listItem = {
       name: "Ovni",
       image: ovni,
       sound: ovniSound,
+    },
+
+    {
+      id: 72,
+      name: "Océano",
+      image: oceano,
+      sound: oceanoSound,
+    },
+
+    {
+      id: 66,
+      name: "Ojo",
+      image: ojo,
+      sound: ojoSound,
+    },
+    {
+      id: 67,
+      name: "Oreja",
+      image: oreja,
+      sound: orejaSound,
+    },
+    {
+      id: 68,
+      name: "Oro",
+      image: oro,
+      sound: oroSound,
     },
 
   ],
@@ -314,6 +374,18 @@ export const listItem = {
       image: escorpion,
       sound: escorpionSound,
     },
+    {
+      id: 62,
+      name: "Escudo",
+      image: escudo,
+      sound: escudoSound,
+    },
+    {
+      id: 63,
+      name: "Esfero",
+      image: esfero,
+      sound: esferoSound,
+    },
   ],
   i: [
     {
@@ -376,6 +448,18 @@ export const listItem = {
       image: indigena,
       sound: indigenaSound,
     },
+    {
+      id: 64,
+      name: "Iglesia",
+      image: iglesia,
+      sound: iglesiaSound,
+    },
+    {
+      id: 65,
+      name: "Impermeable",
+      image: impermeable,
+      sound: impermeableSound,
+    },
   ],
   u: [
     {
@@ -427,6 +511,12 @@ export const listItem = {
       sound: unoSound,
     },
     {
+      id: 70,
+      name: "Urna",
+      image: urna,
+      sound: urnaSound,
+    },
+    {
       id: 48,
       name: "Urraca",
       image: urraca,
@@ -437,6 +527,12 @@ export const listItem = {
       name: "Unicornio",
       image: unicornio,
       sound: unicornioSound,
+    },
+    {
+      id: 69,
+      name: "Ubicación",
+      image: ubicacion,
+      sound: ubicacionSound,
     },
   ],
   m: [

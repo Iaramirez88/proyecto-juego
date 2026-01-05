@@ -9,6 +9,8 @@ import ave from "../assets/images/games/ave.svg";
 import avion from "../assets/images/games/avion.svg";
 import alas from "../assets/images/games/alas.svg";
 import astronauta from "../assets/images/games/astronauta.svg";
+import angel from "../assets/images/games/angel.svg";
+import ardilla from "../assets/images/games/ardilla.svg";
 //e
 import elefante from "../assets/images/games/e/elefante.svg";
 import estrella from "../assets/images/games/e/estrella.svg";
@@ -20,6 +22,8 @@ import escoba from "../assets/images/games/e/escoba.svg";
 import escorpion from "../assets/images/games/e/escorpion.svg";
 import espejo from "../assets/images/games/e/espejo.svg";
 import esquiar from "../assets/images/games/e/esquiar.svg";
+import escudo from "../assets/images/games/e/escudo.svg";
+import esfero from "../assets/images/games/e/esfero.svg";
 
 //i
 import iglu from "../assets/images/games/i/iglu.svg";
@@ -32,6 +36,8 @@ import isla from "../assets/images/games/i/isla.svg";
 import invierno from "../assets/images/games/i/invierno.svg";
 import imagen from "../assets/images/games/i/imagen.svg";
 import indigena from "../assets/images/games/i/indigena.svg";
+import iglesia from "../assets/images/games/i/iglesia.svg";
+import impermeable from "../assets/images/games/i/impermeable.svg";
 //o
 import oso from "../assets/images/games/o/oso.svg";
 import ocho from "../assets/images/games/o/ocho.svg";
@@ -43,6 +49,10 @@ import oruga from "../assets/images/games/o/oruga.svg";
 import ostra from "../assets/images/games/o/ostra.svg";
 import oveja from "../assets/images/games/o/oveja.svg";
 import ovni from "../assets/images/games/o/ovni.svg";
+import oceano from "../assets/images/games/o/oceano.svg";
+import ojo from "../assets/images/games/o/ojo.svg";
+import oreja from "../assets/images/games/o/oreja.svg";
+import oro from "../assets/images/games/o/oro.svg";
 //u
 import uva from "../assets/images/games/u/uva.svg";
 import utiles from "../assets/images/games/u/utiles.svg";
@@ -54,6 +64,7 @@ import unna from "../assets/images/games/u/unna.svg";
 import uno from "../assets/images/games/u/uno.svg";
 import urna from "../assets/images/games/u/urna.svg";
 import urraca from "../assets/images/games/u/urraca.svg"
+import ubicacion from "../assets/images/games/u/ubicacion.svg"
 //m
 import mano from "../assets/images/games/m/mano.svg";
 import mapa from "../assets/images/games/m/mapa.svg";
@@ -78,6 +89,8 @@ export {
   avion,
   alas,
   astronauta,
+  angel,
+  ardilla,
   //e
   elefante,
   estrella,
@@ -89,6 +102,8 @@ export {
   escorpion,
   espejo,
   esquiar,
+  escudo,
+  esfero,
   //i
   insectos,
   isla,
@@ -100,6 +115,8 @@ export {
   invierno,
   indigena,
   imagen,
+  iglesia,
+  impermeable,
   //o
   oso,
   ocho,
@@ -111,6 +128,10 @@ export {
   oveja,
   ovni,
   olla,
+  oceano,
+  ojo,
+  oreja,
+  oro,
   //u
   uva,
   utiles,
@@ -122,6 +143,7 @@ export {
   uno,
   urna,
   urraca,
+  ubicacion,
   // m
   mano,
   mapa,
