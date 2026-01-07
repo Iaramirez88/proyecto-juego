@@ -1,7 +1,9 @@
 import { listItem } from "./listOfItems";
 
 const selectData = (letter) => {
-  const selectItem = listItem[letter].sort(() => Math.random() - 0.5);
+  const baseList = listItem[letter];
+  if (!Array.isArray(baseList) || baseList.length === 0) return [];
+  const selectItem = baseList.slice().sort(() => Math.random() - 0.5);
   let obj = {};
   const result = selectItem.reduce((prev, item, index) => {
     let indexTitle = (index + 1) % 2 === 0 ? 2 : 1;

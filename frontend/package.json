@@ -34,8 +34,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "CI=false NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
-    "build-legacy": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
+    "build": "cross-env CI=false react-scripts build",
+    "build-legacy": "cross-env CI=false NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serve": "serve",
@@ -60,6 +60,7 @@
     ]
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "open": "^8.2.1",
     "serve": "^11.3.2"

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import gsap from "gsap";
 
@@ -21,6 +21,7 @@ import VocalIntructions from "../../components/games/VocalModule/VocalIntruction
 import { useSetScrollPosition } from "../../hooks/useDimesion";
 import { useContext } from "react";
 import { GameContext } from "../../context/GameContext";
+import botonNext from "../../assets/images/botonNext.svg";
 import {
   enunciadoSigueAsi,
   enunciadoExcelente,
@@ -64,7 +65,11 @@ const Games = () => {
   // Repaso previo (por ahora solo vocal 'a')
   const [phase, setPhase] = useState("review"); // review | game
   const [reviewItems, setReviewItems] = useState([]);
-  const [reviewPlayedMap, setReviewPlayedMap] = useState({});
+  // Marca solo cuando el niño presiona para reproducir (para UI del icono)
+  const [reviewManualPlayedMap, setReviewManualPlayedMap] = useState({});
+  const [reviewIndex, setReviewIndex] = useState(0);
+  const lastAutoPlayedReviewIdRef = useRef(null);
+  const reviewAutoPlayTimeoutRef = useRef(null);
   // El render de la palabra actual depende solo de position y list
   const boxResponse1 = useRef(null);
   const boxResponse2 = useRef(null);
@@ -99,13 +104,14 @@ const Games = () => {
   const [correctAttempts, setCorrectAttempts] = useState(0);
   const [incorrectAttempts, setIncorrectAttempts] = useState(0);
 
-  // 🎧 Enunciados (solo vocabulario A por ahora)
+
+  // 🎧 Enunciados (todas las vocales)
   const midGoodPlayedRef = useRef(0);
   const midBadPlayedRef = useRef(0);
   const lastEnunciadoAtRef = useRef(0);
   const pendingEnunciadoTimeoutRef = useRef(null);
 
-  const isVocabA = (idLetter || "").toLowerCase() === "a";
+  const isVowel = ["a", "e", "i", "o", "u"].includes((idLetter || "").toLowerCase());
 
   const pickRandom = (items) => items[Math.floor(Math.random() * items.length)];
 
@@ -120,7 +126,7 @@ const Games = () => {
   };
 
   const playEnunciado = (audioOrSequence) => {
-    if (!isVocabA) return;
+    if (!isVowel) return;
     if (phase !== "game") return;
     if (isAnyAudioPlaying()) return;
 
@@ -139,7 +145,7 @@ const Games = () => {
   };
 
   const tryPlayEnunciado = (audioOrSequence, onPlayed) => {
-    if (!isVocabA) return false;
+    if (!isVowel) return false;
     if (phase !== "game") return false;
 
     const playNow = () => {
@@ -161,7 +167,7 @@ const Games = () => {
   };
 
   const playFinalEnunciado = (audioOrSequence, onDone) => {
-    if (!isVocabA) {
+    if (!isVowel) {
       if (typeof onDone === "function") onDone();
       return;
     }
@@ -215,7 +221,7 @@ const Games = () => {
 
   // Enunciados durante la actividad (limitados y aleatorios)
   useEffect(() => {
-    if (!isVocabA) return;
+    if (!isVowel) return;
     if (phase !== "game") return;
     if (!isLoading) return;
 
@@ -244,10 +250,10 @@ const Games = () => {
         });
       }
     }
-  }, [incorrectAttempts, isVocabA, phase, isLoading]);
+  }, [incorrectAttempts, isVowel, phase, isLoading]);
 
   useEffect(() => {
-    if (!isVocabA) return;
+    if (!isVowel) return;
     if (phase !== "game") return;
     if (!isLoading) return;
 
@@ -271,7 +277,7 @@ const Games = () => {
         lastEnunciadoAtRef.current = Date.now();
       });
     }
-  }, [completedPairs, incorrectAttempts, isVocabA, phase, isLoading]);
+  }, [completedPairs, incorrectAttempts, isVowel, phase, isLoading]);
 
   useEffect(() => {
     // Verificar que ambas palabras estén completas y no estemos procesando
@@ -341,9 +347,9 @@ const Games = () => {
         
         const finalScore = list.length * 100;
 
-        // 🎧 Enunciado final (solo vocabulario A) según desempeño
+        // 🎧 Enunciado final (todas las vocales) según desempeño
         let finalPick;
-        if (isVocabA) {
+        if (isVowel) {
           if (incorrectAttempts === 0) {
             // TODO BIEN
             finalPick = pickRandom([
@@ -395,7 +401,7 @@ const Games = () => {
         showSimpleFeedback(accuracy, 100, performanceMsg);
 
         // Redirigir después del feedback
-        if (isVocabA && finalPick) {
+        if (isVowel && finalPick) {
           let navigated = false;
           const go = () => {
             if (navigated) return;
@@ -445,37 +451,101 @@ const Games = () => {
     setIsProcessing(false); // 🎮 Resetear flag de procesamiento
 
     const lower = (idLetter || "").toLowerCase();
-    if (lower === "a") {
-      setReviewItems(getReviewData(idLetter, 5));
-      setReviewPlayedMap({});
-      setPhase("review");
+    const isVowel = ["a", "e", "i", "o", "u"].includes(lower);
+    if (isVowel) {
+      const nextReviewItems = getReviewData(idLetter, 5);
+      setReviewItems(nextReviewItems);
+      setReviewManualPlayedMap({});
+      setReviewIndex(0);
+      lastAutoPlayedReviewIdRef.current = null;
+      if (reviewAutoPlayTimeoutRef.current) {
+        clearTimeout(reviewAutoPlayTimeoutRef.current);
+        reviewAutoPlayTimeoutRef.current = null;
+      }
+      // Si no hay data de repaso para esta vocal, saltar directo al juego
+      setPhase(nextReviewItems.length ? "review" : "game");
     } else {
       setPhase("game");
       setReviewItems([]);
-      setReviewPlayedMap({});
+      setReviewManualPlayedMap({});
+      setReviewIndex(0);
+      lastAutoPlayedReviewIdRef.current = null;
+      if (reviewAutoPlayTimeoutRef.current) {
+        clearTimeout(reviewAutoPlayTimeoutRef.current);
+        reviewAutoPlayTimeoutRef.current = null;
+      }
     }
   }, [idLetter]);
 
-  const allReviewPlayed =
-    phase === "review" &&
-    reviewItems.length === 5 &&
-    reviewItems.every((item) => Boolean(reviewPlayedMap[item.id]));
+  const handleReviewPlay = useCallback(
+    (item, options = {}) => {
+      if (!item) return;
+      const { markManual = true } = options;
 
+      // Si es auto-play, verificar si ya hay audio reproduciéndose
+      if (!markManual) {
+        const currentAud = getCurrentAudio ? getCurrentAudio() : null;
+        if (currentAud && !currentAud.paused) {
+          return;
+        }
+      }
+
+      stopSound();
+      playSound(item.sound);
+
+      // Solo cambiar el icono a "repetir" cuando el niño presiona
+      if (markManual) {
+        setReviewManualPlayedMap((prev) => ({
+          ...prev,
+          [item.id]: true,
+        }));
+      }
+    },
+    [playSound, stopSound, getCurrentAudio]
+  );
+
+  const currentReviewItem =
+    phase === "review" && reviewItems.length ? reviewItems[reviewIndex] : null;
+
+  // 🔊 Auto reproducir el audio al entrar cada tarjeta del repaso (1 por pantalla)
   useEffect(() => {
-    if (!allReviewPlayed) return;
-    const timeoutId = setTimeout(() => {
-      setPhase("game");
-    }, 600);
-    return () => clearTimeout(timeoutId);
-  }, [allReviewPlayed]);
+    if (phase !== "review") return;
+    if (!currentReviewItem) return;
 
-  const handleReviewPlay = (item) => {
+    if (reviewAutoPlayTimeoutRef.current) {
+      clearTimeout(reviewAutoPlayTimeoutRef.current);
+      reviewAutoPlayTimeoutRef.current = null;
+    }
+
+    // Evitar doble reproducción en dev (StrictMode) para el mismo id
+    if (lastAutoPlayedReviewIdRef.current === currentReviewItem.id) return;
+    lastAutoPlayedReviewIdRef.current = currentReviewItem.id;
+
+    // Dar un poco más de delay SOLO en la primera carta
+    const delayMs = reviewIndex === 0 ? 1200 : 280;
+    reviewAutoPlayTimeoutRef.current = setTimeout(() => {
+      reviewAutoPlayTimeoutRef.current = null;
+      handleReviewPlay(currentReviewItem, { markManual: false });
+    }, delayMs);
+
+    return () => {
+      if (reviewAutoPlayTimeoutRef.current) {
+        clearTimeout(reviewAutoPlayTimeoutRef.current);
+        reviewAutoPlayTimeoutRef.current = null;
+      }
+    };
+  }, [phase, reviewIndex, currentReviewItem, handleReviewPlay]);
+
+  const goNextReview = () => {
+    if (!reviewItems.length) return;
+    if (reviewIndex < reviewItems.length - 1) {
+      setReviewIndex((prev) => prev + 1);
+      return;
+    }
+
+    // Al finalizar el repaso, iniciar el juego
     stopSound();
-    playSound(item.sound);
-    setReviewPlayedMap((prev) => ({
-      ...prev,
-      [item.id]: true,
-    }));
+    setPhase("game");
   };
 
   // Asegurar que elementos estén desbloqueados cuando cambie la posición
@@ -532,37 +602,47 @@ const Games = () => {
             title="Repasa estas 5 palabras antes de jugar"
             titleSound={reviewTitleSound}
             listAudio={[reviewTitleSound]}
-            ModalChild={VocalIntructions}
-            module="vocabulary"
+            module="vocabulary-review"
             disableSound={false}
           />
-          <div className="vocabReviewGrid">
-            {reviewItems.map((item) => (
-              <div key={item.id} className="vocabReviewCard">
+          <div className="vocabReviewStage">
+            {!currentReviewItem ? (
+              <div></div>
+            ) : (
+              <div
+                key={currentReviewItem.id}
+                className="vocabReviewCard vocabReviewCard--enter"
+              >
                 <div
                   className="cardImage"
                   role="button"
                   tabIndex={0}
-                  onClick={() => handleReviewPlay(item)}
+                  onClick={() => handleReviewPlay(currentReviewItem, { markManual: true })}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") handleReviewPlay(item);
+                    if (e.key === "Enter" || e.key === " ")
+                      handleReviewPlay(currentReviewItem, { markManual: true });
                   }}
-                  aria-label={`Reproducir ${item.name}`}
+                  aria-label={`Reproducir ${currentReviewItem.name}`}
                 >
-                  <img className="imageCard" src={item.image} alt={item.name} />
+                  <img
+                    className="imageCard"
+                    src={currentReviewItem.image}
+                    alt={currentReviewItem.name}
+                  />
                 </div>
+
                 <div className="boxWords">
                   <button
-                    onClick={() => handleReviewPlay(item)}
+                    onClick={() => handleReviewPlay(currentReviewItem, { markManual: true })}
                     className="Buttongame"
                     aria-label={
-                      reviewPlayedMap[item.id]
-                        ? `Repetir ${item.name}`
-                        : `Escuchar ${item.name}`
+                      reviewManualPlayedMap[currentReviewItem.id]
+                        ? `Repetir ${currentReviewItem.name}`
+                        : `Escuchar ${currentReviewItem.name}`
                     }
                     type="button"
                   >
-                    {reviewPlayedMap[item.id] ? (
+                    {reviewManualPlayedMap[currentReviewItem.id] ? (
                       <span className="vocabRepeatGlyph" aria-hidden="true">
                         ↻
                       </span>
@@ -570,10 +650,29 @@ const Games = () => {
                       <img src={iconSoundWhite} alt="iconSound" />
                     )}
                   </button>
-                  <h3>{item.name}</h3>
+                  <h3>{currentReviewItem.name}</h3>
+                </div>
+
+                <div className="vocabReviewNav">
+                  <button
+                    type="button"
+                    className="vocabNextButton"
+                    onClick={goNextReview}
+                    aria-label={
+                      reviewIndex < reviewItems.length - 1
+                        ? "Siguiente palabra"
+                        : "Empezar juego"
+                    }
+                  >
+                    <img
+                      className="vocabNextIcon"
+                      src={botonNext}
+                      alt="Siguiente"
+                    />
+                  </button>
                 </div>
               </div>
-            ))}
+            )}
           </div>
         </>
       ) : (

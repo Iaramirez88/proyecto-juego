@@ -160,11 +160,12 @@
 }
 
 /* Vocabulario: pantalla de repaso previa */
-.vocabReviewGrid {
+
+.vocabReviewStage {
   display: flex;
-  justify-content: space-evenly;
-  align-items: flex-start;
-  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   margin-top: 1em;
   margin-bottom: 3em;
 }
@@ -173,6 +174,57 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.vocabReviewCard--enter {
+  animation: vocabFadeIn 420ms ease-out both;
+}
+
+@keyframes vocabFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.vocabReviewNav {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.75em;
+}
+
+.vocabNextButton {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.vocabNextIcon {
+  width: 120px;
+  height: auto;
+  display: block;
+  animation: vocabNextNudge 1400ms ease-in-out infinite;
+}
+
+@keyframes vocabNextNudge {
+  0% {
+    transform: translateX(0);
+    opacity: 0.95;
+  }
+  50% {
+    transform: translateX(6px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 0.95;
+  }
 }
 
 .vocabReviewCard .cardImage {

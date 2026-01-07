@@ -28,7 +28,6 @@ import enunciadoAdelanteTuPuedes from "../assets/sounds/enunciados/adelante.mp3"
 import arbolSound from "../assets/sounds/arbol.mp3";
 import arcoirisSound from "../assets/sounds/arcoiris.mp3";
 import aranaSound from "../assets/sounds/arana.mp3";
-import aveSound from "../assets/sounds/ave.mp3";
 import avionSound from "../assets/sounds/avion.mp3";
 import AbejaSound from "../assets/sounds/Abeja.mp3";
 import anilloSound from "../assets/sounds/anillo.mp3";
@@ -44,9 +43,7 @@ import enanoSound from "../assets/sounds/e/enano.mp3";
 import erizoSound from "../assets/sounds/e/erizo.mp3";
 import escaleraSoumd from "../assets/sounds/e/escalera.mp3";
 
-import escarabajoSound from "../assets/sounds/e/escarabajo.mp3";
 import espejoSound from "../assets/sounds/e/espejo.mp3";
-import esquiarSound from "../assets/sounds/e/esquiar.mp3";
 import escorpionSound from "../assets/sounds/e/escorpion.mp3";
 import escobaSound from "../assets/sounds/e/escoba.mp3";
 import escudoSound from "../assets/sounds/e/escudo.mp3";
@@ -55,40 +52,33 @@ import esferoSound from "../assets/sounds/e/esfero.mp3";
 //i
 import islaSound from "../assets/sounds/i/isla.mp3";
 import insectosSound from "../assets/sounds/i/insectos.mp3";
-import incendioSound from "../assets/sounds/i/incendio.mp3";
 import igluSound from "../assets/sounds/i/iglu.mp3";
 import imanSound from "../assets/sounds/i/iman.mp3";
 import impresoraSound from "../assets/sounds/i/impresora.mp3";
 import iguanaSound from "../assets/sounds/i/iguana.mp3";
 import inviernoSound from "../assets/sounds/i/invierno.mp3";
 import indigenaSound from "../assets/sounds/i/indigena.mp3";
-import imagenSound from "../assets/sounds/i/imageen.mp3";
 import iglesiaSound from "../assets/sounds/i/iglesia.mp3";
 import impermeableSound from "../assets/sounds/i/impermeable.mp3";
 //o
 
-import osoSound from "../assets/sounds/o/oso.mp3";
-import ochoSound from "../assets/sounds/o/ocho.mp3";
-import ogroSound from "../assets/sounds/o/ogro.mp3";
-import ojosSound from "../assets/sounds/o/ojos.mp3";
+import oceanoSound from "../assets/sounds/o/oceano.mp3";
+import ojoSound from "../assets/sounds/o/ojo.mp3"
 import olaSound from "../assets/sounds/o/ola.mp3";
 import ollaSound from "../assets/sounds/o/olla.mp3";
-import orugaSound from "../assets/sounds/o/oruga.mp3";
-import ovejaSound from "../assets/sounds/o/oveja.mp3";
-import ovniSound from "../assets/sounds/o/ovni.mp3";
-import oceanoSound from "../assets/sounds/o/oceano.mp3";
-import ostraSound from "../assets/sounds/o/ostra.mp3"
-import ojoSound from "../assets/sounds/o/ojo.mp3"
 import orejaSound from "../assets/sounds/o/oreja.mp3"
 import oroSound from "../assets/sounds/o/oro.mp3"
+import orugaSound from "../assets/sounds/o/oruga.mp3";
+import osoSound from "../assets/sounds/o/oso.mp3";
+import ostraSound from "../assets/sounds/o/ostra.mp3"
+import ovejaSound from "../assets/sounds/o/oveja.mp3";
+import ovniSound from "../assets/sounds/o/ovni.mp3";
  
-
 //u
 import utilesSound from "../assets/sounds/u/Utiless.mp3";
 import uvaSound from "../assets/sounds/u/uva.mp3";
 import unicornioSound from "../assets/sounds/u/unicornio.mp3";
 import uniformeSound from "../assets/sounds/u/uniforme.mp3";
-import unirSound from "../assets/sounds/u/unir.mp3";
 import universoSound from "../assets/sounds/u/universo.mp3";
 import unnaSound from "../assets/sounds/u/unna.mp3";
 import unoSound from "../assets/sounds/u/uno.mp3";
@@ -113,7 +103,6 @@ export {
   arbolSound,
   arcoirisSound,
   aranaSound,
-  aveSound,
   avionSound,
   AbejaSound,
   anilloSound,
@@ -127,31 +116,24 @@ export {
   enanoSound,
   erizoSound,
   escaleraSoumd,
-  escarabajoSound,
   escobaSound,
   escorpionSound,
   espejoSound,
-  esquiarSound,
   escudoSound,
   esferoSound,
   //i
   islaSound,
   insectosSound,
-  incendioSound,
   igluSound,
   iguanaSound,
   imanSound,
   impresoraSound,
   inviernoSound,
   indigenaSound,
-  imagenSound,
   impermeableSound,
   iglesiaSound,
   //o
   osoSound,
-  ochoSound,
-  ogroSound,
-  ojosSound,
   olaSound,
   ollaSound,
   orugaSound,
@@ -167,7 +149,6 @@ export {
   uvaSound,
   unicornioSound,
   uniformeSound ,
-  unirSound,
   universoSound,
   unnaSound ,
   unoSound ,

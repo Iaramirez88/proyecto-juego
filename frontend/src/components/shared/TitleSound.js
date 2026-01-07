@@ -34,8 +34,6 @@ const TitleSound = ({
 
   const setAudioPlay = (sounds) => {
     if (disableSound) return;
-    setShowInfo(false);
-    stopSound(); // Detener cualquier audio previo
     if (!sounds || sounds.length === 0) return;
     
     isPlayingRef.current = true; // Marcar que está reproduciendo
@@ -43,6 +41,9 @@ const TitleSound = ({
     if (sounds.length === 1) {
       playSound(sounds[0], {
         onEnded: () => {
+          isPlayingRef.current = false;
+        },
+        onError: () => {
           isPlayingRef.current = false;
         }
       });
@@ -55,10 +56,26 @@ const TitleSound = ({
           playSound(sounds[1], {
             onEnded: () => {
               isPlayingRef.current = false;
+            },
+            onError: () => {
+              isPlayingRef.current = false;
             }
           });
         }
       },
+      onError: () => {
+        // Si el primero falla, intentar el segundo de todos modos
+        if (isPlayingRef.current) {
+          playSound(sounds[1], {
+            onEnded: () => {
+              isPlayingRef.current = false;
+            },
+            onError: () => {
+              isPlayingRef.current = false;
+            }
+          });
+        }
+      }
     });
   };
 
@@ -104,23 +121,38 @@ const TitleSound = ({
       setShowModal(true);
       return new Promise((resolve) => {
         let close = closeButton.current;
-        close.addEventListener("click", () => {
-          setShowModal(false);
-          setShowInfo(true);
-          // Primera vez: al cerrar el modal (gesto de usuario), reproducir el audio del título
-          if (!disableSound && !display.audio) {
-            setAudioPlay(listAudio);
-          }
+        if (close) {
+          const handleClick = () => {
+            setShowModal(false);
+            setShowInfo(true);
+            // Primera vez: al cerrar el modal (gesto de usuario), reproducir el audio del título
+            if (!disableSound && !display.audio) {
+              setAudioPlay(listAudio);
+            }
+            resolve();
+          };
+          close.addEventListener("click", handleClick, { once: true });
+        } else {
           resolve();
-        });
+        }
       });
     };
 
     const startInteraction = async (display) => {
       if (!display.modal) {
+        // Si no hay ModalChild, solo marcar como visto y mostrar info
+        if (!ModalChild) {
+          setShowInfo(true);
+          if (module) {
+            setDataLocal(module, { audio: 1, modal: 1 });
+          }
+          return;
+        }
         await showModal();
         showInfoTitle();
-        setDataLocal(module, { audio: 1, modal: 1 });
+        if (module) {
+          setDataLocal(module, { audio: 1, modal: 1 });
+        }
       }
     };
 
@@ -128,16 +160,37 @@ const TitleSound = ({
       startInteraction(display);
       setLoading(true);
     }
-  }, [loading, display, setDataLocal, module, dimension]);
+  }, [loading, display, setDataLocal, module, dimension, ModalChild, disableSound, listAudio]);
 
   function on() {
     if (disableSound) return;
-    // Disparar audio sin delay para mantener el gesto de usuario
-    setAudioPlay(listAudio);
+    if (state) return; // Prevenir múltiples clicks mientras se reproduce
+    if (!listAudio || listAudio.length === 0) return;
+    
+    // Reproducir directamente sin pasar por setAudioPlay
     setState(true);
-    setTimeout(() => {
-      setState(false);
-    }, 6000);
+    
+    if (listAudio.length === 1) {
+      playSound(listAudio[0], {
+        onEnded: () => setState(false),
+        onError: () => setState(false)
+      });
+    } else {
+      // Si hay múltiples audios, reproducir el primero
+      playSound(listAudio[0], {
+        onEnded: () => {
+          if (listAudio[1]) {
+            playSound(listAudio[1], {
+              onEnded: () => setState(false),
+              onError: () => setState(false)
+            });
+          } else {
+            setState(false);
+          }
+        },
+        onError: () => setState(false)
+      });
+    }
   }
 
   return (
