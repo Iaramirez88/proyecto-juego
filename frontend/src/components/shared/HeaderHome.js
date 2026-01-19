@@ -5,6 +5,7 @@ import { useDimesions } from "../../hooks/useDimesion";
 import game from "../../assets/images/juegoMenu.svg";
 import user from "../../assets/images/perfilMenu.svg";
 import licencia from "../../assets/images/licenciaSinFondo.svg";
+import { ReactComponent as LetraLogo } from "../../assets/images/letraLogo.svg";
 
 const HeaderHome = () => {
   const { stateContext } = useContext(GameContext);
@@ -29,7 +30,7 @@ const HeaderHome = () => {
   return (
     <div>
       <div className={`homeHeader ${stateContext.user ? "userLogged" : ""}`}>
-        <span>ARTWORKOALA PLAY</span>
+        <LetraLogo className="homeHeaderLogo" aria-label="ARTWORKOALA PLAY" />
 
         {stateContext.user && screen.width >= 768 && (
           <div className="homeHeaderIcons">

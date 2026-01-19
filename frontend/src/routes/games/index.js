@@ -507,6 +507,26 @@ const Games = () => {
   const currentReviewItem =
     phase === "review" && reviewItems.length ? reviewItems[reviewIndex] : null;
 
+  // 🔇 Al cambiar de tarjeta en el repaso, cortar audio anterior y cancelar auto-play pendiente
+  useEffect(() => {
+    if (phase !== "review") return;
+
+    stopSound();
+    if (reviewAutoPlayTimeoutRef.current) {
+      clearTimeout(reviewAutoPlayTimeoutRef.current);
+      reviewAutoPlayTimeoutRef.current = null;
+    }
+
+    return () => {
+      // Si salimos del repaso, asegurar que no quede audio/timeout vivo
+      stopSound();
+      if (reviewAutoPlayTimeoutRef.current) {
+        clearTimeout(reviewAutoPlayTimeoutRef.current);
+        reviewAutoPlayTimeoutRef.current = null;
+      }
+    };
+  }, [phase, reviewIndex, stopSound]);
+
   // 🔊 Auto reproducir el audio al entrar cada tarjeta del repaso (1 por pantalla)
   useEffect(() => {
     if (phase !== "review") return;
@@ -538,6 +558,14 @@ const Games = () => {
 
   const goNextReview = () => {
     if (!reviewItems.length) return;
+
+    // Cortar audio actual y evitar que se dispare auto-play viejo
+    stopSound();
+    if (reviewAutoPlayTimeoutRef.current) {
+      clearTimeout(reviewAutoPlayTimeoutRef.current);
+      reviewAutoPlayTimeoutRef.current = null;
+    }
+
     if (reviewIndex < reviewItems.length - 1) {
       setReviewIndex((prev) => prev + 1);
       return;

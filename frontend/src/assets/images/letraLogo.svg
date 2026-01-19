@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_2" data-name="Capa 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 649.64 113.2">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #012a7a;
+        font-family: UberhandPro-Extrabold, 'Uberhand Pro';
+        font-size: 100px;
+        font-weight: 700;
+      }
+
+      .cls-2 {
+        letter-spacing: 0em;
+      }
+
+      .cls-3 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-4 {
+        letter-spacing: 0em;
+      }
+
+      .cls-5 {
+        letter-spacing: 0em;
+      }
+
+      .cls-6 {
+        letter-spacing: -.06em;
+      }
+    </style>
+  </defs>
+  <g id="Capa_1-2" data-name="Capa 1">
+    <text class="cls-1" transform="translate(0 83)"><tspan class="cls-5" x="0" y="0">P</tspan><tspan x="58.5" y="0">ingüi</tspan><tspan class="cls-6" x="272.74" y="0">P</tspan><tspan x="326.04" y="0">al</tspan><tspan class="cls-2" x="404.99" y="0">a</tspan><tspan x="457.74" y="0">b</tspan><tspan class="cls-3" x="512.04" y="0">r</tspan><tspan class="cls-4" x="551.79" y="0">a</tspan><tspan x="605.39" y="0">s</tspan></text>
+  </g>
+</svg>

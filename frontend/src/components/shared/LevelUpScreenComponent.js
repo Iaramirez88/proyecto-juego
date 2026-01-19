@@ -127,7 +127,9 @@ const ComponentPortrait = ({ gameUrl, accuracy }) => {
         >
           {/* Sección superior: Logo y texto */}
           <div className="logo-text-container">
-            <img className="logo" src={logoFondoAzul} alt="logoKoala" />
+            <div className="logoFondoAzulCircle">
+              <img className="logo" src={logoFondoAzul} alt="logoKoala" />
+            </div>
             <div className="text-box" style={{ minWidth: 'auto' }}>
               <p>¡Felicitaciones!</p>
               <p>Lo has logrado</p>

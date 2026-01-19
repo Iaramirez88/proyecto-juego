@@ -57,7 +57,9 @@ const ComponentPortrait = ({ isVisible }) => {
         className="container-second"
         style={{ height: `${container.height2}px` }}
       >
-        <img className="logo" src={logoFondoAzul} alt="logoKoala" />
+        <div className="logoFondoAzulCircle">
+          <img className="logo" src={logoFondoAzul} alt="logoKoala" />
+        </div>
         <div className="text-box">
           <p>¡Felicitaciones!</p>
           <p>Lo has logrado</p>

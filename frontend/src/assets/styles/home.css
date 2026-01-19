@@ -29,6 +29,20 @@
   font-family: Coopbl;
 }
 
+.homeHeaderLogo {
+  display: block;
+  height: 44px;
+  width: auto;
+  max-width: 60vw;
+}
+
+/* El SVG trae el color azul definido internamente; lo forzamos a blanco */
+/*
+.homeHeaderLogo .cls-1 {
+  fill: #fff !important;
+}
+*/
+
 .mainTitle {
   margin-top: 0em;
   margin-block-end: 1em;
