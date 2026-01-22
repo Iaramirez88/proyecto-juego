@@ -4,7 +4,7 @@
 
 [build]
   base = "frontend"
-  command = "npm run build"
+  command = "npm run build-legacy"
   publish = "build"
 
 [build.environment]
