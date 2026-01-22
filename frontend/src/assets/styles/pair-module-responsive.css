@@ -1,0 +1,136 @@
+/* 🎯 Sistema responsivo para juego de pares */
+/* M\u00f3vil: 8 cartas (4 pares) - 4 cartas por fila = 2 filas */
+/* Tablet: 12 cartas (6 pares) - 4 cartas por fila = 3 filas */
+/* Desktop: 16 cartas (8 pares) - 4 cartas por fila = 4 filas */
+
+/* M\u00f3VIL: 8 cartas totales (4 pares) */
+.device-mobile .pwRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin-bottom: 1em;
+}
+
+.device-mobile .card-container {
+  flex: 0 0 calc(25% - 1em);
+  max-width: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.device-mobile .pwImageCard {
+  width: 75px !important;
+  height: 75px !important;
+  margin: 0 !important;
+  padding: 0.4em !important;
+  box-sizing: border-box;
+}
+
+.device-mobile .coverImage {
+  width: 85px !important;
+  height: 85px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* TABLET: 12 cartas totales (6 pares) */
+.device-tablet .pwRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8em;
+  margin-bottom: 1.2em;
+}
+
+.device-tablet .card-container {
+  flex: 0 0 calc(25% - 1.2em);
+  max-width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.device-tablet .pwImageCard {
+  width: 100px !important;
+  height: 100px !important;
+  margin: 0 !important;
+  padding: 0.6em !important;
+  box-sizing: border-box;
+}
+
+.device-tablet .coverImage {
+  width: 115px !important;
+  height: 115px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* DESKTOP: 16 cartas totales (8 pares) */
+.device-desktop .pwRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5em;
+  margin-bottom: 1.5em;
+  padding: 0 2em;
+}
+
+.device-desktop .card-container {
+  flex: 0 0 calc(25% - 2em);
+  max-width: 160px;
+  min-width: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5em;
+}
+
+.device-desktop .pwImageCard {
+  width: 140px !important;
+  height: 140px !important;
+  margin: 0 !important;
+  padding: 1em !important;
+  box-sizing: border-box;
+}
+
+.device-desktop .coverImage {
+  width: 160px !important;
+  height: 160px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Asegurar que el contenedor principal esté centrado */
+.pwContainerItems {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2em 1em;
+}
+
+/* Animaci\u00f3n para ocultar cartas */
+.hide {
+  opacity: 0 !important;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* Hover effect para todas las cartas */
+.card-container:not(.hide):hover .pwImageCard {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+/* Cursor pointer para cartas clicables */
+.card-container:not(.hide) {
+  cursor: pointer;
+}

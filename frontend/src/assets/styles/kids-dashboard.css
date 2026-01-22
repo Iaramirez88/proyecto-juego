@@ -1,0 +1,943 @@
+/* === KIDS DASHBOARD STYLES === */
+
+/* Asegurar que el fondo cubra toda la página */
+html, body {
+  min-height: 100%;
+  height: auto;
+}
+
+/* Animaciones para el modal */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Estilos para el modal overlay */
+.modal-overlay {
+  animation: fadeIn 0.3s ease !important;
+}
+
+.modal-content {
+  animation: slideUp 0.3s ease !important;
+}
+
+/* Scrollbar personalizado para el modal */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.greeting{
+  display: flex;
+    justify-content: space-between;
+    background: #2fb5de;
+    color: #fff;
+    padding: 0 1em;
+    height: 80px;
+}
+@media screen and (max-width: 768px) {
+  .greeting{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    gap: 0.5em;
+    padding: 1em;
+  }
+}
+.greeting-text{
+  font-size: 2em;
+  font-family: Coopbl;
+  align-items: center;
+  display: flex;
+}
+.greeting-subtext{
+  align-items: center;
+    display: flex;
+    font-size: 20px;
+}
+.section-progress-resume{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 0rem;
+  margin-top: 2rem;
+}
+@media screen and (max-width: 992px) {
+  .section-progress-resume{
+    flex-direction: column;
+  }
+}
+.progress-summary{
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  font-size: 20px;
+}
+
+.admin-access-btn{
+  background: #006db2;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+  width: auto;
+  font-size: 2em;
+  margin: 0 10px;
+  font-family: "GhoticB";
+}
+.kids-dashboard {
+  min-height: 100vh;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  padding-bottom: 2rem;
+  background: transparent;
+}
+
+/* === LOADING STATE === */
+.kids-dashboard.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-koala {
+  text-align: center;
+  color: white;
+}
+
+.koala-spinner {
+  font-size: 4rem;
+  animation: bounce 1.5s infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-20px); }
+  60% { transform: translateY(-10px); }
+}
+
+/* === HERO SECTION === */
+.dashboard-hero {
+  background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  border-radius: 0 0 30px 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.hero-text {
+  text-align: center;
+}
+
+.welcome-title {
+  font-size: 2.5rem;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-subtitle {
+  font-size: 1.2rem;
+  color: #fff;
+  opacity: 0.9;
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+/* === KOALA AVATAR === */
+.koala-avatar {
+  position: relative;
+  text-align: center;
+}
+
+.koala-container {
+  width: 120px;
+  height: 120px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #ffeaa7, #fab1a0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  animation: pulse 2s infinite;
+}
+
+.koala-face {
+  font-size: 3rem;
+  margin-bottom: 0.2rem;
+}
+
+.koala-level {
+  font-size: 0.8rem;
+  color: #2d3436;
+  font-weight: bold;
+}
+
+.koala-message {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.koala-effects {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 200px;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  font-size: 1.2rem;
+  animation: float 3s infinite ease-in-out;
+}
+
+.particle:nth-child(1) { top: 10px; left: 20px; animation-delay: 0s; }
+.particle:nth-child(2) { top: 30px; right: 20px; animation-delay: 1s; }
+.particle:nth-child(3) { bottom: 10px; left: 50%; animation-delay: 2s; }
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* === PROGRESS STARS === */
+.progress-stars-container {
+  text-align: center;
+}
+
+.stars-counter {
+  font-size: 1.5rem;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.current-stars {
+  font-size: 2rem;
+  color: #ffeaa7;
+}
+
+.stars-progress-bar {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.progress-track {
+  width: 300px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  margin: 0 auto 0.5rem;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ffeaa7, #fdcb6e);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.stars-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.2rem;
+}
+
+.progress-star {
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.progress-star.earned {
+  animation: starGlow 2s infinite alternate;
+}
+
+@keyframes starGlow {
+  0% { filter: brightness(1); }
+  100% { filter: brightness(1.3); }
+}
+
+.level-indicator {
+  margin-top: 1rem;
+}
+
+.level-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.motivation-text {
+  font-size: 0.9rem;
+  color: #fff;
+  opacity: 0.9;
+}
+
+/* === STATS BALLOONS === */
+.stats-balloons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  padding: 0 1rem;
+}
+
+.stats-balloon {
+  position: relative;
+}
+
+.balloon-container {
+  width: 120px;
+  height: 140px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  animation: balloonFloat 4s infinite ease-in-out;
+  position: relative;
+}
+
+.balloon-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.balloon-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+.balloon-label {
+  font-size: 0.8rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.balloon-string {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 20px;
+  background: #2d3436;
+}
+
+@keyframes balloonFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+/* === GAMES SECTION === */
+.games-section {
+  padding: 0 2rem;
+  margin-bottom: 1rem;
+}
+.box-section-title{
+    margin-top: 0em;
+    margin-block-end: 1em;
+    width: 8em;
+    background: #faac00;
+    color: white;
+    text-align: center;
+    border-radius: 1em;
+    box-shadow: 0px 3px 6px 2px #e5860a;
+    width: 300px;
+}
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+  justify-items: center;
+}
+
+/* Layout especial por cantidad (solo tablet/desktop) */
+@media screen and (min-width: 769px) {
+  /* 3 elementos: 2 arriba + 1 centrado abajo */
+  .games-grid.games-grid--3 {
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    max-width: 980px;
+  }
+  .games-grid.games-grid--3 > :nth-child(3) {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  /* 4 elementos: cuadrado 2x2 incluso en desktop */
+  .games-grid.games-grid--4 {
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    max-width: 980px;
+  }
+}
+
+/* === WRAPPER PARA CARDS EXPANDIBLES === */
+.game-card-wrapper {
+  width: 100%;
+  max-width: 300px;
+  margin: 1rem;
+  transition: all 0.3s ease;
+}
+
+.game-card-wrapper.expanded {
+  grid-column: 1 / -1; /* Ocupar todo el ancho cuando está expandido */
+  max-width: 100%;
+}
+
+/* === GAME CARDS CON ESPACIOS MEJORADOS === */
+.game-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 300px;
+  min-height: 250px;
+  margin: 0; /* El margin lo maneja el wrapper ahora */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.game-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.game-card.perfect {
+  background-color: #ffde57 !important;
+    border: solid 2px #e5860a;
+    border-radius: 1em;
+}
+
+.game-card.good {
+  background: linear-gradient(135deg, #a8e6cf 0%, #81c784 100%);
+}
+
+.game-card.new {
+  background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
+}
+
+/* === ESTILOS PARA JUEGOS DESACTIVADOS === */
+.game-card.disabled {
+  background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%) !important;
+  cursor: not-allowed !important;
+  opacity: 0.7;
+  filter: grayscale(70%);
+  position: relative;
+}
+
+.game-card.disabled:hover {
+  transform: none !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.game-card.disabled .game-name {
+  color: #666 !important;
+}
+
+.game-card.disabled .icon-emoji {
+  opacity: 0.6;
+}
+
+.game-card.disabled .icon-svg {
+  opacity: 0.4;
+  filter: grayscale(100%) brightness(0.5);
+}
+
+.disabled-content {
+  padding: 1rem 0;
+}
+
+.disabled-message {
+  text-align: center;
+  color: #666;
+}
+
+.disabled-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+.disabled-text {
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.disabled-subtitle {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+/* Overlay de bloqueo visual adicional */
+.game-card.disabled::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255, 255, 255, 0.1) 10px,
+    rgba(255, 255, 255, 0.1) 20px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes perfectGlow {
+  0% { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); }
+  100% { box-shadow: 0 8px 30px rgba(253, 203, 110, 0.4); }
+}
+
+.game-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-svg {
+  width: 50px;
+  height: 50px;
+  /*filter: brightness(0) invert(1);  Hace los SVG blancos para que se vean en las cartas de colores */
+  transition: all 0.3s ease;
+}
+
+.icon-emoji {
+  font-size: 3rem;
+}
+
+.game-name {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #2d3436;
+  margin-bottom: 1rem;
+}
+
+.game-stars {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+  margin-bottom: 1rem;
+}
+
+.star {
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.star.filled {
+  animation: starTwinkle 2s infinite;
+}
+
+/* 🎯 Contador de estrellas adicionales */
+.star-count {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #000000;
+  margin-left: 0.3rem;
+  padding: 0.2rem 0.5rem;
+  background: rgba(253, 203, 110, 0.2);
+  border-radius: 12px;
+  border: 2px solid #fdcb6e;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.progress-bar .progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00b894, #00cec9);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.status-badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.status-badge.new {
+  background: #fd79a8;
+}
+
+.status-badge.progress {
+  background: #fdcb6e;
+}
+
+.status-badge.completed {
+  background: #00b894;
+}
+
+.last-score {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #636e72;
+}
+
+/* 📊 Estilos para accuracy display */
+.accuracy-display {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 0.8rem;
+  padding: 0.5rem;
+  background: rgb(0 184 148);
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+}
+
+.accuracy-icon {
+  font-size: 1.2rem;
+  margin-bottom: 0.2rem;
+  color: #fff;
+  font-weight: bold;
+}
+
+.accuracy-value {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+.accuracy-label {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0.1rem;
+}
+
+.completion-effects {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.sparkle {
+  font-size: 1rem;
+  animation: sparkleRotate 3s infinite linear;
+}
+
+@keyframes sparkleRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* === ACHIEVEMENTS SECTION === */
+.achievements-section {
+  padding: 0 2rem;
+  margin-bottom: 3rem;
+}
+
+.achievements-grid {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.achievement-badge {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.achievement-badge.earned {
+  background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+  box-shadow: 0 8px 20px rgba(253, 203, 110, 0.4);
+  animation: achievementPulse 2s infinite;
+}
+
+.achievement-badge.locked {
+  background: #ddd;
+  opacity: 0.6;
+}
+
+.achievement-icon {
+  font-size: 2rem;
+  margin-bottom: 0.3rem;
+}
+
+.achievement-name {
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #2d3436;
+  line-height: 1.1;
+}
+
+@keyframes achievementPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* === MOTIVATION SECTION === */
+.motivation-section {
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.motivation-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.motivation-koala {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.motivation-text {
+  font-size: 1.2rem;
+  color: #2d3436;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* === RESPONSIVE DESIGN CON ESPACIOS MEJORADOS === */
+@media screen and (max-width: 768px) {
+  .hero-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .welcome-title {
+    font-size: 2rem;
+  }
+
+  .stats-balloons {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .games-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 1rem;
+  }
+  
+  .game-card {
+    margin: 1.5rem auto;
+    max-width: 320px;
+  }
+
+  .achievements-grid {
+    gap: 1.5rem;
+  }
+
+  .achievement-badge {
+    width: 80px;
+    height: 80px;
+  }
+
+  .achievement-icon {
+    font-size: 1.5rem;
+  }
+
+  .achievement-name {
+    font-size: 0.6rem;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .games-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+    padding: 1.5rem;
+  }
+  
+  .game-card {
+    margin: 1rem;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .games-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    padding: 2rem;
+  }
+  
+  .game-card {
+    margin: 0.5rem;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .games-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3.5rem;
+    max-width: 1600px;
+  }
+  
+  .game-card {
+    margin: 2rem;
+    max-width: 320px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .games-section,
+  .achievements-section,
+  .motivation-section {
+    padding: 0 1rem;
+  }
+
+  .welcome-title {
+    font-size: 1.8rem;
+  }
+  
+  .games-grid {
+    gap: 1.5rem;
+    padding: 0.5rem;
+  }
+  
+  .game-card {
+    margin: 1rem auto;
+    padding: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+  }
+
+  .balloon-container {
+    width: 100px;
+    height: 120px;
+  }
+}

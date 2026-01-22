@@ -1,27 +1,54 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-/node_modules
+# dependencies - todos los node_modules
+**/node_modules/
 /.pnp
 .pnp.js
 
 # testing
 /coverage
+**/coverage/
 
 # production
 /build
+**/build/
+**/dist/
+
+# cache files
+**/.cache/
+**/.eslintcache
+**/.next/
 
 # misc
 .DS_Store
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# environment variables
+.env
 .env.local
 .env.development.local
 .env.development
 .env.test.local
 .env.production.local
 .env.production
-docs/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+Thumbs.db
+.DS_Store
+
+# Maps and documentation
 src/assets/styles/*.map
+docs/
+
+# Lock files (opcional - algunos proyectos los incluyen)
 yarn.lock
+package-lock.json

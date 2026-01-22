@@ -1,0 +1,143 @@
+.pwRow
+    margin-bottom: 1.4em
+
+.pwImageCard
+    width: 10em
+    height: 10em
+    background: white
+    margin: 0 0.7em
+    padding: 1em
+    border-radius: 2em
+    margin-bottom: 1em
+    box-sizing: unset
+
+.coverImage
+    padding: 0
+    width: 12em
+    height: 12em
+
+.hide
+    opacity: 0
+
+.pmModalBox
+    margin-top: 30px
+
+.pmModalRow
+    display: flex
+    justify-content: center
+    width: 100%
+
+.pmModalSquare
+    width: 70px
+    margin: 5px 8px
+
+.pmModalHand
+    width: 40px
+    position: absolute
+    left: 0
+
+@media screen and (min-width: 998px)
+    .pmModalSquare
+        width: 90px
+@media screen and ( max-width: 768px )
+    .pwImageCard
+        width: 9em
+        height: 9em
+    .coverImage
+        width: 11em
+        height: 11em
+
+@media screen and ( max-width:485px  )
+    .pwContainerItems
+        display: flex
+
+    .pwRow
+        display: block
+
+    .pwImageCard
+        padding: 10px
+        width: 85px
+        height: 85px
+
+    .coverImage
+        padding: 0 !important
+        width: 105px
+        height: 105px
+
+    .pmModalRow
+        padding: 0 5px
+
+    .pmModalSquare
+        width: 50px
+        margin: 5px auto
+
+// Estilos responsivos para el sistema adaptativo de pares
+// Clases específicas por tipo de dispositivo
+.device-mobile
+    .pwImageCard.card-mobile,
+    .coverImage.card-mobile
+        width: 7em
+        height: 7em
+        margin: 0 0.3em
+        
+    .coverImage.card-mobile
+        padding: 0
+
+.device-tablet
+    .pwImageCard.card-tablet,
+    .coverImage.card-tablet
+        width: 9em
+        height: 9em
+        margin: 0 0.5em
+        
+    .coverImage.card-tablet
+        padding: 0
+        width: 11em
+        height: 11em
+
+.device-desktop
+    .pwImageCard.card-desktop,
+    .coverImage.card-desktop
+        width: 8em
+        height: 8em
+        margin: 0 0.4em
+        
+    .coverImage.card-desktop
+        padding: 0
+        width: 10em
+        height: 10em
+
+// Contenedores responsivos
+.container-mobile
+    flex: 1
+    max-width: calc(50% - 0.6em)
+    
+.container-tablet
+    flex: 1
+    max-width: calc(25% - 1em)
+    
+.container-desktop
+    flex: 1
+    max-width: calc(16.666% - 0.8em)
+
+// Filas responsivas
+.pwRow.device-mobile
+    display: flex
+    justify-content: flex-start
+    flex-wrap: wrap
+    gap: 0.6em
+    padding: 0 1em
+    
+.pwRow.device-tablet
+    display: flex
+    justify-content: flex-start
+    flex-wrap: wrap
+    gap: 1em
+    padding: 0 1em
+    
+.pwRow.device-desktop
+    display: flex
+    justify-content: flex-start
+    flex-wrap: wrap
+    gap: 0.8em
+    padding: 0 1em

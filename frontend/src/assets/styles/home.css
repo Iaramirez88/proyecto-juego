@@ -1,0 +1,407 @@
+@font-face {
+  font-family: GhoticB;
+  src: url("../fonts/GOTHICB.TTF");
+}
+@font-face {
+  font-family: Coopbl;
+  src: url("../fonts/COOPBL.TTF");
+}
+@font-face {
+  font-family: Ghotic;
+  src: url("../fonts/GOTHIC.TTF");
+}
+@font-face {
+  font-family: Century;
+  src: url("../fonts/CENTURY.TTF");
+}
+.homeHeader {
+  background: #2fb5de;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  height: 80px;
+  padding: 0 1em;
+  margin-bottom: 2em;
+}
+.homeHeader span {
+  color: white;
+  font-size: 2em;
+  font-family: Coopbl;
+}
+
+.homeHeaderLogo {
+  display: block;
+  height: 44px;
+  width: auto;
+  max-width: 60vw;
+}
+
+/* El SVG trae el color azul definido internamente; lo forzamos a blanco */
+/*
+.homeHeaderLogo .cls-1 {
+  fill: #fff !important;
+}
+*/
+
+.mainTitle {
+  margin-top: 0em;
+  margin-block-end: 1em;
+  width: 8em;
+  background: #faac00;
+  color: white;
+  text-align: center;
+  border-radius: 1em;
+  box-shadow: 0px 3px 6px 2px #e5860a;
+}
+
+.letterTitle {
+  position: relative;
+}
+.letterTitle .iconAccordion {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 75px;
+  cursor: pointer;
+}
+.letterTitle .iconAccordion:active {
+  transform: scale(0.9);
+}
+
+.rowLetterTitle {
+  font-family: Ghotic;
+  display: flex;
+  width: 29em;
+  align-items: center;
+  background: #356cfd;
+  border-radius: 1em;
+  margin-bottom: 2em;
+}
+.rowLetterTitle img {
+  background: #7eb8f9;
+  padding: 1em;
+  height: 4em;
+  border-radius: 0.5em;
+  box-shadow: -4px 4px 2px 0px #006cb2;
+  box-sizing: unset;
+}
+.rowLetterTitle p {
+  color: white;
+  padding: 0.5em 2em;
+  margin: 0;
+  font-size: 2em;
+}
+
+.listContainerItem {
+  display: block;
+  padding: 3em 0;
+}
+
+.scroll {
+  cursor: pointer;
+  overflow-y: auto;
+}
+.scroll::-webkit-scrollbar {
+  display: none;
+}
+.scroll.active {
+  cursor: move;
+}
+
+.panel {
+  margin-top: 3em;
+  position: relative;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.gridCardList {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 3em 0;
+}
+
+.cardListGame {
+  background: #ffde57;
+  border: solid 2px #e5860a;
+  border-radius: 1em;
+  width: 280px;
+  text-align: center;
+  padding-top: 5em;
+  position: relative;
+  margin: 0 auto 3em auto;
+}
+.cardListGame h2 {
+  font-family: Coopbl;
+  position: absolute;
+  top: -30px;
+  margin: 0;
+  left: 110px;
+  background: #52c211;
+  color: white;
+  width: 1.5em;
+  height: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  box-shadow: -2px 2px 0px 0px #498128;
+  font-size: 3.5em;
+}
+.cardListGame .rowList {
+  display: flex;
+  justify-content: space-evenly;
+}
+.cardListGame .itemList {
+  width: 70px;
+}
+.cardListGame .itemList img {
+  width: 60px;
+  height: auto;
+  cursor: pointer;
+}
+.cardListGame .itemList img:active {
+  transform: scale(0.9);
+}
+.cardListGame .itemList p {
+  margin-top: 0;
+  margin-bottom: 2em;
+}
+
+.cardEspecial h2 {
+  background: #356cfd;
+}
+
+.homeHeaderIcons {
+  margin-left: 15%;
+}
+.homeHeaderIcons img.active {
+  background: #006cb2;
+  height: 80px;
+  width: 3em;
+  padding: 0 2em;
+  opacity: 1;
+}
+.homeHeaderIcons img {
+  box-sizing: unset;
+  opacity: 0.3;
+  background: #006cb2;
+  height: 80px;
+  width: 3em;
+  padding: 0 2em;
+  margin: 0 5px;
+}
+
+.iconCloseBotton {
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  width: 75px;
+}
+
+.moduleContainer {
+  margin-bottom: 1em;
+}
+
+.homeBuilding img {
+  width: 250px;
+  height: 200px;
+}
+
+.sesionButton {
+  display: flex;
+  width: 45%;
+  justify-content: space-around;
+}
+.sesionButton div {
+  cursor: pointer;
+  background: #006db2;
+  color: white;
+  height: 80px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  width: 50%;
+  font-size: 2em;
+  margin: 0 10px;
+}
+.sesionButton div:active {
+  transform: scale(0.9);
+}
+
+@media screen and (min-width: 1200px) {
+  .cardListGame {
+    width: 30%;
+  }
+  .cardListGame .itemList {
+    width: 100px;
+  }
+  .cardListGame .itemList img {
+    width: 80px;
+  }
+  .cardListGame h2 {
+    left: 41%;
+  }
+
+  .mainTitle {
+    width: 11em;
+    font-size: 4em;
+  }
+
+  .rowLetterTitle {
+    width: 35em;
+  }
+  .rowLetterTitle img {
+    width: 75px;
+  }
+
+  .homeBuilding {
+    width: 30%;
+    margin: 0 auto 3em auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .homeBuilding img {
+    width: 80%;
+    height: auto;
+  }
+}
+.disabled {
+  opacity: 0.5;
+}
+.disabled img:active {
+  transform: none !important;
+}
+
+.folderNoAvailable {
+  background: #e1e1e1;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0.7;
+  top: 0;
+  border-radius: 14px;
+}
+
+.menuIconContainer{
+  position: relative;
+}
+.menuIconContainer .menuIcon{
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 20;
+}
+.menu-icon{
+  width: 28px;
+  height: 28px;
+  position: relative;
+  transition: all 0.3s cubic-bezier(.4,2,.6,1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.menu-icon .menu-icon-line{
+   position: absolute;
+   height: 3.5px;
+   width: 100%;
+   background: #fff;
+   border-radius: 2px;
+   transition: all 0.3s cubic-bezier(.4,2,.6,1);
+   top: 6px;
+   left: 0;
+}
+.menu-icon .menu-icon-line-middle{
+   position: absolute;
+   height: 3px;
+   width: 100%;
+   background: #fff;
+   border-radius: 2px;
+   transition: all 0.3s cubic-bezier(.4,2,.6,1);
+   top: 13px;
+   left: 0;
+}
+.menu-icon .menu-icon-line-bottom{
+   position: absolute;
+   height: 3.5px;
+   width: 100%;
+   background: #fff;
+   border-radius: 2px;
+   transition: all 0.3s cubic-bezier(.4,2,.6,1);
+   top: 20px;
+   left: 0;
+}
+.menuDropdown{
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 80px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-radius: 4px;
+  z-index: 10;
+  min-width: 140px;
+  width: 100%;
+  padding: 8px 0;
+}
+@media screen and (max-width: 992px) {
+  .listContainerItem {
+    display: flex;
+    min-width: 2000px;
+  }
+
+  .cardListGame {
+    width: 300px;
+  }
+  .cardListGame h2 {
+    left: 42%;
+  }
+}
+@media screen and (min-width: 768px) {
+  .homeHeader {
+    position: relative;
+    justify-content: space-between;
+  }
+  .homeHeader.userLogged {
+    justify-content: flex-start !important;
+  }
+}
+@media screen and (max-width: 480px) {
+  .letterTitle .iconAccordion {
+    top: 10%;
+    width: 15%;
+  }
+}
+@media screen and (max-width: 425px) {
+  .homeHeader span {
+    font-size: 1.5em;
+  }
+
+  .letterTitle, .mainTitle {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .mainTitle {
+    font-size: 3em;
+  }
+
+  .letterTitle .iconAccordion {
+    top: 20%;
+  }
+
+  .rowLetterTitle {
+    width: 80%;
+  }
+  .rowLetterTitle p {
+    font-size: 1.5em;
+    padding: 0.5em 1em;
+  }
+}
+
+/*# sourceMappingURL=home.css.map */

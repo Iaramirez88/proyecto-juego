@@ -1,0 +1,677 @@
+@font-face {
+  font-family: GhoticB;
+  src: url("../fonts/GOTHICB.TTF");
+}
+@font-face {
+  font-family: Coopbl;
+  src: url("../fonts/COOPBL.TTF");
+}
+@font-face {
+  font-family: Ghotic;
+  src: url("../fonts/GOTHIC.TTF");
+}
+@font-face {
+  font-family: Century;
+  src: url("../fonts/CENTURY.TTF");
+}
+.containerGame {
+  position: relative;
+  padding-top: 1em;
+}
+
+.titleGame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 2em;
+  left: 0%;
+  width: 95%;
+}
+.titleGame #buttontitle {
+  background-color: transparent;
+  border-color: transparent;
+  width: 3.2rem;
+  height: 3rem;
+}
+.titleGame h2 {
+  display: flex;
+  font-size: 1.5em;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+}
+.titleGame h2 img {
+  padding-right: 0.5em;
+}
+.titleGame .fingerInstructions {
+  width: 2em;
+  position: absolute;
+  left: -40px;
+  bottom: -40px;
+}
+.titleGame .fingerInstructions:active {
+  transform: scale(0.9) !important;
+}
+
+.cardImage {
+  background: #006cb2;
+  box-sizing: unset;
+  padding: 1em;
+  width: 13em;
+  height: 13em;
+  border-radius: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.cardImage img {
+  width: 11em;
+  height: 13em;
+}
+
+.buttonAudio {
+  background: #48ab0f;
+  width: 6em;
+  height: 4em;
+  display: flex;
+  justify-content: center;
+  border-radius: 1em;
+  box-shadow: 0px 3px 6px 2px #48ab0f;
+  border-color: transparent;
+  margin: auto;
+  align-items: center;
+}
+.buttonAudio:active {
+  transform: scale(0.9);
+}
+.buttonAudio img {
+  width: 2.5em;
+  height: auto;
+}
+
+.containerOptions {
+  position: relative;
+}
+
+.audioBox {
+  display: flex;
+}
+
+.containerAudio {
+  margin: 0 2.5em;
+  justify-content: center;
+}
+.containerAudio div {
+  margin: auto;
+}
+.containerAudio .cardAudio {
+  margin-bottom: 3em;
+  position: relative;
+}
+
+/* Hacer clicables las opciones del juego de escucha: puntero y no seleccionables */
+.containerAudio,
+.containerAudio .cardAudio,
+.containerAudio .cardAudio img,
+.audioBox {
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.containerResponse {
+  background: #7eb8f9;
+  width: 15em;
+  height: 5em;
+  margin-top: 1em;
+  border-radius: 1em;
+  box-shadow: 0px 3px 6px 2px #2c65ac;
+}
+
+.boxWords {
+  z-index: 1;
+  width: 15em;
+  margin-top: 13px;
+  border-radius: 1em;
+  box-shadow: 0px 3px 6px 2px #48ab0f;
+  background: #52c211;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  height: 5em;
+  transition: ease;
+}
+.boxWords h3 {
+  font-size: 2.2em;
+}
+
+.containerBox {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 1em;
+  margin-bottom: 3em;
+}
+
+/* Vocabulario: pantalla de repaso previa */
+
+.vocabReviewStage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 1em;
+  margin-bottom: 3em;
+}
+
+.vocabReviewCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vocabReviewCard--enter {
+  animation: vocabFadeIn 420ms ease-out both;
+}
+
+@keyframes vocabFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.vocabReviewNav {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.75em;
+}
+
+.vocabNextButton {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.vocabNextIcon {
+  width: 120px;
+  height: auto;
+  display: block;
+  animation: vocabNextNudge 1400ms ease-in-out infinite;
+}
+
+@keyframes vocabNextNudge {
+  0% {
+    transform: translateX(0);
+    opacity: 0.95;
+  }
+  50% {
+    transform: translateX(6px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 0.95;
+  }
+}
+
+.vocabReviewCard .cardImage {
+  cursor: pointer;
+}
+
+.vocabReviewCard .cardImage:focus {
+  outline: none;
+}
+
+.vocabRepeatGlyph {
+  color: white;
+  font-size: 2.2em;
+  line-height: 1;
+  display: inline-block;
+}
+
+.Buttongame{
+   background-color: transparent;
+   border: transparent;
+}
+.drag-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  bottom: 18px;
+}
+
+.item {
+  cursor: pointer;
+}
+
+.active {
+  z-index: 100;
+}
+
+.iconCheck, .iconCancel {
+  z-index: 5;
+  width: 7.3em;
+  position: absolute;
+  bottom: -5px;
+  object-fit: cover;
+  border-radius: 1em;
+  display: none;
+  height: 5.5em;
+  left: -1em;
+}
+
+.iconCancel {
+  box-shadow: 0px 2px 8px 1px #d04161;
+}
+
+.iconCheck {
+  box-shadow: 0px 2px 8px 1px #faac00;
+}
+
+.containerWrong .iconCancel {
+  display: inherit;
+}
+
+.containerCorrect .iconCheck {
+  display: inherit;
+}
+
+.pointsBox {
+  box-sizing: unset;
+  width: 4.5em;
+  height: 4.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #faac00;
+  border-radius: 50px;
+  border: solid 3px white;
+  margin-right: 0.5em;
+}
+.pointsBox p {
+  margin: 0;
+  font-size: 2em;
+  font-weight: bold;
+  color: white;
+}
+
+.cardResponseAudio {
+  border-radius: 1em;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+.cardResponseAudio.good {
+  background: #57ac11;
+}
+.cardResponseAudio.wrong {
+  background: #CE2361;
+  opacity: 0.6;
+}
+
+.aiModalBox {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 1em;
+}
+
+.aiModalItem {
+  width: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  height: 175px;
+  margin: auto;
+}
+
+.aiModalCard {
+  width: 100%;
+}
+
+.aiModalButton {
+  width: 20px;
+  height: 20px;
+  background: #52c211;
+  padding: 5px 15px;
+  border-radius: 10px;
+  box-sizing: unset;
+}
+
+.aiModalFinger {
+  width: 40px;
+  position: absolute;
+  left: 0;
+}
+
+.playButton {
+  cursor: pointer;
+  position: absolute;
+  background: #64c313;
+  color: white;
+  font-size: 2em;
+  padding: 5px 15px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 7px -1px #6e7766;
+  left: 5%;
+  top: 3%;
+  z-index: 20;
+}
+.playButton:active {
+  transform: scale(0.9);
+}
+.playButton img {
+  width: 1em;
+  position: absolute;
+  right: -20px;
+  top: 15px;
+  z-index: 10;
+}
+
+.viRow {
+  margin: 0 1em;
+  width: 33%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.viContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding: 2em 2em 0 2em;
+}
+
+.viBox {
+  background: #52c211;
+  width: 8em;
+  height: 5em;
+  border-radius: 10px;
+  box-shadow: 0px 4px 7px 0px #7c7c7c;
+  margin-top: 1em;
+}
+
+.viImage {
+  width: 9em;
+  height: 9em;
+}
+
+.viHand {
+  width: 40px;
+  height: auto;
+  position: absolute;
+}
+
+@media screen and (min-width: 992px) {
+  .aiModalButton {
+    width: 3.5em;
+    height: 2.5em;
+  }
+
+  .aiModalItem {
+    width: 140px;
+    height: 250px;
+  }
+}
+@media screen and (max-width: 992px) {
+  .titleGame {
+    top: 4em;
+  }
+
+  .iconCancel, .iconCheck {
+    height: 5.5em;
+    left: -1em;
+  }
+}
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 65%;
+  }
+
+  .titleGame {
+    width: 80%;
+    position: initial !important;
+    text-align: center;
+    margin: auto;
+  }
+  .titleGame h2 {
+    display: flex;
+    font-size: 1.5em;
+    align-items: center;
+  }
+
+  .iconCancel, .iconCheck {
+    height: 5.7em;
+    width: 6em;
+    left: -10px;
+    bottom: -4px;
+  }
+
+  .containerAudio {
+    margin: 0 0.5em;
+  }
+
+  .viImage {
+    width: 7em;
+    height: 7em;
+  }
+
+  .viBox {
+    height: 3.5em;
+  }
+}
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .containerBox {
+    margin-bottom: 3em;
+  }
+}
+@media screen and (max-width: 480px) {
+  .titleGame {
+    left: 0;
+    font-size: 14px !important;
+    top: 8em;
+    justify-content: center;
+  }
+
+  .containerBox {
+    position: relative;
+  }
+
+  .containerWords {
+    position: absolute;
+    bottom: -15em;
+  }
+
+  .containerResponse {
+    height: 5em;
+  }
+
+  .containerGame {
+    min-height: 600px;
+  }
+
+  /* En mobile, 2 tarjetas por fila con buen espaciado */
+  .vocabReviewGrid {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+    padding: 0 1em;
+  }
+
+  .vocabReviewCard {
+    flex: 0 0 100%;
+  }
+
+  .vocabReviewCard .cardImage {
+    width: 10em;
+    height: 10em;
+    margin: auto;
+  }
+
+  .vocabReviewCard .cardImage img {
+    width: 9em;
+    height: 10em;
+  }
+
+  .vocabReviewCard .boxWords {
+    width: 15em;
+  }
+
+  .titleGame h2 {
+    font-size: 85%;
+  }
+
+  .audioBox {
+    display: block;
+  }
+
+  .containerAudio {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1em;
+    min-width: 250px;
+  }
+
+  .containerAudio .cardAudio {
+    margin-bottom: 0em;
+  }
+
+  .aiModalItem {
+    width: 60px;
+    height: 130px;
+  }
+
+  .viContainer {
+    flex-wrap: wrap;
+    padding: 0 2em 0 2em;
+  }
+
+  .viImage {
+    width: 4.5em;
+    height: 4.5em;
+  }
+
+  .playButton {
+    font-size: 1.2em;
+  }
+
+  .viBox {
+    height: 2em;
+  }
+
+  .viHand {
+    width: 25px;
+  }
+
+  #viWordOptions {
+    order: 3;
+  }
+}
+@media screen and (max-width: 325px) {
+  .titleGame {
+    width: 82%;
+  }
+
+  .cardImage {
+    width: 10em;
+    height: 10em;
+    margin: auto;
+  }
+
+  .containerResponse {
+    width: 14em;
+  }
+
+  .boxWords {
+    width: 14em;
+  }
+  .boxWords h3 {
+    font-size: 2em;
+  }
+
+  .iconCancel, .iconCheck {
+    width: 6em;
+    left: -6px;
+    bottom: 0;
+    height: 5.2em;
+  }
+
+  .cardAudio img {
+    width: 9em;
+  }
+}
+
+#fondo {
+  opacity: 0.5;
+  width: 10em;
+  margin: 0;
+}
+.app{
+  text-align: center;
+}
+.contexto{
+  border: 1px dotted black;
+  margin: 0;
+  list-style: none;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 3rem;
+
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.lista{
+  box-shadow: 0px 2px 4px #faac00;
+  border-radius: 5px;
+  padding: 0.3rem 0.5rem;
+  text-align: center;
+  margin: 5px;
+  border: 2px solid #006cb2;
+}
+
+.lista:focus{
+  outline: none;
+  border: 2px solid #CE2361;
+}
+
+.movie{
+  width: 2rem;
+  height: 2rem;
+}
+
+.contextofondo{
+  border: 1px dotted black;
+  margin: 0;
+  list-style: none;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 3rem;
+
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+/*# sourceMappingURL=games.css.map */
