@@ -16,11 +16,13 @@ import ScreenPayment from "./payment/ScreenPayment";
 import ScreenLicense from "./licenses/ScreenLicense";
 import KidsDashboard from "./dashboard/KidsDashboard";
 import AdminRoute from "./admin/AdminRoute";
+import StopAudioOnRouteChange from "../components/shared/StopAudioOnRouteChange";
 
 /** */
 const Routes = () => {
   return (
     <Router>
+      <StopAudioOnRouteChange />
       <Switch>
         <Route path="/others" component={Others} />
         <Route path="/escucha/:idLetter" component={AudioScreen} />
@@ -32,6 +34,8 @@ const Routes = () => {
             <LevelUpScreenComponent 
               gameUrl={props.location.state?.gameUrl} 
               accuracy={props.location.state?.accuracy}
+              canContinue={props.location.state?.canContinue}
+              minAccuracyToContinue={props.location.state?.minAccuracyToContinue}
               {...props} 
             />
           )}

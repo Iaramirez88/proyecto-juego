@@ -142,6 +142,16 @@ header img {
 
 .mdButtonContainer {
   height: 50px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.mdButtonContainer .buttonClose {
+  pointer-events: auto;
 }
 
 .containerLoader {

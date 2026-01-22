@@ -16,6 +16,7 @@ import "../../assets/styles/main.css";
 import { useSetBackGround } from "../../hooks/useSetBackGround";
 import backGround from "../../assets/images/background_tramas.svg";
 import TitleSound from "../../components/shared/TitleSound";
+import AutoFitText from "../../components/shared/AutoFitText";
 import { usePlaySounds } from "../../hooks/usePlaySounds";
 import VocalIntructions from "../../components/games/VocalModule/VocalIntructions";
 import { useSetScrollPosition } from "../../hooks/useDimesion";
@@ -632,6 +633,9 @@ const Games = () => {
             listAudio={[reviewTitleSound]}
             module="vocabulary-review"
             disableSound={false}
+            showFinger={reviewIndex === 0}
+            fingerPlaysAudio={false}
+            autoHideFingerAfterMs={1800}
           />
           <div className="vocabReviewStage">
             {!currentReviewItem ? (
@@ -678,7 +682,14 @@ const Games = () => {
                       <img src={iconSoundWhite} alt="iconSound" />
                     )}
                   </button>
-                  <h3>{currentReviewItem.name}</h3>
+                  <AutoFitText
+                    as="h3"
+                    text={currentReviewItem.name}
+                    maxPx={36}
+                    minPx={18}
+                    allowWrapFallback={true}
+                    style={{ flex: 1, minWidth: 0 }}
+                  />
                 </div>
 
                 <div className="vocabReviewNav">

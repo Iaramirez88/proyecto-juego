@@ -132,6 +132,7 @@ const KidsDashboard = () => {
     
     // Variables para tracking de cambios
     let lastKnownConfig = localStorage.getItem('adminGameConfig');
+    let lastKnownVisibilityConfig = localStorage.getItem('adminGameVisibilityConfig');
     let isCheckingChanges = false;
     
     // Función mejorada para verificar cambios
@@ -139,13 +140,18 @@ const KidsDashboard = () => {
       if (isCheckingChanges) return; // Evitar múltiples checks simultáneos
       
       const currentConfig = localStorage.getItem('adminGameConfig');
+      const currentVisibility = localStorage.getItem('adminGameVisibilityConfig');
       
-      if (currentConfig !== lastKnownConfig) {
+      if (currentConfig !== lastKnownConfig || currentVisibility !== lastKnownVisibilityConfig) {
         console.log('🔄 CAMBIO DETECTADO en adminGameConfig:');
         console.log('   Anterior:', lastKnownConfig);
         console.log('   Actual:', currentConfig);
+        console.log('🔄 CAMBIO DETECTADO en adminGameVisibilityConfig:');
+        console.log('   Anterior:', lastKnownVisibilityConfig);
+        console.log('   Actual:', currentVisibility);
         
         lastKnownConfig = currentConfig;
+        lastKnownVisibilityConfig = currentVisibility;
         isCheckingChanges = true;
         
         // Recargar dashboard con delay para asegurar que el cambio se procese
@@ -159,7 +165,7 @@ const KidsDashboard = () => {
 
     // 1. Event listener para cambios desde otras pestañas
     const handleStorageChange = (e) => {
-      if (e.key === 'adminGameConfig') {
+      if (e.key === 'adminGameConfig' || e.key === 'adminGameVisibilityConfig') {
         console.log('🔄 Cambio desde OTRA PESTAÑA detectado');
         checkForConfigChanges();
       }
@@ -210,8 +216,8 @@ const KidsDashboard = () => {
     const originalSetItem = localStorage.setItem;
     localStorage.setItem = function(key, value) {
       const result = originalSetItem.apply(this, arguments);
-      if (key === 'adminGameConfig') {
-        console.log('🔄 localStorage.setItem interceptado para adminGameConfig');
+      if (key === 'adminGameConfig' || key === 'adminGameVisibilityConfig') {
+        console.log('🔄 localStorage.setItem interceptado para', key);
         setTimeout(checkForConfigChanges, 100);
       }
       return result;
@@ -317,15 +323,27 @@ const KidsDashboard = () => {
         </div>
         
         
-        <div className="games-grid">
-          {dashboardData?.games?.map((game) => (
+        {(() => {
+          const games = dashboardData?.games || [];
+          const count = games.length;
+          const gridClass = count === 3
+            ? 'games-grid games-grid--3'
+            : count === 4
+              ? 'games-grid games-grid--4'
+              : 'games-grid';
+
+          return (
+            <div className={gridClass}>
+              {games.map((game) => (
             <GameCard
               key={game.id}
               game={game}
               onClick={() => handleGameClick(game)}
             />
-          ))}
-        </div>
+              ))}
+            </div>
+          );
+        })()}
       </div>
 
       {/* Logros */}

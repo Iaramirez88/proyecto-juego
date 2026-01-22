@@ -2,6 +2,8 @@
  * Servicio para interactuar con la API de administración de juegos
  */
 
+import { getDefaultGameActive, getDefaultGameVisible } from "../config/adminGameDefaults";
+
 const API_BASE_URL = 'http://localhost:3001/api';
 
 class AdminGameService {
@@ -161,8 +163,10 @@ class AdminGameService {
       const config = JSON.parse(localStorage.getItem('adminGameConfig') || '{}');
       const localGameId = this.mapApiGameIdToLocal(gameId);
       
-      // Obtener estado actual (por defecto true si no existe)
-      const currentState = config[localGameId] !== undefined ? config[localGameId] : true;
+      // Obtener estado actual (por defecto según configuración global)
+      const currentState = config[localGameId] !== undefined
+        ? config[localGameId]
+        : getDefaultGameActive(localGameId);
       const newState = !currentState;
       
       // Actualizar configuración
@@ -192,6 +196,51 @@ class AdminGameService {
   }
 
   /**
+   * Toggle de visibilidad (mostrar/ocultar) de un juego en el dashboard.
+   * Implementación local: persiste en localStorage y notifica por evento.
+   */
+  async toggleGameVisibility(gameId) {
+    return this.toggleGameVisibilityLocal(gameId);
+  }
+
+  /**
+   * Toggle local de visibilidad para que un juego no aparezca en el dashboard.
+   * Clave: adminGameVisibilityConfig[localGameId] = boolean (true=mostrar)
+   */
+  toggleGameVisibilityLocal(gameId) {
+    try {
+      const visibilityConfig = JSON.parse(localStorage.getItem('adminGameVisibilityConfig') || '{}');
+      const localGameId = this.mapApiGameIdToLocal(gameId);
+
+      const currentVisible = visibilityConfig[localGameId] !== undefined
+        ? visibilityConfig[localGameId]
+        : getDefaultGameVisible(localGameId);
+      const newVisible = !currentVisible;
+
+      visibilityConfig[localGameId] = newVisible;
+      localStorage.setItem('adminGameVisibilityConfig', JSON.stringify(visibilityConfig));
+
+      console.log('👁️ Visibilidad actualizada localmente para', localGameId, ':', newVisible);
+
+      window.dispatchEvent(new CustomEvent('adminConfigChanged', {
+        detail: { gameId: localGameId, isVisible: newVisible, visibilityConfig }
+      }));
+
+      return {
+        success: true,
+        message: `Juego ${newVisible ? 'mostrado' : 'ocultado'} en el dashboard` ,
+        data: { game: { id: gameId, isVisible: newVisible } }
+      };
+    } catch (error) {
+      console.error('Error en toggle visibilidad local:', error);
+      return {
+        success: false,
+        message: 'Error guardando visibilidad en configuración local'
+      };
+    }
+  }
+
+  /**
    * Actualizar configuración local de juegos
    */
   updateLocalGameConfig(gameId, isActive) {
@@ -213,7 +262,7 @@ class AdminGameService {
    */
   mapApiGameIdToLocal(apiGameId) {
     // Primero verificar si ya es un ID local válido
-    const localIds = ['pair-words', 'fall-module', 'vocabulary-game', 'audio-game', 'writing-game'];
+    const localIds = ['pair-words', 'fall-module', 'vocabulary-game', 'audio-game', 'writing-game', 'armar'];
     if (localIds.includes(apiGameId)) {
       return apiGameId;
     }
@@ -224,7 +273,8 @@ class AdminGameService {
       '4': 'audio-game',
       '1': 'pair-words',
       '2': 'fall-module',
-      '5': 'writing-game'
+      '5': 'writing-game',
+      '6': 'armar'
     };
 
     // Mapeo por nombre para casos de API real
@@ -233,7 +283,8 @@ class AdminGameService {
       'Otoño': 'fall-module',
       'Vocabulario': 'vocabulary-game',
       'Escucha': 'audio-game',
-      'Escritura': 'writing-game'
+      'Escritura': 'writing-game',
+      'Armar': 'armar'
     };
     
     // Intentar mapeo numérico primero
@@ -265,6 +316,7 @@ class AdminGameService {
   getMockGames() {
     // Obtener configuración actual de localStorage
     const config = JSON.parse(localStorage.getItem('adminGameConfig') || '{}');
+    const visibility = JSON.parse(localStorage.getItem('adminGameVisibilityConfig') || '{}');
     
     console.log('📦 Configuración leída de localStorage:', config);
     
@@ -273,7 +325,8 @@ class AdminGameService {
         id: '3',
         name: 'Vocabulario',
         description: 'Arrastra palabras a su lugar correcto',
-        isActive: config['vocabulary-game'] !== undefined ? config['vocabulary-game'] : true,
+        isActive: config['vocabulary-game'] !== undefined ? config['vocabulary-game'] : getDefaultGameActive('vocabulary-game'),
+        isVisible: visibility['vocabulary-game'] !== undefined ? visibility['vocabulary-game'] : true,
         category: { name: 'Palabras', color: '#66BB6A' },
         difficulty: 'MEDIUM',
         minAge: 6,
@@ -284,7 +337,8 @@ class AdminGameService {
         id: '4',
         name: 'Escucha', 
         description: 'Reconocimiento de sonidos y letras',
-        isActive: config['audio-game'] !== undefined ? config['audio-game'] : true,
+        isActive: config['audio-game'] !== undefined ? config['audio-game'] : getDefaultGameActive('audio-game'),
+        isVisible: visibility['audio-game'] !== undefined ? visibility['audio-game'] : getDefaultGameVisible('audio-game'),
         category: { name: 'Audio', color: '#42A5F5' },
         difficulty: 'EASY',
         minAge: 4,
@@ -295,7 +349,8 @@ class AdminGameService {
         id: '1',
         name: 'Pares',
         description: 'Juego de memoria para encontrar pares de cartas',
-        isActive: config['pair-words'] !== undefined ? config['pair-words'] : true,
+        isActive: config['pair-words'] !== undefined ? config['pair-words'] : getDefaultGameActive('pair-words'),
+        isVisible: visibility['pair-words'] !== undefined ? visibility['pair-words'] : getDefaultGameVisible('pair-words'),
         category: { name: 'Memoria', color: '#FF6B9D' },
         difficulty: 'EASY',
         minAge: 4,
@@ -306,7 +361,8 @@ class AdminGameService {
         id: '2', 
         name: 'Otoño',
         description: 'Reconocimiento de letras con hojas que caen',
-        isActive: config['fall-module'] !== undefined ? config['fall-module'] : true,
+        isActive: config['fall-module'] !== undefined ? config['fall-module'] : getDefaultGameActive('fall-module'),
+        isVisible: visibility['fall-module'] !== undefined ? visibility['fall-module'] : getDefaultGameVisible('fall-module'),
         category: { name: 'Letras', color: '#FFA726' },
         difficulty: 'EASY',
         minAge: 5,
@@ -317,12 +373,25 @@ class AdminGameService {
         id: '5',
         name: 'Escritura',
         description: 'Completa palabras letra por letra',
-        isActive: config['writing-game'] !== undefined ? config['writing-game'] : true,
+        isActive: config['writing-game'] !== undefined ? config['writing-game'] : getDefaultGameActive('writing-game'),
+        isVisible: visibility['writing-game'] !== undefined ? visibility['writing-game'] : getDefaultGameVisible('writing-game'),
         category: { name: 'Escritura', color: '#9C27B0' },
         difficulty: 'MEDIUM',
         minAge: 6,
         maxAge: 12,
         estimatedDuration: 20
+      },
+      {
+        id: '6',
+        name: 'Armar',
+        description: 'Arma la figura con piezas (puzzle)',
+        isActive: config['armar'] !== undefined ? config['armar'] : getDefaultGameActive('armar'),
+        isVisible: visibility['armar'] !== undefined ? visibility['armar'] : getDefaultGameVisible('armar'),
+        category: { name: 'Puzzle', color: '#5C7CFA' },
+        difficulty: 'EASY',
+        minAge: 4,
+        maxAge: 9,
+        estimatedDuration: 10
       }
     ];
     
@@ -378,6 +447,7 @@ const adminGameService = new AdminGameService();
 export const checkConnection = () => adminGameService.checkConnection();
 export const getAllGames = () => adminGameService.getAllGames();
 export const toggleGame = (gameId) => adminGameService.toggleGame(gameId);
+export const toggleGameVisibility = (gameId) => adminGameService.toggleGameVisibility(gameId);
 export const getGameStats = () => adminGameService.getGameStats();
 
 export default adminGameService;

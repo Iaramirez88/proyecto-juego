@@ -35,8 +35,8 @@ const selectItemComplement = (arr, keys) => {
 };
 
 const mergeList = (arr1, arr2) => {
-  let list1 = arr1.sort(() => Math.random - 0.5);
-  let list2 = arr2.sort(() => Math.random - 0.5);
+  let list1 = arr1.sort(() => Math.random() - 0.5);
+  let list2 = arr2.sort(() => Math.random() - 0.5);
   let listAux = [];
   let response = [];
   let addB = randomPos(3);

@@ -1,22 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../../assets/styles/shared-screen.css";
 import logoFondoAzul from "../../assets/images/logoFondoAzul.svg";
 import gsap from "gsap";
 import Header from "./Header";
 import { useHistory } from "react-router-dom";
-import {
-  resBien,
-  RestExcelente,
-  RestFelicitaciones,
-  ResvMuybien,
-} from "../../utils/sounds";
+import { usePlaySounds } from "../../hooks/usePlaySounds";
+import { getMinAccuracyToContinueForGame } from "../../config/levelUpContinueRules";
+import { getDefaultGameActive, getDefaultGameVisible } from "../../config/adminGameDefaults";
 
-const ComponentPortrait = ({ gameUrl, accuracy }) => {
+const ComponentPortrait = ({ gameUrl, accuracy, canContinue, minAccuracyToContinue }) => {
   const [container, setContainer] = useState(initialHeight());
   const [isLandscape, setIsLandscape] = useState(getOrientation());
-  const [sound, setAudio] = useState(null);
   const history = useHistory();
-  const isPerfectScore = accuracy === 100;
+  const safeAccuracy = typeof accuracy === "number" ? accuracy : 0;
+
+  const gameMatch = typeof gameUrl === "string"
+    ? gameUrl.match(/\/([\wñÑáéíóúÁÉÍÓÚ]+)[^/]*\//)
+    : null;
+  const gameNameFromUrl = gameMatch ? gameMatch[1] : null;
+
+  const minAcc =
+    typeof minAccuracyToContinue === "number"
+      ? minAccuracyToContinue
+      : getMinAccuracyToContinueForGame(gameNameFromUrl);
+
+  const allowContinue =
+    typeof canContinue === "boolean" ? canContinue : safeAccuracy >= minAcc;
+  const [, , stopSound] = usePlaySounds();
+  const didStopRef = useRef(false);
 
   useEffect(() => {
     const updateScreenHeight = () => {
@@ -34,11 +45,12 @@ const ComponentPortrait = ({ gameUrl, accuracy }) => {
   }, [isLandscape]);
 
   useEffect(() => {
-    // Seleccionar audio aleatorio al montar el componente
-    let items = [resBien, RestExcelente, RestFelicitaciones, ResvMuybien];
-    const aud = items[Math.floor(Math.random() * items.length)];
-    setAudio(aud);
-  }, []);
+    // 🔇 En Level Up no debe reproducirse audio automáticamente.
+    // Asegurar que cualquier audio previo quede detenido al entrar.
+    if (didStopRef.current) return;
+    didStopRef.current = true;
+    stopSound();
+  }, [stopSound]);
 
   useEffect(() => {
     const orientationChange = () => {
@@ -59,6 +71,40 @@ const ComponentPortrait = ({ gameUrl, accuracy }) => {
     { name: 'escritura', path: '/escritura/' }
   ];
 
+  const gameNameToAdminKey = (gameName) => {
+    const normalized = String(gameName || "").toLowerCase();
+    const map = {
+      vocabulario: "vocabulary-game",
+      escucha: "audio-game",
+      pares: "pair-words",
+      "otoño": "fall-module",
+      otono: "fall-module",
+      escritura: "writing-game",
+      armar: "armar",
+    };
+    return map[normalized] || null;
+  };
+
+  const isGameEnabledAndVisible = (gameName) => {
+    const key = gameNameToAdminKey(gameName);
+    if (!key) return true;
+
+    let isActive = getDefaultGameActive(key);
+    let isVisible = getDefaultGameVisible(key);
+
+    try {
+      const activeConfig = JSON.parse(localStorage.getItem("adminGameConfig") || "{}");
+      if (activeConfig[key] !== undefined) isActive = Boolean(activeConfig[key]);
+    } catch (e) {}
+
+    try {
+      const visibilityConfig = JSON.parse(localStorage.getItem("adminGameVisibilityConfig") || "{}");
+      if (visibilityConfig[key] !== undefined) isVisible = Boolean(visibilityConfig[key]);
+    } catch (e) {}
+
+    return isActive && isVisible;
+  };
+
   // Detectar juego y letra actual desde gameUrl
   const getNextGameUrl = () => {
     if (!gameUrl) return '/';
@@ -70,8 +116,17 @@ const ComponentPortrait = ({ gameUrl, accuracy }) => {
     const currentLetter = match[2];
     const idx = gameOrder.findIndex(g => g.name === currentGame);
     if (idx === -1 || idx === gameOrder.length - 1) return '/';
-    // Siguiente juego
-    return gameOrder[idx + 1].path + currentLetter;
+
+    // Buscar el siguiente juego DISPONIBLE (activo y visible)
+    for (let i = idx + 1; i < gameOrder.length; i += 1) {
+      const candidate = gameOrder[i];
+      if (isGameEnabledAndVisible(candidate.name)) {
+        return candidate.path + currentLetter;
+      }
+    }
+
+    // Si no hay más juegos disponibles, volver al menú
+    return '/';
   };
   const handleContinue = () => {
     const nextUrl = getNextGameUrl();
@@ -136,7 +191,7 @@ const ComponentPortrait = ({ gameUrl, accuracy }) => {
             </div>
           </div>
           <div className="button-container" >
-          {isPerfectScore && (
+          {allowContinue && (
             <button 
               onClick={handleContinue} 
               className="button-continue icon-button"
@@ -179,15 +234,19 @@ const ComponentPortrait = ({ gameUrl, accuracy }) => {
         
         
       </div>
-      {sound && <audio src={sound} autoPlay />}
     </div>
   );
 };
 
-const LevelUpScreenComponent = ({ gameUrl, accuracy }) => {
+const LevelUpScreenComponent = ({ gameUrl, accuracy, canContinue, minAccuracyToContinue }) => {
   return (
     <div>
-  <ComponentPortrait gameUrl={gameUrl} accuracy={accuracy} />
+  <ComponentPortrait
+    gameUrl={gameUrl}
+    accuracy={accuracy}
+    canContinue={canContinue}
+    minAccuracyToContinue={minAccuracyToContinue}
+  />
     </div>
   );
 };

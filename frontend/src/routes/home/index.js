@@ -11,12 +11,12 @@ import "../../assets/styles/home.css";
 import HomeGridComponent from "./ home";
 import {
   // vocalAU,
- LetterM,
   // letterNR,
   // letterBf,
   // letterLL,
   // letterJCH,
-  vocalAUList,
+  getLetterM,
+  getVocalAUList,
 } from "./elements";
 import HeaderHome from "../../components/shared/HeaderHome";
 import { useSetScrollPosition } from "../../hooks/useDimesion";
@@ -54,13 +54,13 @@ const Home = () => {
         <HomeGridComponent
           mainTitle="Vocales AEIOU"
           mainImage={caraOso}
-          list={vocalAUList}
+          list={getVocalAUList()}
           moduleOpen="1"
         />
         <HomeGridComponent
           mainTitle="Letras MPSTL"
           mainImage={caraPato}
-          list={LetterM}
+          list={getLetterM()}
           moduleOpen="2"
         />
       </div>

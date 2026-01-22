@@ -103,8 +103,26 @@
 
 
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '../../assets/styles/gamification.css';
+import {
+  RestExcelente,
+  RestFelicitaciones,
+  ResvMuybien,
+  enunciadoCadaVezLoHacesMejor,
+  enunciadoConfioEnTi,
+  enunciadoExcelente,
+  enunciadoIntentaloDeNuevo,
+  enunciadoLoEstasHaciendoExcelente,
+  enunciadoMuyBien,
+  enunciadoSigueAsi,
+  enunciadoTranquiloPuedesVolverAIntentarlo,
+  enunciadoTuPuedes,
+  enunciadoUnPasoALaVez,
+  enunciadoVasMuyBien,
+  resBien,
+} from '../../utils/sounds';
+import { usePlaySounds } from '../../hooks/usePlaySounds';
 
 /**
  * Componente de retroalimentación gamificada
@@ -117,10 +135,12 @@ const GamificationFeedback = ({
   onComplete,
   customMessage 
 }) => {
+  const [playSound, , stopSound] = usePlaySounds();
   const [message, setMessage] = useState('');
   const [isVisible, setIsVisible] = useState(false);
   const [performanceLevel, setPerformanceLevel] = useState('excellent');
   const [starsToShow, setStarsToShow] = useState(3); // 📊 Cantidad de estrellas a mostrar
+  const didPlayForThisShowRef = useRef(false);
 
   // Mensajes motivacionales según el desempeño
   const motivationalMessages = React.useMemo(() => ({
@@ -181,6 +201,43 @@ const GamificationFeedback = ({
       setMessage(randomMessage);
       setIsVisible(true);
 
+      // 🔊 Reproducir audio de feedback UNA sola vez por aparición del modal
+      if (!didPlayForThisShowRef.current) {
+        didPlayForThisShowRef.current = true;
+
+        const audioByLevel = {
+          excellent: [
+            enunciadoExcelente,
+            enunciadoLoEstasHaciendoExcelente,
+            RestExcelente,
+            RestFelicitaciones,
+          ],
+          good: [
+            enunciadoMuyBien,
+            enunciadoVasMuyBien,
+            enunciadoSigueAsi,
+            ResvMuybien,
+          ],
+          okay: [resBien, enunciadoUnPasoALaVez, enunciadoCadaVezLoHacesMejor],
+          tryAgain: [
+            enunciadoTuPuedes,
+            enunciadoIntentaloDeNuevo,
+            enunciadoTranquiloPuedesVolverAIntentarlo,
+            enunciadoConfioEnTi,
+          ],
+        };
+
+        const list = audioByLevel[level] || [];
+        const fallback = enunciadoTuPuedes;
+        const selected = list.length
+          ? list[Math.floor(Math.random() * list.length)]
+          : fallback;
+
+        // Cortar cualquier audio previo (instrucciones o carta) y reproducir feedback
+        stopSound();
+        playSound(selected);
+      }
+
       // Auto-ocultar después de 5 segundos (aumentado de 3 segundos)
       const timer = setTimeout(() => {
         setIsVisible(false);
@@ -192,6 +249,7 @@ const GamificationFeedback = ({
       return () => clearTimeout(timer);
     } else {
       setIsVisible(false);
+      didPlayForThisShowRef.current = false;
     }
   }, [show, performance, customMessage, onComplete, motivationalMessages]);
 

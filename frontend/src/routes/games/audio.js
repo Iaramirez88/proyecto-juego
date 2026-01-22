@@ -64,9 +64,18 @@ export const AudioScreen = () => {
     dispatch({ type: "RESET_POINTS" });
   }, []);
 
+  const normalizeFirstChar = (value) => {
+    return (value || "")
+      .trim()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .charAt(0);
+  };
+
   const checkWord = (e, cardState, setCardState) => {
-    let word = e.target.alt || e.target.dataset.word;
-    let isCorrect = word[0] === state.response;
+    const word = e.currentTarget?.dataset?.word || e.target?.dataset?.word || e.target?.alt;
+    const isCorrect = normalizeFirstChar(word) === normalizeFirstChar(state.response);
     let value = isCorrect ? 1 : -1;
     let cardObject = {
       isVisible: true,
@@ -236,6 +245,8 @@ export const AudioScreen = () => {
         listAudio={[audio, instructions.letter[idLetter]]}
         ModalChild={AudioInstructions}
         module="audio"
+        fingerPlaysAudio={false}
+        hideFingerAfterAutoPlay={true}
       />
       <div className="containerBox">
         <div className="containerOptions audioBox">

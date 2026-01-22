@@ -265,7 +265,7 @@ const PairWords = () => {
       // 📊 Calcular accuracy y estrellas
       const totalAttempts = correctAttempts + incorrectAttempts;
       const accuracy = totalAttempts > 0 ? (correctAttempts / totalAttempts) * 100 : 100;
-      
+
       // Determinar estrellas basadas en accuracy
       let stars = 0;
       if (accuracy >= 90) stars = 3;

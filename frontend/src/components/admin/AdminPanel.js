@@ -25,7 +25,18 @@ const AdminPanel = () => {
       
       // Cargar juegos
       const gamesList = await adminGameService.getAllGames();
-      setGames(gamesList);
+      // Enriquecer con visibilidad local (ocultar/mostrar en dashboard)
+      const visibilityConfig = JSON.parse(localStorage.getItem('adminGameVisibilityConfig') || '{}');
+      const gamesWithVisibility = gamesList.map((game) => {
+        const canonicalIds = ['pair-words', 'fall-module', 'vocabulary-game', 'audio-game', 'writing-game', 'armar'];
+        let localId = adminGameService.mapApiGameIdToLocal(game.id);
+        if (!canonicalIds.includes(localId)) {
+          localId = adminGameService.mapApiGameIdToLocal(game.name);
+        }
+        const isVisible = visibilityConfig[localId] !== undefined ? visibilityConfig[localId] : (game.isVisible !== undefined ? game.isVisible : true);
+        return { ...game, isVisible, _localId: localId };
+      });
+      setGames(gamesWithVisibility);
       
       // Cargar estadísticas
       const gameStats = await adminGameService.getGameStats();
@@ -122,6 +133,43 @@ const AdminPanel = () => {
     }
   };
 
+  // 👁️ Toggle para ocultar/mostrar un juego en el dashboard
+  const toggleGameVisibility = async (localGameId) => {
+    try {
+      setError(null);
+
+      // Optimista
+      setGames(prevGames =>
+        prevGames.map(game =>
+          (game._localId || game.id) === localGameId
+            ? { ...game, isVisible: !game.isVisible }
+            : game
+        )
+      );
+
+      // Nota: esta feature es local (localStorage). Usamos el ID local canónico
+      // para que el dashboard (que usa ids tipo 'pair-words', 'audio-game', etc.) lo respete.
+      const result = await adminGameService.toggleGameVisibility(localGameId);
+
+      if (!result.success) {
+        // Revertir si falla
+        setGames(prevGames =>
+          prevGames.map(game =>
+            (game._localId || game.id) === localGameId
+              ? { ...game, isVisible: !game.isVisible }
+              : game
+          )
+        );
+        throw new Error(result.message || 'Error al cambiar visibilidad del juego');
+      }
+
+    } catch (error) {
+      console.error('❌ Error en toggle visibilidad:', error);
+      setError(`Error al cambiar visibilidad del juego: ${error.message}`);
+      setTimeout(loadGames, 400);
+    }
+  };
+
   // 🔄 Función para resetear todo el progreso
   const resetAllProgress = () => {
     const confirmed = window.confirm(
@@ -140,6 +188,7 @@ const AdminPanel = () => {
         localStorage.removeItem('koala_game_progress');
         localStorage.removeItem('koala_current_user');
         localStorage.removeItem('adminGameConfig');
+        localStorage.removeItem('adminGameVisibilityConfig');
         
         // Mostrar mensaje de éxito
         alert('✅ Progreso reseteado completamente. La página se recargará.');
@@ -220,9 +269,8 @@ const AdminPanel = () => {
 
       <div className="games-grid">
         {games.map(game => {
-          console.log('🎮 Renderizando juego:', game.id, game.name, 'Mostrar config?', game.id === '1');
           return (
-          <div key={game.id} className={`game-card ${game.isActive ? 'active' : 'inactive'}`}>
+          <div key={game.id} className={`game-card ${game.isActive ? 'active' : 'inactive'} ${game.isVisible ? '' : 'hidden-from-dashboard'}`}>
             <div className="game-header">
               <div className="game-info">
                 <h3>{game.name}</h3>
@@ -237,10 +285,23 @@ const AdminPanel = () => {
                 <span className={`status-indicator ${game.isActive ? 'active' : 'inactive'}`}>
                   {game.isActive ? '✅ Activo' : '❌ Inactivo'}
                 </span>
+                <button
+                  type="button"
+                  className={`visibility-indicator ${game.isVisible ? 'visible' : 'is-hidden'}`}
+                  onClick={() => toggleGameVisibility(game._localId || game.id)}
+                  title={game.isVisible ? 'Click para ocultar del dashboard' : 'Click para mostrar en el dashboard'}
+                >
+                  {game.isVisible ? '👁️ Visible' : '🙈 Oculto'}
+                </button>
               </div>
             </div>
 
             <p className="game-description">{game.description}</p>
+            {!game.isVisible && (
+              <p className="visibility-note">
+                Este juego está oculto del dashboard.
+              </p>
+            )}
 
             <div className="game-meta">
               <span className="difficulty">

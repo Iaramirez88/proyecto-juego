@@ -1,101 +1,58 @@
-/*
-import { useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import spider from "../../assets/images/armar/arannaModArmar.svg";
-import pieze1 from "../../assets/images/armar/aranna1.svg";
-import pieze2 from "../../assets/images/armar/aranna2.svg";
-import pieze3 from "../../assets/images/armar/aranna3.svg";
-import pieze4 from "../../assets/images/armar/aranna4.svg";
-import pieze5 from "../../assets/images/armar/aranna5.svg";
-import pieze6 from "../../assets/images/armar/aranna6.svg";
-import pieze7 from "../../assets/images/armar/aranna7.svg";
-import pieze8 from "../../assets/images/armar/aranna8.svg";
-import pieze9 from "../../assets/images/armar/aranna9.svg";
-import "../../assets/styles/games.css";*/
+import React from "react";
+import { useHistory, useParams } from "react-router-dom";
+import Header from "../../components/shared/Header";
 
-/*const Objetos = [
-   {
-      id: '1',
-      Image: pieze1
-   },
-   {
-      id: '2',
-      Image: pieze2
-   },
-   {
-      id: '3',
-      Image: pieze3
-   },
-   {
-      id: '4',
-      Image: pieze4
-   },
-   {
-      id: '5',
-      Image: pieze5
-   },
-   {
-      id: '6',
-      Image: pieze6
-   },
-   {
-      id: '7',
-      Image: pieze7
-   },
-   {
-      id: '8',
-      Image: pieze8
-   },
-   {
-      id: '9',
-      Image: pieze9
-   },
+const Armar = () => {
+  const history = useHistory();
+  const { id } = useParams();
 
-];
-
-const Colum =[
-   {
-   [piesas]:{
-      name: 'piesas',
-      items: [Objetos]
-   }
-
-   },
-];
-const reorder = (list, startIndex, endIndex) =>{
-   const result= [...list];
-   const [removed] = result.splice(startIndex, 1);
-   result.splice(endIndex,0,removed);
-
-   return result;
+  return (
+    <div style={{ minHeight: "100vh", background: "#FFE082" }}>
+      <Header onGoBack={() => history.push("/")} />
+      <div
+        style={{
+          maxWidth: 900,
+          margin: "0 auto",
+          padding: "24px 16px",
+          textAlign: "center",
+        }}
+      >
+        <h1 style={{ margin: "0 0 8px 0" }}>Armar</h1>
+        <p style={{ margin: "0 0 16px 0", color: "#333" }}>
+          Letra actual: <strong>{String(id || "").toUpperCase()}</strong>
+        </p>
+        <div
+          style={{
+            background: "white",
+            borderRadius: 16,
+            padding: 20,
+            boxShadow: "0 8px 20px rgba(0,0,0,0.12)",
+          }}
+        >
+          <p style={{ margin: 0, fontSize: 16 }}>
+            Este juego está en construcción. Por ahora solo se habilitó la pantalla para que
+            no falle la navegación.
+          </p>
+          <button
+            type="button"
+            onClick={() => history.push("/")}
+            style={{
+              marginTop: 16,
+              border: "none",
+              borderRadius: 10,
+              padding: "12px 16px",
+              fontWeight: 700,
+              cursor: "pointer",
+              background: "#0d6efd",
+              color: "white",
+            }}
+          >
+            Volver al inicio
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-function Armar() {
-   const [colum,setCulum] = useState(Colum);
-   return (
-      <DragDropContext onDragEnd={(result) }>
-         {Object.entries(colum).map(([id, colum])=>{
-            return(
-               <Droppable droppableId={id}>
-               history.push("/level-up", { gameUrl: `/armar/${id}` });
-                     return(
-                        <div {...providad.droppableProps} ref={providad.innerRef}>
-                        {colum.items.map((items, index) => {
-                           return(
-                         <Draggable key={items.id} draggableId>
-
-                         </Draggable>     
-                           );
-                        })}
-                        </div>
-                     );
-                  }}
-               </Droppable>
-            );
-            })}
-      </DragDropContext>
-
-   );
-}
-
-export default Armar;*/
+export default Armar;

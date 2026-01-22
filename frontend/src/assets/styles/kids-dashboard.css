@@ -428,6 +428,25 @@ html, body {
   justify-items: center;
 }
 
+/* Layout especial por cantidad (solo tablet/desktop) */
+@media screen and (min-width: 769px) {
+  /* 3 elementos: 2 arriba + 1 centrado abajo */
+  .games-grid.games-grid--3 {
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    max-width: 980px;
+  }
+  .games-grid.games-grid--3 > :nth-child(3) {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  /* 4 elementos: cuadrado 2x2 incluso en desktop */
+  .games-grid.games-grid--4 {
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    max-width: 980px;
+  }
+}
+
 /* === WRAPPER PARA CARDS EXPANDIBLES === */
 .game-card-wrapper {
   width: 100%;

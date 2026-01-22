@@ -1,21 +1,40 @@
+import { useCallback } from "react";
 import { goodAnswer, wrongAnswer } from "../utils/sounds";
 
 // Simple singleton audio controller: guarantees only one audio plays at a time
 let currentAudio = null;
 
+function safeStopAudio(audioEl) {
+  if (!audioEl) return;
+  try {
+    audioEl.pause();
+  } catch (e) {}
+  try {
+    audioEl.currentTime = 0;
+  } catch (e) {}
+}
+
+export function stopAllAudioPlayback() {
+  // Stop singleton audio
+  if (currentAudio) {
+    safeStopAudio(currentAudio);
+    currentAudio = null;
+  }
+
+  // Stop any <audio>/<video> tags currently playing
+  try {
+    if (typeof document !== 'undefined') {
+      const media = document.querySelectorAll('audio,video');
+      media.forEach((el) => safeStopAudio(el));
+    }
+  } catch (e) {}
+}
+
 export function usePlaySounds() {
-  const playSound = (audio, options = {}) => {
+  const playSound = useCallback((audio, options = {}) => {
     try {
       // stop previous audio if any
-      if (currentAudio) {
-        try {
-          currentAudio.pause();
-        } catch (e) {}
-        try {
-          currentAudio.currentTime = 0;
-        } catch (e) {}
-        currentAudio = null;
-      }
+      stopAllAudioPlayback();
 
       const snd = new Audio(audio);
       try {
@@ -79,41 +98,33 @@ export function usePlaySounds() {
       snd.play().catch(() => {});
       return snd;
     }
-  };
+  }, []);
 
-  const stopSound = () => {
-    if (currentAudio) {
-      try {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-      } catch (e) {}
-      currentAudio = null;
-    }
-  };
+  const stopSound = useCallback(() => {
+    stopAllAudioPlayback();
+  }, []);
 
-  const getCurrent = () => currentAudio;
+  const getCurrent = useCallback(() => currentAudio, []);
 
   return [playSound, getCurrent, stopSound];
 }
 
 export function useResponseAudio() {
   // Reproduce el audio correcto de inmediato, sin delay y sin bug de índice
-  const playResponseAudio = (type) => {
-    // 🔧 Detener cualquier audio del tutorial que esté sonando
-    if (currentAudio) {
-      try {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-      } catch (e) {}
-      currentAudio = null;
-    }
+  const playResponseAudio = useCallback((type) => {
+    // 🔧 Detener cualquier audio que esté sonando (incluyendo tags <audio>)
+    stopAllAudioPlayback();
     
     const audio = type
       ? goodAnswer[Math.floor(Math.random() * goodAnswer.length)]
       : wrongAnswer[Math.floor(Math.random() * wrongAnswer.length)];
     const snd = new Audio(audio);
     snd.currentTime = 0;
-    snd.play();
-  };
+    currentAudio = snd;
+    const p = snd.play();
+    if (p && typeof p.catch === 'function') {
+      p.catch(() => {});
+    }
+  }, []);
   return [playResponseAudio];
 }

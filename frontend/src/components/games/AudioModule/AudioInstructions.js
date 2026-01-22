@@ -1,5 +1,5 @@
 import gsap from "gsap/gsap-core";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import fondoAzul from "../../../assets/images/instructions/apoyoEmergenteAzul.svg";
 import { iconSoundWhite } from "../../../utils/imagesResources";
 import finger from "../../../assets/images/instructions/dedoTocas.svg";
@@ -8,11 +8,19 @@ import { usePlaySounds } from "../../../hooks/usePlaySounds";
 import apoyo1 from "../../../assets/sounds/intructions/apoyo2ModEscucha.mp3";
 import apoyo2 from "../../../assets/sounds/intructions/apoyoEnunciado1modEscucha.mp3";
 
-const AudioInstructions = ({ display }) => {
+const AudioInstructions = ({ display, onRequestClose }) => {
   const dimension = useDimesions();
   const [playSound, , stopSound] = usePlaySounds();
+  const didRunRef = useRef(false);
   useEffect(() => {
-    let tl = gsap.timeline();
+    // Solo ejecutar la guía UNA vez por montaje.
+    if (display) return;
+    if (didRunRef.current) return;
+    didRunRef.current = true;
+
+    const tl = gsap.timeline();
+    let timeoutId = null;
+    let cancelled = false;
 
     const infoButton = () =>
       new Promise((resolve) => {
@@ -39,7 +47,7 @@ const AudioInstructions = ({ display }) => {
           });
       });
 
-    const infoCard = async () =>
+    const infoCard = () =>
       new Promise((resolve) => {
         stopSound();
         playSound(apoyo2, { onEnded: () => resolve() });
@@ -66,15 +74,38 @@ const AudioInstructions = ({ display }) => {
 
     const startInstructions = async () => {
       await infoCard();
-      setTimeout(() => {
-        infoButton();
-      }, 500);
+      if (cancelled) return;
+
+      // Pequeña pausa para que se vea el gesto
+      await new Promise((resolve) => {
+        timeoutId = setTimeout(resolve, 500);
+      });
+      timeoutId = null;
+      if (cancelled) return;
+
+      await infoButton();
+      if (cancelled) return;
+
+      // Al terminar la guía, cerrar automáticamente el recuadro
+      if (typeof onRequestClose === "function") {
+        onRequestClose();
+      }
     };
 
-    if (!display) {
-      startInstructions();
-    }
-  }, [display, dimension.width, playSound, stopSound]);
+    startInstructions();
+
+    return () => {
+      cancelled = true;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+      }
+      try {
+        tl.kill();
+      } catch (e) {}
+      stopSound();
+    };
+  }, [display, dimension.width, playSound, stopSound, onRequestClose]);
   return (
     <div className="aiModalBox">
       {!display && (

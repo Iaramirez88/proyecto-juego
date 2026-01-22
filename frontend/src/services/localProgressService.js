@@ -9,8 +9,11 @@ import {
   iconoEscucha,
   iconopares,
   iconoOtono,
-  iconoEscritura
+  iconoEscritura,
+  iconoArmar
 } from '../utils/imagesResources';
+
+import { getDefaultGameActive, getDefaultGameVisible } from "../config/adminGameDefaults";
 
 class LocalProgressService {
   constructor() {
@@ -447,10 +450,29 @@ class LocalProgressService {
       console.log('🔴 No se pudo verificar estado desde API:', error.message);
     }
 
-    // PRIORIDAD 3: Último fallback - todos disponibles
-    console.log(`⚠️ No hay configuración para ${gameId}, usando fallback: true`);
-    console.log(`🎮 Resultado final: ${gameId} será VISIBLE y COLORIDO (fallback)`);
-    return true;
+    // PRIORIDAD 3: Fallback por defecto del sistema
+    const defaultActive = getDefaultGameActive(gameId);
+    console.log(`⚠️ No hay configuración para ${gameId}, usando default: ${defaultActive}`);
+    console.log(
+      `🎮 Resultado final: ${gameId} será ${defaultActive ? 'VISIBLE y COLORIDO' : 'GRIS y BLOQUEADO'} (default)`
+    );
+    return defaultActive;
+  }
+
+  /**
+   * Verificar si un juego debe mostrarse en el dashboard.
+   * Por defecto: visible. Se controla desde admin con `adminGameVisibilityConfig`.
+   */
+  isGameVisible(gameId) {
+    try {
+      const visibilityConfig = JSON.parse(localStorage.getItem('adminGameVisibilityConfig') || '{}');
+      if (visibilityConfig[gameId] !== undefined) {
+        return Boolean(visibilityConfig[gameId]);
+      }
+    } catch (error) {
+      console.error('❌ Error leyendo adminGameVisibilityConfig:', error);
+    }
+    return getDefaultGameVisible(gameId);
   }
 
   /**
@@ -478,7 +500,8 @@ class LocalProgressService {
       'fall-module': 'Hojas de Otoño', 
       'vocabulary-game': 'Vocabulario',
       'audio-game': 'Sonidos Divertidos',
-      'writing-game': 'Escribir Palabras'
+      'writing-game': 'Escribir Palabras',
+      'armar': 'Armar'
     };
     return gameNames[gameId] || gameId;
   }
@@ -527,12 +550,25 @@ class LocalProgressService {
         color: '#9C27B0',
         route: '/escritura/A',
         maxStars: 3
+      },
+      {
+        id: 'armar',
+        name: 'Armar',
+        icon: iconoArmar,
+        color: '#5C7CFA',
+        route: '/armar/A',
+        maxStars: 3
       }
     ];
 
     // Verificar disponibilidad de cada juego
     const gamesWithAvailability = await Promise.all(
       availableGames.map(async (game) => {
+        const isVisible = this.isGameVisible(game.id);
+        if (!isVisible) {
+          return null;
+        }
+
         const progress = gamesData[game.id];
         const isActive = await this.isGameActive(game.id);
         
@@ -615,9 +651,10 @@ class LocalProgressService {
       })
     );
     
-    console.log('🎮 TODOS los juegos formateados:', gamesWithAvailability);
+    const visibleGames = gamesWithAvailability.filter(Boolean);
+    console.log('🎮 Juegos visibles formateados:', visibleGames);
 
-    return gamesWithAvailability;
+    return visibleGames;
   }
 
   /**
@@ -664,10 +701,20 @@ class LocalProgressService {
         color: '#9C27B0',
         route: '/escritura/A',
         maxStars: 3
+      },
+      {
+        id: 'armar',
+        name: 'Armar',
+        icon: iconoArmar,
+        color: '#5C7CFA',
+        route: '/armar/A',
+        maxStars: 3
       }
     ];
 
-    return availableGames.map(game => {
+    return availableGames
+      .filter(game => this.isGameVisible(game.id))
+      .map(game => {
       const progress = gamesData[game.id];
       
       // Calcular estrellas totales del juego (sumando todos los niveles)

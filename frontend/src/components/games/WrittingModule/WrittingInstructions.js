@@ -34,6 +34,16 @@ const WrittingInstructions = ({ display }) => {
         });
       }, 1500);
     }
+
+    return () => {
+      try {
+        const el = refAudio.current;
+        if (el) {
+          el.pause();
+          el.currentTime = 0;
+        }
+      } catch (e) {}
+    };
   }, [display, dimesion]);
 
   return (

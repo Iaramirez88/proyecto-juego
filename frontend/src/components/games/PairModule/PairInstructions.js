@@ -5,15 +5,19 @@ import gsap from "gsap/gsap-core";
 import fondoBlanco from "../../../assets/images/instructions/apoyoEmergenteBlanco.svg";
 import { useDimesions } from "../../../hooks/useDimesion";
 
-const PairInstructions = ({ display }) => {
+const PairInstructions = ({ display, onRequestClose }) => {
   const [image, setImage] = useState(fondoMorado);
   const dimension = useDimesions();
   useEffect(() => {
+    let timeoutId = null;
+    let tl = null;
+    let cancelled = false;
+
     const startInfo = () => {
       // let audio = new Audio(audioPares);
       // audio.play();
 
-      let tl = gsap.timeline();
+      tl = gsap.timeline();
       tl.to("#fingerPair", {
         duration: 2,
         x: dimension.width < 485 ? 15 : 45,
@@ -33,17 +37,32 @@ const PairInstructions = ({ display }) => {
           duration: 1,
           scale: 1,
           onComplete: () => {
+            if (cancelled) return;
             setImage(fondoBlanco);
+            if (typeof onRequestClose === "function") {
+              onRequestClose();
+            }
           },
         });
     };
 
     if (!display) {
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
         startInfo();
       }, 500);
     }
-  }, [display, dimension]);
+
+    return () => {
+      cancelled = true;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+      }
+      try {
+        if (tl) tl.kill();
+      } catch (e) {}
+    };
+  }, [display, dimension.width, onRequestClose]);
 
   return (
     <div className="pmModalBox">
