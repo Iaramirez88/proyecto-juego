@@ -4,9 +4,9 @@
 
 [build]
   base = "frontend"
-  command = "npm run build-legacy"
+  command = "npm run build"
   publish = "build"
 
 [build.environment]
   # Opcional: fija versión de Node para reproducibilidad.
-  NODE_VERSION = "18"
+  NODE_VERSION = "20"
