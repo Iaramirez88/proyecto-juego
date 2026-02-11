@@ -22,6 +22,7 @@ export default function AutoFitText({
 }) {
   const elementRef = useRef(null);
   const resizeObserverRef = useRef(null);
+  const rafIdRef = useRef(null);
   const [fontSizePx, setFontSizePx] = useState(() => clampNumber(maxPx, minPx, maxPx));
   const [isWrapped, setIsWrapped] = useState(false);
 
@@ -60,7 +61,7 @@ export default function AutoFitText({
       }
     }
 
-    setFontSizePx(best);
+    setFontSizePx((prev) => (prev === best ? prev : best));
 
     // Si ni con min cabe, habilitar wrap como fallback
     const stillOverflows = el.scrollWidth > availableWidth;
@@ -69,12 +70,12 @@ export default function AutoFitText({
       el.style.fontSize = `${best}px`;
       const overflowAtBest = el.scrollWidth > availableWidth;
       if (overflowAtBest) {
-        setIsWrapped(true);
+        setIsWrapped((prev) => (prev === true ? prev : true));
         return;
       }
     }
 
-    setIsWrapped(false);
+    setIsWrapped((prev) => (prev === false ? prev : false));
   }
 
   useLayoutEffect(() => {
@@ -87,7 +88,16 @@ export default function AutoFitText({
     if (!el) return;
 
     if (typeof ResizeObserver !== "undefined") {
-      resizeObserverRef.current = new ResizeObserver(() => measureAndFit());
+      resizeObserverRef.current = new ResizeObserver(() => {
+        if (rafIdRef.current) {
+          cancelAnimationFrame(rafIdRef.current);
+          rafIdRef.current = null;
+        }
+        rafIdRef.current = requestAnimationFrame(() => {
+          rafIdRef.current = null;
+          measureAndFit();
+        });
+      });
       resizeObserverRef.current.observe(el);
     } else {
       const onResize = () => measureAndFit();
@@ -96,6 +106,10 @@ export default function AutoFitText({
     }
 
     return () => {
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
+      }
       if (resizeObserverRef.current) {
         try {
           resizeObserverRef.current.disconnect();

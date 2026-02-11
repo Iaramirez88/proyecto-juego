@@ -52,17 +52,13 @@ const ComponentPortrait = ({ isVisible }) => {
   }, [container, isVisible]);
 
   return (
-    <div className={`${!isVisible ? "hidden" : ""} container-sup `}>
+    <div className={`${!isVisible ? "hidden" : ""} container-sup congratulation-screen`}>
       <div
         className="container-second"
         style={{ height: `${container.height2}px` }}
       >
         <div className="logoFondoAzulCircle">
           <img className="logo" src={logoFondoAzul} alt="logoKoala" />
-        </div>
-        <div className="text-box">
-          <p>¡Felicitaciones!</p>
-          <p>Lo has logrado</p>
         </div>
       </div>
     </div>
