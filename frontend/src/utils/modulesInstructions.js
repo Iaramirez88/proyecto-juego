@@ -14,6 +14,12 @@ import modAudioE from "../assets/sounds/intructions/modAudioE.mp3";
 import modAudioI from "../assets/sounds/intructions/modAudioI.mp3";
 import modAudioO from "../assets/sounds/intructions/EnunciadoModEscucha2O.mp3";
 import modAudioU from "../assets/sounds/intructions/euniciadoModEscucha2U.mp3";
+
+import escuchaA from "../assets/sounds/intructions/e_escucha_a.mp3";
+import escuchaE from "../assets/sounds/intructions/e_escucha_e.mp3";
+import escuchaI from "../assets/sounds/intructions/e_escucha_i.mp3";
+import escuchaO from "../assets/sounds/intructions/e_escucha_o.mp3";
+import escuchaU from "../assets/sounds/intructions/e_escucha_u.mp3";
 export const modulesInstructions = {
   vocabulary: {
     audio: 0,
@@ -66,6 +72,13 @@ export const autioTitleIntructions = {
   audio: {
     intro: introAudio,
     introL: introAudioL,
+    fullByVowel: {
+      a: escuchaA,
+      e: escuchaE,
+      i: escuchaI,
+      o: escuchaO,
+      u: escuchaU,
+    },
     letter: {
       a: modAudioA,
       e: modAudioE,

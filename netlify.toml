@@ -1,0 +1,12 @@
+# Netlify deploy config
+# Evita publicar el root (incluye node_modules con rutas inválidas como '#')
+# y construye/publica solo el build del frontend (CRA).
+
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  # Opcional: fija versión de Node para reproducibilidad.
+  NODE_VERSION = "20"

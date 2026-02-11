@@ -224,8 +224,9 @@ export const AudioScreen = () => {
 
   let enunciado = ""; 
   let audio;
+  const normalizedLetter = String(idLetter || "").trim().toLowerCase();
 
-  if(idLetter==="a"||idLetter==="e"||idLetter==="i"||idLetter==="o"||idLetter==="u"||idLetter==="A"||idLetter==="E"||idLetter==="I"||idLetter==="O"||idLetter==="U"){
+  if(normalizedLetter==="a"||normalizedLetter==="e"||normalizedLetter==="i"||normalizedLetter==="o"||normalizedLetter==="u"){
     enunciado = `Selecciona las imágenes que empiezan con la vocal ${idLetter}`;
     audio = instructions.intro;
   }else{
@@ -242,7 +243,11 @@ export const AudioScreen = () => {
       <TitleSound
         title={enunciado}
         titleSound={instructions}
-        listAudio={[audio, instructions.letter[idLetter]]}
+        listAudio={
+          (normalizedLetter && instructions.fullByVowel && instructions.fullByVowel[normalizedLetter])
+            ? [instructions.fullByVowel[normalizedLetter]]
+            : [audio, instructions.letter[idLetter]]
+        }
         ModalChild={AudioInstructions}
         module="audio"
         fingerPlaysAudio={false}

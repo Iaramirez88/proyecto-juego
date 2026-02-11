@@ -763,7 +763,13 @@ const Games = () => {
                     >
                       <img src={iconSoundWhite} alt="iconSound" />
                     </button>
-                    <h3>{current.word2.name}</h3>
+                    <AutoFitText
+                      as="h3"
+                      text={current.word2.name}
+                      maxPx={40}
+                      minPx={24}
+                      allowWrapFallback={false}
+                    />
                   </DragComponent>
                   <DragComponent
                     ref={(el) => (dragRefs.current[1] = el)}
@@ -783,7 +789,13 @@ const Games = () => {
                     >
                       <img src={iconSoundWhite} alt="iconSound" />
                     </button>
-                    <h3>{current.word1.name}</h3>
+                    <AutoFitText
+                      as="h3"
+                      text={current.word1.name}
+                      maxPx={40}
+                      minPx={24}
+                      allowWrapFallback={false}
+                    />
                   </DragComponent>
                 </div>
                 <div className="containerOptions">
